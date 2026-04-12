@@ -1,0 +1,104 @@
+[
+  {
+    "summary": "ALUXE dominates recent reviews with consistently high praise for staff (especially GY, Elysse, Gwee Ying) and patient service. One critical service failure on Mar 15 stands out. Competitors JannPaul and Michael Trio maintain strong reputations with personalized service, while JannPaul emphasizes diamond education.",
+    "brands": {
+      "ALUXE": {
+        "sentiment_score": 0.94,
+        "positive_pct": 97,
+        "negative_pct": 3,
+        "neutral_pct": 0,
+        "review_count": 30,
+        "top_themes": [
+          "Patient staff service",
+          "Wedding bands selection",
+          "GY/Gwee Ying praised"
+        ],
+        "alert": "CRITICAL: Male staff provided extremely rude service on Mar 15 (4:30pm) - customer described interrogation-style interaction, limited product variety shown, poor attitude. Management responded with apology.",
+        "sample_positive": "Me and my fiance had a great experience with GY at Aluxe for our diamond ring consultation. She was patient, knowledgeable, and gave honest advice without any pressure 😬",
+        "sample_negative": "Not sure what was the name of the guy that was attending to us, but he was extremely rude...he asked \"why are you here?\" in a tone as if like we werent supposed to be there...He should reconsider his career as a sales consultant."
+      },
+      "JannPaul": {
+        "sentiment_score": 0.98,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 30,
+        "top_themes": [
+          "Diamond education focus",
+          "Custom design expertise",
+          "Richmond/Eugene/Avery excellence"
+        ],
+        "alert": null,
+        "sample_positive": "Richmond provided a well detailed and interesting demo/lesson. He was professional and friendly throughout. Thank you for wonderful experience and quality in ring workmanship",
+        "sample_negative": null
+      },
+      "Michael Trio": {
+        "sentiment_score": 0.96,
+        "positive_pct": 95,
+        "negative_pct": 0,
+        "neutral_pct": 5,
+        "review_count": 20,
+        "top_themes": [
+          "Charme's friendly service",
+          "Wedding band efficiency",
+          "Good customer experience"
+        ],
+        "alert": null,
+        "sample_positive": "I had an amazing experience with Michael Trio (Xin and Queena) while creating a proposal ring...From the very beginning, the team was extremely patient, professional, and knowledgeable",
+        "sample_negative": null
+      }
+    },
+    "competitor_alerts": [
+      {
+        "brand": "JannPaul",
+        "issue": "Strong emphasis on diamond education and no-pressure consultations - customers spend 3+ hours learning",
+        "severity": 4,
+        "opportunity": "ALUXE can enhance educational component and consultation depth to match JannPaul's expertise positioning"
+      },
+      {
+        "brand": "JannPaul",
+        "issue": "Custom design capability heavily marketed with 3D modeling and personalization",
+        "severity": 3,
+        "opportunity": "Promote ALUXE's customization services more prominently if available"
+      },
+      {
+        "brand": "Michael Trio",
+        "issue": "Faster turnaround times mentioned (2 months early delivery)",
+        "severity": 2,
+        "opportunity": "Review production timelines and highlight speed-to-delivery as competitive advantage"
+      }
+    ],
+    "hot_topics": [
+      {
+        "topic": "Named staff recognition (GY, Elysse, Richmond, Avery, Eugene)",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "Individual staff members drive brand loyalty. Implement staff recognition program and encourage customers to request preferred consultants by name."
+      },
+      {
+        "topic": "Patient, no-pressure service",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "This is THE deciding factor across all brands. Ensure all ALUXE staff trained on consultative vs. sales approach - especially male staff after Mar 15 incident."
+      },
+      {
+        "topic": "Wedding fair presence",
+        "volume": "medium",
+        "actionable": true,
+        "suggestion": "Multiple customers mention meeting staff at wedding fairs (GY specifically). Maximize wedding fair ROI and staff assignments."
+      },
+      {
+        "topic": "Diamond education (4Cs explanation)",
+        "volume": "medium",
+        "actionable": true,
+        "suggestion": "JannPaul leads here. Create structured diamond education session format for first-time buyers to differentiate from retail-only competitors."
+      }
+    ],
+    "actionable_top3": [
+      "URGENT: Conduct immediate staff training refresh on customer engagement standards following Mar 15 service failure. Implement mystery shopping program to audit customer experience quality across all staff.",
+      "Develop 'Staff Excellence' program highlighting top performers (GY, Gwee Ying, Elysse) in marketing materials and allow appointment booking by preferred consultant to leverage personal relationships.",
+      "Create structured 'Diamond Discovery' consultation framework (similar to JannPaul's education model) to differentiate ALUXE as expert advisors, not just retailers - include 4Cs education, lighting demos, and no-pressure environment guarantee."
+    ],
+    "generated_at": "2026-04-12T19:49:08.955490"
+  }
+]

@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="zh-TW"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ALUXE SG Sentiment</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#B8973E;--gold-l:#F5EDD8;--dark:#1A1814;--bg:#FAF9F6;--card:#fff;--border:rgba(0,0,0,.08)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark)}
+header{background:var(--dark);padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center}
+h1{font-family:'DM Serif Display',serif;color:var(--gold);font-size:20px;font-weight:400;letter-spacing:.04em}
+.wrap{max-width:1000px;margin:0 auto;padding:2rem 1.5rem}
+.summary{background:var(--gold-l);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:1rem 1.25rem;font-size:14px;line-height:1.7;color:#3D3A32;margin-bottom:2rem}
+.sec{margin-bottom:2.5rem}
+.sec-label{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#7A7669;margin-bottom:.75rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.bc{background:var(--card);border:.5px solid var(--border);border-radius:12px;padding:1.25rem}
+.bc.own{border-color:var(--gold);border-width:1px}
+.bh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.bn{font-size:13px;font-weight:500}
+.bbar{display:flex;height:6px;border-radius:3px;overflow:hidden;margin-bottom:6px;gap:1px}
+.bbar div{transition:width .3s}
+.blbl{display:flex;gap:10px;font-size:11px;margin-bottom:8px}
+.themes{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}
+.tag{background:#F1EFE8;color:#3D3A32;font-size:11px;padding:2px 8px;border-radius:20px}
+.alert-box{background:#FFF0F0;color:#E24B4A;font-size:12px;padding:6px 10px;border-radius:6px;border-left:2px solid #E24B4A}
+.ai,.ti{background:var(--card);border:.5px solid var(--border);border-radius:10px;padding:1rem 1.25rem;margin-bottom:8px}
+.act-badge{background:#E1F5EE;color:#1D9E75;font-size:11px;padding:1px 8px;border-radius:20px;font-weight:400}
+.action-item{display:flex;gap:12px;align-items:flex-start;padding:.875rem 1.25rem;background:var(--card);border:.5px solid var(--border);border-radius:10px;margin-bottom:8px;font-size:13px}
+.anum{width:22px;height:22px;border-radius:50%;background:var(--dark);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.ext-link{display:inline-block;margin-top:.75rem;font-size:12px;color:var(--gold);text-decoration:none;border:.5px solid var(--gold);padding:4px 14px;border-radius:20px;margin-right:8px}
+footer{text-align:center;font-size:11px;color:#7A7669;padding:2rem;border-top:.5px solid var(--border);margin-top:1rem}
+</style></head><body>
+<header><h1>ALUXE · SG Sentiment Monitor</h1>
+<span style="color:#7A7669;font-size:12px">報告日期：2026-04-12</span></header>
+<div class="wrap">
+  <div class="summary">ALUXE dominates recent reviews with consistently high praise for staff (especially GY, Elysse, Gwee Ying) and patient service. One critical service failure on Mar 15 stands out. Competitors JannPaul and Michael Trio maintain strong reputations with personalized service, while JannPaul emphasizes diamond education.</div>
+  <div class="sec"><div class="sec-label">品牌情感分析</div><div class="grid"><div class="bc own">
+          <div class="bh"><span class="bn">ALUXE</span>
+            <span style="font-size:20px;font-weight:500;color:#1D9E75">0.94</span></div>
+          <div class="bbar">
+            <div style="width:97%;background:#1D9E75"></div>
+            <div style="width:0%;background:#D3D1C7"></div>
+            <div style="width:3%;background:#E24B4A"></div>
+          </div>
+          <div class="blbl">
+            <span style="color:#1D9E75">正 97%</span>
+            <span style="color:#888">中 0%</span>
+            <span style="color:#E24B4A">負 3%</span>
+          </div>
+          <div class="themes"><span class="tag">Patient staff service</span><span class="tag">Wedding bands selection</span><span class="tag">GY/Gwee Ying praised</span></div><div class="alert-box">CRITICAL: Male staff provided extremely rude service on Mar 15 (4:30pm) - customer described interrogation-style interaction, limited product variety shown, poor attitude. Management responded with apology.</div></div><div class="bc comp">
+          <div class="bh"><span class="bn">JannPaul</span>
+            <span style="font-size:20px;font-weight:500;color:#1D9E75">0.98</span></div>
+          <div class="bbar">
+            <div style="width:100%;background:#1D9E75"></div>
+            <div style="width:0%;background:#D3D1C7"></div>
+            <div style="width:0%;background:#E24B4A"></div>
+          </div>
+          <div class="blbl">
+            <span style="color:#1D9E75">正 100%</span>
+            <span style="color:#888">中 0%</span>
+            <span style="color:#E24B4A">負 0%</span>
+          </div>
+          <div class="themes"><span class="tag">Diamond education focus</span><span class="tag">Custom design expertise</span><span class="tag">Richmond/Eugene/Avery excellence</span></div></div><div class="bc comp">
+          <div class="bh"><span class="bn">Michael Trio</span>
+            <span style="font-size:20px;font-weight:500;color:#1D9E75">0.96</span></div>
+          <div class="bbar">
+            <div style="width:95%;background:#1D9E75"></div>
+            <div style="width:5%;background:#D3D1C7"></div>
+            <div style="width:0%;background:#E24B4A"></div>
+          </div>
+          <div class="blbl">
+            <span style="color:#1D9E75">正 95%</span>
+            <span style="color:#888">中 5%</span>
+            <span style="color:#E24B4A">負 0%</span>
+          </div>
+          <div class="themes"><span class="tag">Charme's friendly service</span><span class="tag">Wedding band efficiency</span><span class="tag">Good customer experience</span></div></div></div></div>
+  <div class="sec"><div class="sec-label">競品負評預警</div><div class="ai">
+        <div style="font-size:13px;font-weight:500;color:#E24B4A">
+          JannPaul <span style="font-size:11px;font-weight:400;margin-left:8px">嚴重度 4/5</span></div>
+        <div style="font-size:13px;color:#3D3A32;margin:4px 0">Strong emphasis on diamond education and no-pressure consultations - customers spend 3+ hours learning</div>
+        <div style="font-size:12px;color:#1D9E75">機會：ALUXE can enhance educational component and consultation depth to match JannPaul's expertise positioning</div></div><div class="ai">
+        <div style="font-size:13px;font-weight:500;color:#BA7517">
+          JannPaul <span style="font-size:11px;font-weight:400;margin-left:8px">嚴重度 3/5</span></div>
+        <div style="font-size:13px;color:#3D3A32;margin:4px 0">Custom design capability heavily marketed with 3D modeling and personalization</div>
+        <div style="font-size:12px;color:#1D9E75">機會：Promote ALUXE's customization services more prominently if available</div></div><div class="ai">
+        <div style="font-size:13px;font-weight:500;color:#BA7517">
+          Michael Trio <span style="font-size:11px;font-weight:400;margin-left:8px">嚴重度 2/5</span></div>
+        <div style="font-size:13px;color:#3D3A32;margin:4px 0">Faster turnaround times mentioned (2 months early delivery)</div>
+        <div style="font-size:12px;color:#1D9E75">機會：Review production timelines and highlight speed-to-delivery as competitive advantage</div></div></div>
+  <div class="sec"><div class="sec-label">熱門議題 · 可操作清單</div><div class="ti">
+        <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          Named staff recognition (GY, Elysse, Richmond, Avery, Eugene)
+          <span class="act-badge">可介入</span>
+          <span style="font-size:11px;color:#1D9E75">HIGH</span>
+        </div>
+        <div style="font-size:12px;color:#7A7669">Individual staff members drive brand loyalty. Implement staff recognition program and encourage customers to request preferred consultants by name.</div></div><div class="ti">
+        <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          Patient, no-pressure service
+          <span class="act-badge">可介入</span>
+          <span style="font-size:11px;color:#1D9E75">HIGH</span>
+        </div>
+        <div style="font-size:12px;color:#7A7669">This is THE deciding factor across all brands. Ensure all ALUXE staff trained on consultative vs. sales approach - especially male staff after Mar 15 incident.</div></div><div class="ti">
+        <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          Wedding fair presence
+          <span class="act-badge">可介入</span>
+          <span style="font-size:11px;color:#BA7517">MEDIUM</span>
+        </div>
+        <div style="font-size:12px;color:#7A7669">Multiple customers mention meeting staff at wedding fairs (GY specifically). Maximize wedding fair ROI and staff assignments.</div></div><div class="ti">
+        <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          Diamond education (4Cs explanation)
+          <span class="act-badge">可介入</span>
+          <span style="font-size:11px;color:#BA7517">MEDIUM</span>
+        </div>
+        <div style="font-size:12px;color:#7A7669">JannPaul leads here. Create structured diamond education session format for first-time buyers to differentiate from retail-only competitors.</div></div></div>
+  <div class="sec">
+    <div class="sec-label">本週優先行動 Top 3</div>
+    <div class="action-item"><span class="anum">1</span>URGENT: Conduct immediate staff training refresh on customer engagement standards following Mar 15 service failure. Implement mystery shopping program to audit customer experience quality across all staff.</div><div class="action-item"><span class="anum">2</span>Develop 'Staff Excellence' program highlighting top performers (GY, Gwee Ying, Elysse) in marketing materials and allow appointment booking by preferred consultant to leverage personal relationships.</div><div class="action-item"><span class="anum">3</span>Create structured 'Diamond Discovery' consultation framework (similar to JannPaul's education model) to differentiate ALUXE as expert advisors, not just retailers - include 4Cs education, lighting demos, and no-pressure environment guarantee.</div>
+    <a class="ext-link" href="https://docs.google.com/spreadsheets/d/1RYZNRb8CGHN_C3QG4z3Vfr-5ZgnKGLfhQ31QZhTdLt8" target="_blank">歷史數據 Google Sheets →</a>
+  </div>
+</div>
+<footer>ALUXE Marketing Intelligence · Claude + Apify · 2026-04-12</footer>
+</body></html>
