@@ -1,6 +1,6 @@
 """
-ALUXE SG Sentiment Analysis Pipeline — v4
-新增：Meta 廣告競品監控、Instagram 爬蟲修復、評論時間範圍控制、費用優化
+ALUXE SG Sentiment Analysis Pipeline — v4.2
+新增：Love & Co Maps URL、Instagram username 模式修復、資料區間標籤統一為 30 天
 """
 
 import os, json, datetime, base64, requests, time
@@ -44,7 +44,12 @@ GOOGLE_MAPS_BRAND_URLS = {
         "https://maps.app.goo.gl/cfWLYNKXCqWLUFfW9",
         "https://maps.app.goo.gl/yeJQMBQK5YkWadsN7",
     ],
-    "Love & Co": [],  # 待補
+    "Love & Co": [
+        "https://maps.app.goo.gl/LkvPmag6HzEocwwN8",
+        "https://maps.app.goo.gl/SuVcfMhdPc5QFhnK7",
+        "https://maps.app.goo.gl/NSroqW89T3hy3uhG6",
+        "https://maps.app.goo.gl/sYu7kNJed3iGREqN6",
+    ],
 }
 # 展開成帶 brand 標記的 URL 列表
 GOOGLE_MAPS_URLS = [
@@ -140,7 +145,7 @@ def fetch_reviews() -> list:
         try:
             items = apify_run("compass~google-maps-reviews-scraper", {
                 "startUrls": [{"url": u} for u in urls],
-                "maxReviews": 15,
+                "maxReviews": 20,
                 "language": "en",
                 "reviewsSort": "newest",
             })
@@ -168,24 +173,14 @@ def fetch_reviews() -> list:
 def fetch_instagram() -> list:
     print("[Apify] Instagram 最新貼文留言...")
     try:
-        # Step 1: 先抓各帳號最新貼文 URL
-        posts = apify_run("apify~instagram-scraper", {
-            "directUrls": [f"https://www.instagram.com/{h}/" for h in IG_HANDLES],
-            "resultsType": "posts",
-            "resultsLimit": 3,      # 每個帳號抓最新 3 則貼文
-        }, wait=90)
-
-        post_urls = [p.get("url") or p.get("displayUrl") for p in posts if p.get("url") or p.get("displayUrl")]
-        post_urls = [u for u in post_urls if u and "instagram.com/p/" in u]
-
-        if not post_urls:
-            print("  -> 無法取得貼文 URL，略過")
-            return []
-
-        # Step 2: 抓留言
+        # 直接用 username 模式，不需要先抓貼文 URL
         comments = apify_run("apify/instagram-comment-scraper", {
-            "directUrls": post_urls[:10],  # 最多 10 則貼文
+            "directUrls": [f"https://www.instagram.com/{h}/" for h in IG_HANDLES],
             "resultsLimit": 20,
+            "proxy": {
+                "useApifyProxy": True,
+                "apifyProxyGroups": ["RESIDENTIAL"],
+            },
         }, wait=90)
 
         for c in comments:
@@ -689,19 +684,19 @@ footer{{text-align:center;font-size:11px;color:#7A7669;padding:2rem;border-top:.
   <div class="sec">
     <div class="sec-label">品牌情感分析 · 自家品牌 &amp; 競品</div>
     <div class="grid">{brands_html}</div>
-    {ts(f"{date_90d_start} 至 {date}（近 90 天）· 來源：Google Maps 評論")}
+    {ts(f"{date_30d_start} 至 {date}（近 30 天）· 來源：Google Maps 評論")}
   </div>
 
   <div class="sec">
     <div class="sec-label">競品負評預警</div>
     {alerts_html}
-    {ts(f"{date_90d_start} 至 {date}（近 90 天）")}
+    {ts(f"{date_30d_start} 至 {date}（近 30 天）")}
   </div>
 
   <div class="sec">
     <div class="sec-label">熱門議題 · 可操作清單</div>
     {topics_html}
-    {ts(f"{date_90d_start} 至 {date}（近 90 天 Google Maps 評論綜合分析）")}
+    {ts(f"{date_30d_start} 至 {date}（近 30 天 Google Maps 評論綜合分析）")}
   </div>
 
   <div class="sec">
