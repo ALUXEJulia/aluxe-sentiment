@@ -20,12 +20,36 @@ BRANDS_COMP = ["Jannpaul Singapore", "Michael Trio Singapore",
                "Love and Co Singapore", "Lee Hwa Jewellery Singapore"]
 ALL_BRANDS  = BRANDS_OWN + BRANDS_COMP
 
-# Meta 廣告資料庫 — 競品粉絲頁
-COMPETITOR_FB_PAGES = [
-    {"name": "Jannpaul",     "url": "https://www.facebook.com/JANNPAULDiamonds"},
-    {"name": "Michael Trio", "url": "https://www.facebook.com/michaeltriojewels"},
-    {"name": "Love & Co",    "url": "https://www.facebook.com/L0veandC0"},
-    {"name": "Lee Hwa",      "url": "https://www.facebook.com/LeeHwaJewellery"},
+# Google Maps 直接 URL（準確抓評論）
+GOOGLE_MAPS_URLS = [
+    # ALUXE SG
+    "https://maps.app.goo.gl/cCqEKDN2vqZtVQf18",
+    "https://maps.app.goo.gl/VyVSAH5EjgRPnmvr9",
+    "https://maps.app.goo.gl/k2K5N3GqJKbpQDHR9",
+    "https://maps.app.goo.gl/2G7eofCsgbSvZdJu7",
+    # Jannpaul
+    "https://maps.app.goo.gl/B2EYasv2BDix3R367",
+    # Michael Trio
+    "https://maps.app.goo.gl/hbhPERnTgPwdZKkG9",
+    "https://maps.app.goo.gl/29774jBhhBjwGTLk7",
+    "https://maps.app.goo.gl/ZcGpK71vmdu14PYL8",
+    "https://maps.app.goo.gl/Aocv1zUR5PXUtL548",
+    # Lee Hwa
+    "https://maps.app.goo.gl/PJ2wWcobcMNkErSi6",
+    "https://maps.app.goo.gl/pe589DPa148YET7n7",
+    "https://maps.app.goo.gl/ZWSzbtH1F5czTPYt7",
+    "https://maps.app.goo.gl/cfWLYNKXCqWLUFfW9",
+    "https://maps.app.goo.gl/yeJQMBQK5YkWadsN7",
+    # Love & Co — 待補
+]
+
+# Meta 廣告資料庫 — 自家 + 競品粉絲頁
+ALL_FB_PAGES = [
+    {"name": "ALUXE SG",    "url": "https://www.facebook.com/aluxe.sg",         "own": True},
+    {"name": "Jannpaul",    "url": "https://www.facebook.com/JANNPAULDiamonds", "own": False},
+    {"name": "Michael Trio","url": "https://www.facebook.com/michaeltriojewels", "own": False},
+    {"name": "Love & Co",   "url": "https://www.facebook.com/L0veandC0",         "own": False},
+    {"name": "Lee Hwa",     "url": "https://www.facebook.com/LeeHwaJewellery",   "own": False},
 ]
 
 # Instagram 帳號 — 最新貼文 URL 抓留言
@@ -91,15 +115,15 @@ def apify_run(actor_id: str, payload: dict, wait: int = 120) -> list:
 # ══════════════════════════════════════════════════════
 
 def fetch_reviews() -> list:
-    print("[Apify] Google Maps 評論（最新 15 則）...")
+    print("[Apify] Google Maps 評論（直接 URL，近 30 天）...")
     maps = apify_run("compass~google-maps-reviews-scraper", {
-        "searchStringsArray": ALL_BRANDS,
-        "maxReviews": 15,           # 從 30 降到 15，省費用
+        "startUrls": [{"url": u} for u in GOOGLE_MAPS_URLS],
+        "maxReviews": 15,
         "language": "en",
-        "reviewsSort": "newest",    # 只抓最新
+        "reviewsSort": "newest",
     })
-    # 過濾只保留近 90 天的評論
-    cutoff = datetime.datetime.utcnow() - datetime.timedelta(days=90)
+    # 過濾只保留近 30 天的評論
+    cutoff = datetime.datetime.utcnow() - datetime.timedelta(days=30)
     filtered = []
     for item in maps:
         item["_source"] = "Google Maps"
@@ -155,10 +179,10 @@ def fetch_instagram() -> list:
 # ══════════════════════════════════════════════════════
 
 def fetch_meta_ads() -> list:
-    print("[Meta Ads] 抓取競品廣告...")
+    print("[Meta Ads] 抓取自家 + 競品廣告...")
     try:
         ads = apify_run("curious_coder~facebook-ads-library-scraper", {
-            "urls": [{"url": p["url"]} for p in COMPETITOR_FB_PAGES],
+            "urls": [{"url": p["url"]} for p in ALL_FB_PAGES],
             "limitPerSource": 8,
             "scrapePageAds-dot-activeStatus": "active",
             "scrapePageAds-dot-period": "last30d",
@@ -170,8 +194,10 @@ def fetch_meta_ads() -> list:
         for ad in ads:
             snap = ad.get("snapshot", {})
             body = snap.get("body", {})
+            page_name = ad.get("page_name", "")
+            own_flag = any(p["own"] for p in ALL_FB_PAGES if p["name"] in page_name or page_name in p["name"])
             result.append({
-                "brand": ad.get("page_name", ""),
+                "brand": page_name,
                 "title": snap.get("title", ""),
                 "body": body.get("text", "") if isinstance(body, dict) else str(body),
                 "cta": snap.get("cta_text", ""),
@@ -180,6 +206,7 @@ def fetch_meta_ads() -> list:
                 "start_date": ad.get("start_date_formatted", ""),
                 "is_active": ad.get("is_active", False),
                 "ad_library_url": ad.get("ad_library_url", ""),
+                "own": own_flag,
                 "_source": "Meta Ads Library",
             })
 
@@ -259,8 +286,8 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
     for ad in ads:
         brand = ad.get("brand", "Unknown")
         if brand not in ads_by_brand:
-            ads_by_brand[brand] = []
-        ads_by_brand[brand].append({
+            ads_by_brand[brand] = {"own": ad.get("own", False), "ads": []}
+        ads_by_brand[brand]["ads"].append({
             "title": ad.get("title", ""),
             "body": (ad.get("body") or "")[:200],
             "cta": ad.get("cta", ""),
@@ -296,11 +323,12 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
   "competitor_ads": {{
     "品牌名": {{
       "ad_count": 整數,
+      "own": true或false,
       "main_themes": ["廣告主題1","廣告主題2"],
       "cta_focus": "主要CTA方向",
       "platforms": ["FB","IG"],
       "key_offers": ["優惠1","優惠2"],
-      "strategy_insight": "廣告策略洞察"
+      "strategy_insight": "廣告策略洞察，自家品牌請給出與競品的差異化建議"
     }}
   }},
   "hot_topics": [{{"topic":"","volume":"high/medium/low","actionable":true,"suggestion":""}}],
@@ -477,14 +505,16 @@ def generate_html(report: dict):
         <div style="font-size:12px;color:#1D9E75">機會：{a['opportunity']}</div></div>"""
         for a in report.get("competitor_alerts",[])) or '<p style="color:#7A7669;font-size:13px">本週無預警</p>'
 
-    # 競品廣告橫排卡片
-    ads_cards_html = ""
-    for brand, ad_data in report.get("competitor_ads",{}).items():
+    # 廣告卡片 — 分自家 / 競品
+    def make_ad_card(brand, ad_data, own=False):
         themes = "".join(f'<span class="tag">{t}</span>' for t in ad_data.get("main_themes",[]))
         offers = "".join(f'<span class="tag" style="background:#E1F5EE;color:#085041">{o}</span>'
                         for o in ad_data.get("key_offers",[]))
         plats  = " · ".join(ad_data.get("platforms",[]))
-        ads_cards_html += f"""<div class="ad-card">
+        border = "border-color:var(--gold);border-width:1.5px;" if own else ""
+        own_badge = '<span style="font-size:9px;background:var(--gold-l);color:#7A5F10;padding:1px 8px;border-radius:10px;margin-bottom:4px;display:inline-block">自家品牌</span>' if own else ""
+        return f"""<div class="ad-card" style="{border}">
+          {own_badge}
           <div class="ad-brand">{brand}</div>
           <div class="ad-count-row"><span class="ad-count">{ad_data.get('ad_count',0)}</span><span class="ad-count-lbl">則現役廣告</span></div>
           <div style="font-size:10px;color:#7A5F10;margin-bottom:6px">{plats}</div>
@@ -493,6 +523,15 @@ def generate_html(report: dict):
           <div class="ad-cta">主打 CTA：<strong>{ad_data.get('cta_focus','')}</strong></div>
           <div class="ad-insight">{ad_data.get('strategy_insight','')}</div>
         </div>"""
+
+    own_ads_html  = ""
+    comp_ads_html = ""
+    for brand, ad_data in report.get("competitor_ads",{}).items():
+        if ad_data.get("own"):
+            own_ads_html  += make_ad_card(brand, ad_data, own=True)
+        else:
+            comp_ads_html += make_ad_card(brand, ad_data, own=False)
+    ads_cards_html = own_ads_html + comp_ads_html
 
     topics_html = "".join(f"""<div class="ti">
         <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
