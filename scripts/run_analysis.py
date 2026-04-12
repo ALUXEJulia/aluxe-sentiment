@@ -13,7 +13,7 @@ TELEGRAM_CHAT_ID  = os.environ["TELEGRAM_CHAT_ID"]
 SHEETS_ID         = os.environ["GOOGLE_SHEETS_ID"]
 SERVICE_ACCOUNT   = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT"])
 PAGES_URL         = os.environ.get("PAGES_URL", "https://aluxejulia.github.io/aluxe-sentiment/")
-GSC_SITE          = "https://www.aluxe.com/"
+GSC_SITE          = "sc-domain:aluxe.com"
 
 BRANDS_OWN  = ["ALUXE Singapore"]
 BRANDS_COMP = ["Jannpaul Singapore", "Michael Trio Singapore",
@@ -133,10 +133,10 @@ def fetch_trends() -> list:
     print("[Trends] 市場趨勢...")
     try:
         items = apify_run("apify~google-trends-scraper", {
-            "searchTerms": TREND_KEYWORDS,
-            "geo": "SG",
-            "timeRange": "now 4-w",
-        }, wait=90)
+    "searchTerms": TREND_KEYWORDS,
+    "geo": "SG",
+    "timeRange": "today 1-m",
+}, wait=90)
         print(f"  -> {len(items)} 筆")
         return items
     except Exception as e:
