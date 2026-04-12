@@ -1,0 +1,47 @@
+name: ALUXE SG Weekly Sentiment Report
+
+on:
+  # 每週一早上 9:00 SGT (UTC+8) = UTC 01:00 自動執行
+  schedule:
+    - cron: '0 1 * * 1'
+
+  # 也可以在 GitHub 手動按「Run workflow」立即觸發
+  workflow_dispatch:
+
+jobs:
+  run-sentiment-analysis:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # 需要寫入 docs/ 以更新 GitHub Pages
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests cryptography
+
+      - name: Run sentiment analysis
+        env:
+          APIFY_TOKEN:            ${{ secrets.APIFY_TOKEN }}
+          ANTHROPIC_API_KEY:      ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN:     ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:       ${{ secrets.TELEGRAM_CHAT_ID }}
+          GOOGLE_SHEETS_ID:       ${{ secrets.GOOGLE_SHEETS_ID }}
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          GITHUB_PAGES_URL:       ${{ secrets.GITHUB_PAGES_URL }}
+        run: python scripts/run_analysis.py
+
+      - name: Commit updated dashboard
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          git diff --staged --quiet || git commit -m "chore: weekly sentiment report $(date +%Y-%m-%d)"
+          git push
