@@ -432,6 +432,12 @@ def write_sheets(report: dict):
 
 def generate_html(report: dict):
     date = report.get("generated_at","")[:10]
+    today = datetime.date.today()
+    date_90d_start = (today - datetime.timedelta(days=90)).strftime("%Y-%m-%d")
+    date_28d_start = (today - datetime.timedelta(days=28)).strftime("%Y-%m-%d")
+    date_30d_start = (today - datetime.timedelta(days=30)).strftime("%Y-%m-%d")
+
+    def ts(label): return f'<div class="ts">資料區間：{label}</div>'
 
     def brand_card(name, d):
         sc  = d.get("sentiment_score",0)
@@ -440,9 +446,13 @@ def generate_html(report: dict):
         themes  = "".join(f'<span class="tag">{t}</span>' for t in d.get("top_themes",[]))
         sources = "".join(f'<span class="src-tag">{s}</span>' for s in d.get("sources",[]))
         alert   = f'<div class="alert-box">{d["alert"]}</div>' if d.get("alert") else ""
+        pos_q   = f'<div class="quote pos-q">"{d["sample_positive"]}"</div>' if d.get("sample_positive") else ""
+        neg_q   = f'<div class="quote neg-q">"{d["sample_negative"]}"</div>' if d.get("sample_negative") else ""
+        own_badge = '<span class="own-badge">自家品牌</span>' if own else ''
         return f"""<div class="bc {'own' if own else 'comp'}">
           <div class="bh"><span class="bn">{name}</span>
             <span style="font-size:20px;font-weight:500;color:{col}">{sc:.2f}</span></div>
+          {own_badge}
           <div class="sources">{sources}</div>
           <div class="bbar">
             <div style="width:{d.get('positive_pct',0)}%;background:#1D9E75"></div>
@@ -453,8 +463,10 @@ def generate_html(report: dict):
             <span style="color:#1D9E75">正 {d.get('positive_pct',0)}%</span>
             <span style="color:#888">中 {d.get('neutral_pct',0)}%</span>
             <span style="color:#E24B4A">負 {d.get('negative_pct',0)}%</span>
+            <span style="color:#aaa;margin-left:auto">{d.get('review_count',0)} 則</span>
           </div>
-          <div class="themes">{themes}</div>{alert}</div>"""
+          <div class="themes">{themes}</div>
+          {alert}{pos_q}{neg_q}</div>"""
 
     brands_html = "".join(brand_card(n,d) for n,d in report.get("brands",{}).items())
 
@@ -465,22 +477,21 @@ def generate_html(report: dict):
         <div style="font-size:12px;color:#1D9E75">機會：{a['opportunity']}</div></div>"""
         for a in report.get("competitor_alerts",[])) or '<p style="color:#7A7669;font-size:13px">本週無預警</p>'
 
-    # 競品廣告卡片
-    comp_ads_html = ""
+    # 競品廣告橫排卡片
+    ads_cards_html = ""
     for brand, ad_data in report.get("competitor_ads",{}).items():
         themes = "".join(f'<span class="tag">{t}</span>' for t in ad_data.get("main_themes",[]))
-        offers = "".join(f'<span class="tag" style="background:#E1F5EE;color:#1D9E75">{o}</span>'
+        offers = "".join(f'<span class="tag" style="background:#E1F5EE;color:#085041">{o}</span>'
                         for o in ad_data.get("key_offers",[]))
-        plats  = ", ".join(ad_data.get("platforms",[]))
-        comp_ads_html += f"""<div class="ai">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-            <span style="font-size:13px;font-weight:500">{brand}</span>
-            <span style="font-size:11px;color:#7A7669">{ad_data.get('ad_count',0)} 則廣告 · {plats}</span>
-          </div>
-          <div style="font-size:12px;color:#7A7669;margin-bottom:4px">CTA 重點：{ad_data.get('cta_focus','')}</div>
-          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px">{themes}</div>
-          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px">{offers}</div>
-          <div style="font-size:12px;color:#3D3A32;border-left:2px solid var(--gold);padding-left:8px">{ad_data.get('strategy_insight','')}</div>
+        plats  = " · ".join(ad_data.get("platforms",[]))
+        ads_cards_html += f"""<div class="ad-card">
+          <div class="ad-brand">{brand}</div>
+          <div class="ad-count-row"><span class="ad-count">{ad_data.get('ad_count',0)}</span><span class="ad-count-lbl">則現役廣告</span></div>
+          <div style="font-size:10px;color:#7A5F10;margin-bottom:6px">{plats}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:5px">{themes}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px">{offers}</div>
+          <div class="ad-cta">主打 CTA：<strong>{ad_data.get('cta_focus','')}</strong></div>
+          <div class="ad-insight">{ad_data.get('strategy_insight','')}</div>
         </div>"""
 
     topics_html = "".join(f"""<div class="ti">
@@ -509,7 +520,8 @@ def generate_html(report: dict):
             <th style="padding:6px 8px;text-align:right;font-weight:500;color:#7A7669;font-size:12px">曝光</th>
             <th style="padding:6px 8px;text-align:right;font-weight:500;color:#7A7669;font-size:12px">CTR</th>
             <th style="padding:6px 8px;text-align:right;font-weight:500;color:#7A7669;font-size:12px">排名</th>
-            </tr></thead><tbody>{rows}</tbody></table>"""
+            </tr></thead><tbody>{rows}</tbody></table>
+            {ts(f"{date_28d_start} 至 {date}")}"""
 
     opp_html = ""
     if gsc.get("opportunities"):
@@ -519,6 +531,7 @@ def generate_html(report: dict):
             </div>
             <div style="font-size:12px;color:#7A7669">{o.get('suggestion','')}</div></div>"""
             for o in gsc["opportunities"])
+        opp_html += ts(f"{date_28d_start} 至 {date}")
 
     trends_html = ""
     if report.get("market_trends"):
@@ -531,9 +544,10 @@ def generate_html(report: dict):
             </div>
             <div style="font-size:12px;color:#7A7669">{t.get('insight','')}</div></div>"""
             for t in report["market_trends"])
+        trends_html += ts(f"{date_30d_start} 至 {date}（過去 30 天）")
 
     actions_html = "".join(
-        f'<div class="action-item"><span class="anum">{i+1}</span>{a}</div>'
+        f'<div class="action-item"><span class="anum">{i+1}</span><span>{a}</span></div>'
         for i,a in enumerate(report.get("actionable_top3",[])))
 
     html = f"""<!DOCTYPE html><html lang="zh-TW"><head>
@@ -546,49 +560,102 @@ def generate_html(report: dict):
 body{{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark)}}
 header{{background:var(--dark);padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center}}
 h1{{font-family:'DM Serif Display',serif;color:var(--gold);font-size:20px;font-weight:400;letter-spacing:.04em}}
-.wrap{{max-width:1000px;margin:0 auto;padding:2rem 1.5rem}}
+.wrap{{max-width:1060px;margin:0 auto;padding:2rem 1.5rem}}
 .summary{{background:var(--gold-l);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:1rem 1.25rem;font-size:14px;line-height:1.7;color:#3D3A32;margin-bottom:2rem}}
 .sec{{margin-bottom:2.5rem}}
 .sec-label{{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#7A7669;margin-bottom:.75rem}}
-.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}}
+.ts{{font-size:10px;color:#aaa;margin-top:.75rem;padding-top:.5rem;border-top:0.5px solid var(--border)}}
+
+.ads-banner{{background:var(--card);border:1px solid var(--gold);border-radius:12px;padding:1.25rem;margin-bottom:2rem}}
+.ads-banner-top{{display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:0.5px solid #E8D9A8}}
+.ads-badge{{background:var(--dark);color:var(--gold);font-size:10px;font-weight:500;padding:3px 12px;border-radius:20px;letter-spacing:.08em}}
+.ads-subtitle{{font-size:11px;color:#7A7669}}
+.ads-grid{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}}
+.ad-card{{background:#FAF9F6;border:0.5px solid #E8D9A8;border-radius:10px;padding:.875rem}}
+.ad-brand{{font-size:11px;font-weight:500;color:#7A5F10;margin-bottom:2px}}
+.ad-count-row{{display:flex;align-items:baseline;gap:4px;margin-bottom:4px}}
+.ad-count{{font-size:22px;font-weight:500;color:var(--dark)}}
+.ad-count-lbl{{font-size:10px;color:#7A7669}}
+.ad-cta{{font-size:10px;color:#7A7669;border-top:0.5px solid #E8D9A8;padding-top:5px;margin-top:5px}}
+.ad-cta strong{{color:#7A5F10;font-weight:500}}
+.ad-insight{{font-size:10px;color:#555;margin-top:4px;line-height:1.4;border-left:2px solid var(--gold);padding-left:6px}}
+.ads-ts{{font-size:10px;color:#aaa;margin-top:.875rem;padding-top:.625rem;border-top:0.5px solid #E8D9A8}}
+
+.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}}
 .bc{{background:var(--card);border:.5px solid var(--border);border-radius:12px;padding:1.25rem}}
-.bc.own{{border-color:var(--gold);border-width:1px}}
-.bh{{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}}
+.bc.own{{border-color:var(--gold);border-width:1.5px}}
+.own-badge{{display:inline-block;font-size:9px;background:var(--gold-l);color:#7A5F10;padding:1px 8px;border-radius:10px;margin-bottom:5px}}
+.bh{{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}}
 .bn{{font-size:13px;font-weight:500}}
-.sources{{display:flex;gap:4px;margin-bottom:8px}}
+.sources{{display:flex;gap:4px;margin-bottom:6px}}
 .src-tag{{background:#E6F1FB;color:#185FA5;font-size:10px;padding:1px 7px;border-radius:20px}}
-.bbar{{display:flex;height:6px;border-radius:3px;overflow:hidden;margin-bottom:6px;gap:1px}}
-.blbl{{display:flex;gap:10px;font-size:11px;margin-bottom:8px}}
+.bbar{{display:flex;height:5px;border-radius:3px;overflow:hidden;margin-bottom:5px;gap:1px}}
+.blbl{{display:flex;gap:8px;font-size:10px;margin-bottom:7px;align-items:center}}
 .themes{{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}}
-.tag{{background:#F1EFE8;color:#3D3A32;font-size:11px;padding:2px 8px;border-radius:20px}}
-.alert-box{{background:#FFF0F0;color:#E24B4A;font-size:12px;padding:6px 10px;border-radius:6px;border-left:2px solid #E24B4A}}
+.tag{{background:#F1EFE8;color:#3D3A32;font-size:10px;padding:2px 8px;border-radius:20px}}
+.alert-box{{background:#FFF0F0;color:#A32D2D;font-size:11px;padding:5px 8px;border-radius:6px;border-left:2px solid #E24B4A;margin-bottom:4px}}
+.quote{{font-size:10px;font-style:italic;margin-top:4px;padding-top:4px;border-top:0.5px solid var(--border);line-height:1.4}}
+.pos-q{{color:#0F6E56}}
+.neg-q{{color:#A32D2D}}
 .ai,.ti{{background:var(--card);border:.5px solid var(--border);border-radius:10px;padding:1rem 1.25rem;margin-bottom:8px}}
-.act-badge{{background:#E1F5EE;color:#1D9E75;font-size:11px;padding:1px 8px;border-radius:20px;font-weight:400}}
-.action-item{{display:flex;gap:12px;align-items:flex-start;padding:.875rem 1.25rem;background:var(--card);border:.5px solid var(--border);border-radius:10px;margin-bottom:8px;font-size:13px}}
-.anum{{width:22px;height:22px;border-radius:50%;background:var(--dark);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}}
+.act-badge{{background:#E1F5EE;color:#085041;font-size:10px;padding:1px 8px;border-radius:20px;font-weight:400}}
+.action-item{{display:flex;gap:12px;align-items:flex-start;padding:.875rem 1.25rem;background:var(--card);border:.5px solid var(--border);border-radius:10px;margin-bottom:8px;font-size:13px;line-height:1.5}}
+.anum{{width:22px;height:22px;border-radius:50%;background:var(--dark);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:1px}}
 .ext-link{{display:inline-block;margin-top:.75rem;font-size:12px;color:var(--gold);text-decoration:none;border:.5px solid var(--gold);padding:4px 14px;border-radius:20px;margin-right:8px}}
-table tr:hover{{background:#F9F8F5}}
+table tr:hover td{{background:#F9F8F5}}
 footer{{text-align:center;font-size:11px;color:#7A7669;padding:2rem;border-top:.5px solid var(--border);margin-top:1rem}}
 </style></head><body>
 <header><h1>ALUXE · SG Sentiment Monitor v4</h1>
 <span style="color:#7A7669;font-size:12px">報告日期：{date}</span></header>
 <div class="wrap">
+
+  <div class="ads-banner">
+    <div class="ads-banner-top">
+      <span class="ads-badge">競品廣告監控</span>
+      <span class="ads-subtitle">本月現役廣告 · Meta 廣告資料庫 · 自動更新</span>
+    </div>
+    <div class="ads-grid">
+      {ads_cards_html if ads_cards_html else '<p style="color:#7A7669;font-size:13px">無廣告資料</p>'}
+    </div>
+    <div class="ads-ts">資料區間：{date_30d_start} 至 {date}（過去 30 天，僅限現役廣告）· 來源：Meta 廣告資料庫</div>
+  </div>
+
   <div class="summary">{report.get('summary','')}</div>
-  <div class="sec"><div class="sec-label">品牌情感分析（近 90 天）</div><div class="grid">{brands_html}</div></div>
-  <div class="sec"><div class="sec-label">競品負評預警</div>{alerts_html}</div>
-  <div class="sec"><div class="sec-label">競品 Meta 廣告監控（本月現役廣告）</div>{comp_ads_html if comp_ads_html else '<p style="color:#7A7669;font-size:13px">無廣告資料</p>'}</div>
-  <div class="sec"><div class="sec-label">熱門議題 · 可操作清單</div>{topics_html}</div>
+
+  <div class="sec">
+    <div class="sec-label">品牌情感分析 · 自家品牌 &amp; 競品</div>
+    <div class="grid">{brands_html}</div>
+    {ts(f"{date_90d_start} 至 {date}（近 90 天）· 來源：Google Maps 評論")}
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">競品負評預警</div>
+    {alerts_html}
+    {ts(f"{date_90d_start} 至 {date}（近 90 天）")}
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">熱門議題 · 可操作清單</div>
+    {topics_html}
+    {ts(f"{date_90d_start} 至 {date}（近 90 天 Google Maps 評論綜合分析）")}
+  </div>
+
   <div class="sec">
     <div class="sec-label">Google Search Console · 前10大關鍵字</div>
-    {gsc_kw_html if gsc_kw_html else '<p style="color:#7A7669;font-size:13px">GSC 資料待修復</p>'}
+    {gsc_kw_html if gsc_kw_html else f'<p style="color:#7A7669;font-size:13px">GSC 資料待串接</p>{ts("串接完成後將顯示過去 28 天資料")}'}
   </div>
-  {'<div class="sec"><div class="sec-label">SEO 機會點</div>' + opp_html + '</div>' if opp_html else ''}
+
+  {'<div class="sec"><div class="sec-label">SEO 機會點 · 曝光高但點擊率低</div>' + opp_html + '</div>' if opp_html else ''}
+
   {'<div class="sec"><div class="sec-label">市場搜尋趨勢 · Google Trends SG</div>' + trends_html + '</div>' if trends_html else ''}
+
   <div class="sec">
     <div class="sec-label">本週優先行動 Top 3</div>
     {actions_html}
+    {ts(f"根據 {date} 週報綜合分析產出")}
     <a class="ext-link" href="https://docs.google.com/spreadsheets/d/{SHEETS_ID}" target="_blank">歷史數據 Google Sheets</a>
   </div>
+
 </div>
 <footer>ALUXE Marketing Intelligence · Claude + Apify + Meta Ads · {date}</footer>
 </body></html>"""
