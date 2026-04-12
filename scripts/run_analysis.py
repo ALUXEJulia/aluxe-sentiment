@@ -13,7 +13,7 @@ TELEGRAM_CHAT_ID  = os.environ["TELEGRAM_CHAT_ID"]
 SHEETS_ID         = os.environ["GOOGLE_SHEETS_ID"]
 SERVICE_ACCOUNT   = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT"])
 PAGES_URL         = os.environ.get("PAGES_URL", "https://aluxejulia.github.io/aluxe-sentiment/")
-GSC_SITE          = "sc-domain:aluxe.com"
+GSC_SITE          = "https://www.aluxe.com/"
 
 BRANDS_OWN  = ["ALUXE Singapore"]
 BRANDS_COMP = ["Jannpaul Singapore", "Michael Trio Singapore",
