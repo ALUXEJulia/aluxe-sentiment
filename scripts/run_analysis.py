@@ -58,7 +58,8 @@ def fetch_data() -> list:
     print(f"  → {len(maps)} 筆")
 
     print("[Apify] Instagram 略過（待修復）")
-    ig = []return maps + ig
+    ig = []
+    return maps + ig
 
 
 # ── 2. Claude 分析 ────────────────────────────────────
