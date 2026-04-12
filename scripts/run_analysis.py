@@ -15,7 +15,7 @@ SERVICE_ACCOUNT   = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT"])
 PAGES_URL         = os.environ.get("PAGES_URL", "https://aluxejulia.github.io/aluxe-sentiment/")
 GSC_SITE          = "https://www.aluxe.com/"
 
-BRANDS_OWN  = ["ALUXE Singapore", "JOY COLORi Singapore", "acredo Singapore"]
+BRANDS_OWN  = ["ALUXE Singapore"]
 BRANDS_COMP = ["Jannpaul Singapore", "Michael Trio Singapore",
                "Love and Co Singapore", "Lee Hwa Jewellery Singapore"]
 ALL_BRANDS  = BRANDS_OWN + BRANDS_COMP
