@@ -59,9 +59,11 @@ def fetch_data() -> list:
 
     print("[Apify] Instagram 留言...")
     ig_handles = [
-        "aluxe.bridal", "joycolori_tw",
-        "jannpaul_diamonds", "michaeltrio",
-        "loveandco.sg", "leehwajewellery",
+    "aluxe_sg",
+    "jannpaul",
+    "michaeltrio",
+    "loveandcoofficial",
+    "leehwajewellery",
     ]
     ig = apify_run("apify~instagram-comment-scraper", {
         "directUrls": [f"https://www.instagram.com/{h}/" for h in ig_handles],
