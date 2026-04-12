@@ -20,27 +20,37 @@ BRANDS_COMP = ["Jannpaul Singapore", "Michael Trio Singapore",
                "Love and Co Singapore", "Lee Hwa Jewellery Singapore"]
 ALL_BRANDS  = BRANDS_OWN + BRANDS_COMP
 
-# Google Maps 直接 URL（準確抓評論）
+# Google Maps 直接 URL — 按品牌分組，評論會合併成一個品牌分析
+GOOGLE_MAPS_BRAND_URLS = {
+    "ALUXE": [
+        "https://maps.app.goo.gl/cCqEKDN2vqZtVQf18",
+        "https://maps.app.goo.gl/VyVSAH5EjgRPnmvr9",
+        "https://maps.app.goo.gl/k2K5N3GqJKbpQDHR9",
+        "https://maps.app.goo.gl/2G7eofCsgbSvZdJu7",
+    ],
+    "Jannpaul": [
+        "https://maps.app.goo.gl/B2EYasv2BDix3R367",
+    ],
+    "Michael Trio": [
+        "https://maps.app.goo.gl/hbhPERnTgPwdZKkG9",
+        "https://maps.app.goo.gl/29774jBhhBjwGTLk7",
+        "https://maps.app.goo.gl/ZcGpK71vmdu14PYL8",
+        "https://maps.app.goo.gl/Aocv1zUR5PXUtL548",
+    ],
+    "Lee Hwa": [
+        "https://maps.app.goo.gl/PJ2wWcobcMNkErSi6",
+        "https://maps.app.goo.gl/pe589DPa148YET7n7",
+        "https://maps.app.goo.gl/ZWSzbtH1F5czTPYt7",
+        "https://maps.app.goo.gl/cfWLYNKXCqWLUFfW9",
+        "https://maps.app.goo.gl/yeJQMBQK5YkWadsN7",
+    ],
+    "Love & Co": [],  # 待補
+}
+# 展開成帶 brand 標記的 URL 列表
 GOOGLE_MAPS_URLS = [
-    # ALUXE SG
-    "https://maps.app.goo.gl/cCqEKDN2vqZtVQf18",
-    "https://maps.app.goo.gl/VyVSAH5EjgRPnmvr9",
-    "https://maps.app.goo.gl/k2K5N3GqJKbpQDHR9",
-    "https://maps.app.goo.gl/2G7eofCsgbSvZdJu7",
-    # Jannpaul
-    "https://maps.app.goo.gl/B2EYasv2BDix3R367",
-    # Michael Trio
-    "https://maps.app.goo.gl/hbhPERnTgPwdZKkG9",
-    "https://maps.app.goo.gl/29774jBhhBjwGTLk7",
-    "https://maps.app.goo.gl/ZcGpK71vmdu14PYL8",
-    "https://maps.app.goo.gl/Aocv1zUR5PXUtL548",
-    # Lee Hwa
-    "https://maps.app.goo.gl/PJ2wWcobcMNkErSi6",
-    "https://maps.app.goo.gl/pe589DPa148YET7n7",
-    "https://maps.app.goo.gl/ZWSzbtH1F5czTPYt7",
-    "https://maps.app.goo.gl/cfWLYNKXCqWLUFfW9",
-    "https://maps.app.goo.gl/yeJQMBQK5YkWadsN7",
-    # Love & Co — 待補
+    {"url": url, "brand": brand}
+    for brand, urls in GOOGLE_MAPS_BRAND_URLS.items()
+    for url in urls
 ]
 
 # Meta 廣告資料庫 — 自家 + 競品粉絲頁
@@ -115,31 +125,44 @@ def apify_run(actor_id: str, payload: dict, wait: int = 120) -> list:
 # ══════════════════════════════════════════════════════
 
 def fetch_reviews() -> list:
-    print("[Apify] Google Maps 評論（直接 URL，近 30 天）...")
-    maps = apify_run("compass~google-maps-reviews-scraper", {
-        "startUrls": [{"url": u} for u in GOOGLE_MAPS_URLS],
-        "maxReviews": 15,
-        "language": "en",
-        "reviewsSort": "newest",
-    })
-    # 過濾只保留近 30 天的評論
+    print("[Apify] Google Maps 評論（直接 URL，近 30 天，按品牌合併）...")
+    if not GOOGLE_MAPS_URLS:
+        print("  -> 無 URL，略過")
+        return []
+
+    # 按品牌分批抓，確保每則評論都有品牌標記
+    all_reviews = []
     cutoff = datetime.datetime.utcnow() - datetime.timedelta(days=30)
-    filtered = []
-    for item in maps:
-        item["_source"] = "Google Maps"
-        # 嘗試過濾時間，沒有時間欄位就保留
-        pub_date = item.get("publishedAtDate") or item.get("date") or ""
-        if pub_date:
-            try:
-                dt = datetime.datetime.fromisoformat(pub_date[:19])
-                if dt >= cutoff:
-                    filtered.append(item)
-            except Exception:
-                filtered.append(item)
-        else:
-            filtered.append(item)
-    print(f"  -> {len(filtered)} 筆（近 90 天）")
-    return filtered
+
+    for brand, urls in GOOGLE_MAPS_BRAND_URLS.items():
+        if not urls:
+            continue
+        try:
+            items = apify_run("compass~google-maps-reviews-scraper", {
+                "startUrls": [{"url": u} for u in urls],
+                "maxReviews": 15,
+                "language": "en",
+                "reviewsSort": "newest",
+            })
+            for item in items:
+                item["_source"] = "Google Maps"
+                item["_brand"] = brand  # 強制標記品牌
+                pub_date = item.get("publishedAtDate") or item.get("date") or ""
+                if pub_date:
+                    try:
+                        dt = datetime.datetime.fromisoformat(pub_date[:19])
+                        if dt >= cutoff:
+                            all_reviews.append(item)
+                    except Exception:
+                        all_reviews.append(item)
+                else:
+                    all_reviews.append(item)
+            print(f"  -> {brand}：{len(items)} 筆")
+        except Exception as e:
+            print(f"  -> {brand} 失敗：{e}")
+
+    print(f"  -> 合計 {len(all_reviews)} 筆（近 30 天）")
+    return all_reviews
 
 
 def fetch_instagram() -> list:
@@ -340,7 +363,9 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
   "actionable_top3": ["行動1","行動2","行動3"]
 }}
 
-評論資料（近 90 天）：{json.dumps(reviews[:60], ensure_ascii=False)}
+評論資料（近 30 天，每則含 _brand 欄位標示所屬品牌）：{json.dumps(reviews[:80], ensure_ascii=False)}
+
+重要：brands 欄位請以 _brand 欄位為準合併成五個品牌（ALUXE、Jannpaul、Michael Trio、Lee Hwa、Love & Co），不要拆成個別分店。
 
 競品 Meta 廣告資料：{ads_summary}
 
@@ -619,6 +644,7 @@ h1{{font-family:'DM Serif Display',serif;color:var(--gold);font-size:20px;font-w
 .ad-cta strong{{color:#7A5F10;font-weight:500}}
 .ad-insight{{font-size:10px;color:#555;margin-top:4px;line-height:1.4;border-left:2px solid var(--gold);padding-left:6px}}
 .ads-ts{{font-size:10px;color:#aaa;margin-top:.875rem;padding-top:.625rem;border-top:0.5px solid #E8D9A8}}
+.ads-divider-label{{font-size:10px;font-weight:500;color:#7A5F10;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}}
 
 .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}}
 .bc{{background:var(--card);border:.5px solid var(--border);border-radius:12px;padding:1.25rem}}
@@ -650,12 +676,11 @@ footer{{text-align:center;font-size:11px;color:#7A7669;padding:2rem;border-top:.
 
   <div class="ads-banner">
     <div class="ads-banner-top">
-      <span class="ads-badge">競品廣告監控</span>
-      <span class="ads-subtitle">本月現役廣告 · Meta 廣告資料庫 · 自動更新</span>
+      <span class="ads-badge">廣告監控</span>
+      <span class="ads-subtitle">Meta 廣告資料庫 · 自動更新 · 自家品牌 + 競品</span>
     </div>
-    <div class="ads-grid">
-      {ads_cards_html if ads_cards_html else '<p style="color:#7A7669;font-size:13px">無廣告資料</p>'}
-    </div>
+    {'<div style="margin-bottom:.875rem"><div class="ads-divider-label">自家品牌</div><div style="display:grid;grid-template-columns:minmax(0,1fr);gap:8px">' + own_ads_html + '</div></div>' if own_ads_html else ''}
+    {'<div><div class="ads-divider-label">競品</div><div class="ads-grid">' + comp_ads_html + '</div></div>' if comp_ads_html else '<p style="color:#7A7669;font-size:13px">無廣告資料</p>'}
     <div class="ads-ts">資料區間：{date_30d_start} 至 {date}（過去 30 天，僅限現役廣告）· 來源：Meta 廣告資料庫</div>
   </div>
 
