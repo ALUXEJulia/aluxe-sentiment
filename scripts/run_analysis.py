@@ -9,7 +9,7 @@ ALUXE SG Sentiment Analysis Pipeline — v2
   TELEGRAM_CHAT_ID
   GOOGLE_SHEETS_ID          # Sheet URL 中間那段 ID
   GOOGLE_SERVICE_ACCOUNT    # Service Account 整個 JSON 字串
-  GITHUB_PAGES_URL          # 你的 GitHub Pages 網址（選填）
+  PAGES_URL          # 你的 GitHub Pages 網址（選填）
 """
 
 import os, json, datetime, base64, requests
@@ -21,7 +21,7 @@ TELEGRAM_TOKEN    = os.environ["TELEGRAM_BOT_TOKEN"]
 TELEGRAM_CHAT_ID  = os.environ["TELEGRAM_CHAT_ID"]
 SHEETS_ID         = os.environ["GOOGLE_SHEETS_ID"]
 SERVICE_ACCOUNT   = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT"])
-GITHUB_PAGES_URL  = os.environ.get("GITHUB_PAGES_URL", "https://[你的帳號].github.io/aluxe-sentiment/")
+PAGES_URL  = os.environ.get("PAGES_URL", "https://[你的帳號].github.io/aluxe-sentiment/")
 
 BRANDS_OWN        = ["ALUXE Singapore", "JOY COLORi Singapore", "acredo Singapore"]
 BRANDS_COMP       = ["Jannpaul Singapore", "Michael Trio Singapore",
@@ -344,7 +344,7 @@ def send_telegram(report: dict):
            f"{icon} 自家品牌平均分：{avg}\n\n"
            f"競品預警\n{alerts}\n\n"
            f"本週優先行動\n{actions}\n\n"
-           f"儀表板：{GITHUB_PAGES_URL}\n"
+           f"儀表板：{PAGES_URL}\n"
            f"數據：https://docs.google.com/spreadsheets/d/{SHEETS_ID}")
 
     requests.post(
@@ -382,7 +382,7 @@ def main():
     send_telegram(report)
 
     print(f"\n✅ 完成")
-    print(f"   網頁：{GITHUB_PAGES_URL}")
+    print(f"   網頁：{PAGES_URL}")
     print(f"   試算表：https://docs.google.com/spreadsheets/d/{SHEETS_ID}")
 
 

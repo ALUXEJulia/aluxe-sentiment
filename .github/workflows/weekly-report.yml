@@ -35,7 +35,7 @@ jobs:
           TELEGRAM_CHAT_ID:       ${{ secrets.TELEGRAM_CHAT_ID }}
           GOOGLE_SHEETS_ID:       ${{ secrets.GOOGLE_SHEETS_ID }}
           GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-          GITHUB_PAGES_URL:       ${{ secrets.GITHUB_PAGES_URL }}
+          PAGES_URL:       ${{ secrets.PAGES_URL }}
         run: python scripts/run_analysis.py
 
       - name: Commit updated dashboard
