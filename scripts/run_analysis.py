@@ -1,6 +1,6 @@
 """
-ALUXE SG Sentiment Analysis Pipeline — v3
-新增：GSC 關鍵字資料、Google Trends、來源標註
+ALUXE SG Sentiment Analysis Pipeline — v4
+新增：Meta 廣告競品監控、Instagram 爬蟲修復、評論時間範圍控制、費用優化
 """
 
 import os, json, datetime, base64, requests, time
@@ -20,18 +20,30 @@ BRANDS_COMP = ["Jannpaul Singapore", "Michael Trio Singapore",
                "Love and Co Singapore", "Lee Hwa Jewellery Singapore"]
 ALL_BRANDS  = BRANDS_OWN + BRANDS_COMP
 
+# Meta 廣告資料庫 — 競品粉絲頁
+COMPETITOR_FB_PAGES = [
+    {"name": "Jannpaul",     "url": "https://www.facebook.com/JANNPAULDiamonds"},
+    {"name": "Michael Trio", "url": "https://www.facebook.com/michaeltriojewels"},
+    {"name": "Love & Co",    "url": "https://www.facebook.com/L0veandC0"},
+    {"name": "Lee Hwa",      "url": "https://www.facebook.com/LeeHwaJewellery"},
+]
+
+# Instagram 帳號 — 最新貼文 URL 抓留言
+IG_HANDLES = ["aluxe_sg", "jannpaul", "michaeltrio", "loveandcoofficial", "leehwajewellery"]
+
 TREND_KEYWORDS = [
     "engagement ring Singapore",
     "lab grown diamond Singapore",
     "wedding ring customisation Singapore",
     "bespoke engagement ring Singapore",
-    "diamond ring Singapore",
     "Jannpaul", "Michael Trio", "ALUXE Singapore",
 ]
 
 OUTPUT_DIR = Path("docs")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
+
+# ── Google Auth ───────────────────────────────────────
 
 def google_token(scope: str) -> str:
     from cryptography.hazmat.primitives import serialization, hashes
@@ -52,14 +64,15 @@ def google_token(scope: str) -> str:
         SERVICE_ACCOUNT["private_key"].encode(), password=None,
         backend=default_backend())
     sig = b64(key.sign(f"{header}.{claim}".encode(), padding.PKCS1v15(), hashes.SHA256()))
-    jwt = f"{header}.{claim}.{sig}"
 
     resp = requests.post("https://oauth2.googleapis.com/token",
-        data={"grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer", "assertion": jwt},
-        timeout=30)
+        data={"grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+              "assertion": f"{header}.{claim}.{sig}"}, timeout=30)
     resp.raise_for_status()
     return resp.json()["access_token"]
 
+
+# ── Apify 通用執行 ────────────────────────────────────
 
 def apify_run(actor_id: str, payload: dict, wait: int = 120) -> list:
     url = (f"https://api.apify.com/v2/acts/{actor_id}/runs"
@@ -69,43 +82,133 @@ def apify_run(actor_id: str, payload: dict, wait: int = 120) -> list:
     ds = r.json()["data"]["defaultDatasetId"]
     items = requests.get(
         f"https://api.apify.com/v2/datasets/{ds}/items?token={APIFY_TOKEN}&clean=true",
-        timeout=60,
-    ).json()
+        timeout=60).json()
     return items if isinstance(items, list) else []
 
 
-def fetch_data() -> list:
-    print("[Apify] Google Maps 評論...")
+# ══════════════════════════════════════════════════════
+# PART 1 — 評論資料抓取
+# ══════════════════════════════════════════════════════
+
+def fetch_reviews() -> list:
+    print("[Apify] Google Maps 評論（最新 15 則）...")
     maps = apify_run("compass~google-maps-reviews-scraper", {
         "searchStringsArray": ALL_BRANDS,
-        "maxReviews": 30,
+        "maxReviews": 15,           # 從 30 降到 15，省費用
         "language": "en",
-        "reviewsSort": "newest",
+        "reviewsSort": "newest",    # 只抓最新
     })
+    # 過濾只保留近 90 天的評論
+    cutoff = datetime.datetime.utcnow() - datetime.timedelta(days=90)
+    filtered = []
     for item in maps:
         item["_source"] = "Google Maps"
-    print(f"  -> {len(maps)} 筆")
-    print("[Apify] Instagram 略過（待修復）")
-    return maps
+        # 嘗試過濾時間，沒有時間欄位就保留
+        pub_date = item.get("publishedAtDate") or item.get("date") or ""
+        if pub_date:
+            try:
+                dt = datetime.datetime.fromisoformat(pub_date[:19])
+                if dt >= cutoff:
+                    filtered.append(item)
+            except Exception:
+                filtered.append(item)
+        else:
+            filtered.append(item)
+    print(f"  -> {len(filtered)} 筆（近 90 天）")
+    return filtered
 
+
+def fetch_instagram() -> list:
+    print("[Apify] Instagram 最新貼文留言...")
+    try:
+        # Step 1: 先抓各帳號最新貼文 URL
+        posts = apify_run("apify~instagram-scraper", {
+            "directUrls": [f"https://www.instagram.com/{h}/" for h in IG_HANDLES],
+            "resultsType": "posts",
+            "resultsLimit": 3,      # 每個帳號抓最新 3 則貼文
+        }, wait=90)
+
+        post_urls = [p.get("url") or p.get("displayUrl") for p in posts if p.get("url") or p.get("displayUrl")]
+        post_urls = [u for u in post_urls if u and "instagram.com/p/" in u]
+
+        if not post_urls:
+            print("  -> 無法取得貼文 URL，略過")
+            return []
+
+        # Step 2: 抓留言
+        comments = apify_run("apify/instagram-comment-scraper", {
+            "directUrls": post_urls[:10],  # 最多 10 則貼文
+            "resultsLimit": 20,
+        }, wait=90)
+
+        for c in comments:
+            c["_source"] = "Instagram"
+        print(f"  -> {len(comments)} 則留言")
+        return comments
+    except Exception as e:
+        print(f"  [Instagram] 失敗：{e}")
+        return []
+
+
+# ══════════════════════════════════════════════════════
+# PART 2 — Meta 廣告監控
+# ══════════════════════════════════════════════════════
+
+def fetch_meta_ads() -> list:
+    print("[Meta Ads] 抓取競品廣告...")
+    try:
+        ads = apify_run("curious_coder~facebook-ads-library-scraper", {
+            "urls": [{"url": p["url"]} for p in COMPETITOR_FB_PAGES],
+            "limitPerSource": 8,
+            "scrapePageAds-dot-activeStatus": "active",
+            "scrapePageAds-dot-period": "last30d",
+            "scrapePageAds-dot-sortBy": "most_recent",
+        }, wait=120)
+
+        # 整理成精簡格式
+        result = []
+        for ad in ads:
+            snap = ad.get("snapshot", {})
+            body = snap.get("body", {})
+            result.append({
+                "brand": ad.get("page_name", ""),
+                "title": snap.get("title", ""),
+                "body": body.get("text", "") if isinstance(body, dict) else str(body),
+                "cta": snap.get("cta_text", ""),
+                "format": snap.get("display_format", ""),
+                "platforms": ad.get("publisher_platform", []),
+                "start_date": ad.get("start_date_formatted", ""),
+                "is_active": ad.get("is_active", False),
+                "ad_library_url": ad.get("ad_library_url", ""),
+                "_source": "Meta Ads Library",
+            })
+
+        print(f"  -> {len(result)} 則廣告")
+        return result
+    except Exception as e:
+        print(f"  [Meta Ads] 失敗：{e}")
+        return []
+
+
+# ══════════════════════════════════════════════════════
+# PART 3 — GSC + Trends
+# ══════════════════════════════════════════════════════
 
 def fetch_gsc() -> dict:
-    print("[GSC] 抓取關鍵字...")
+    print("[GSC] 關鍵字資料...")
     try:
         tok   = google_token("https://www.googleapis.com/auth/webmasters.readonly")
         today = datetime.date.today()
         start = (today - datetime.timedelta(days=28)).isoformat()
-        end   = today.isoformat()
         site_encoded = requests.utils.quote(GSC_SITE, safe="")
 
         resp = requests.post(
             f"https://searchconsole.googleapis.com/webmasters/v3/sites/{site_encoded}/searchAnalytics/query",
             headers={"Authorization": f"Bearer {tok}"},
-            json={"startDate": start, "endDate": end, "dimensions": ["query"],
-                  "rowLimit": 20,
+            json={"startDate": start, "endDate": today.isoformat(),
+                  "dimensions": ["query"], "rowLimit": 20,
                   "orderBy": [{"fieldName": "impressions", "sortOrder": "DESCENDING"}]},
-            timeout=30,
-        )
+            timeout=30)
         resp.raise_for_status()
         rows = resp.json().get("rows", [])
 
@@ -120,7 +223,7 @@ def fetch_gsc() -> dict:
                              "impressions": impressions, "ctr": ctr, "position": position})
             if impressions > 500 and ctr < 3:
                 opportunities.append({"keyword": kw, "impressions": impressions,
-                                      "ctr": ctr, "position": position})
+                                       "ctr": ctr, "position": position})
 
         print(f"  -> {len(keywords)} 關鍵字，{len(opportunities)} 機會點")
         return {"keywords": keywords, "opportunities": opportunities}
@@ -133,10 +236,10 @@ def fetch_trends() -> list:
     print("[Trends] 市場趨勢...")
     try:
         items = apify_run("apify~google-trends-scraper", {
-    "searchTerms": TREND_KEYWORDS,
-    "geo": "SG",
-    "timeRange": "today 1-m",
-}, wait=90)
+            "searchTerms": TREND_KEYWORDS,
+            "geo": "SG",
+            "timeRange": "today 1-m",
+        }, wait=90)
         print(f"  -> {len(items)} 筆")
         return items
     except Exception as e:
@@ -144,20 +247,37 @@ def fetch_trends() -> list:
         return []
 
 
-def analyze(data: list, gsc: dict, trends: list) -> dict:
+# ══════════════════════════════════════════════════════
+# PART 4 — Claude 分析
+# ══════════════════════════════════════════════════════
+
+def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
     print("[Claude] 分析中...")
-    gsc_text = ""
-    if gsc["keywords"]:
-        gsc_text = f"GSC 前10關鍵字：{json.dumps(gsc['keywords'][:10], ensure_ascii=False)}"
-        if gsc["opportunities"]:
-            gsc_text += f"\n機會點：{json.dumps(gsc['opportunities'][:5], ensure_ascii=False)}"
-    trends_text = f"Google Trends SG：{json.dumps(trends[:5], ensure_ascii=False)}" if trends else ""
+
+    # 廣告摘要
+    ads_by_brand = {}
+    for ad in ads:
+        brand = ad.get("brand", "Unknown")
+        if brand not in ads_by_brand:
+            ads_by_brand[brand] = []
+        ads_by_brand[brand].append({
+            "title": ad.get("title", ""),
+            "body": (ad.get("body") or "")[:200],
+            "cta": ad.get("cta", ""),
+            "platforms": ad.get("platforms", []),
+            "start_date": ad.get("start_date", ""),
+        })
+
+    ads_summary = json.dumps(ads_by_brand, ensure_ascii=False)
+    gsc_text    = json.dumps(gsc.get("keywords", [])[:10], ensure_ascii=False) if gsc.get("keywords") else ""
+    opp_text    = json.dumps(gsc.get("opportunities", [])[:5], ensure_ascii=False) if gsc.get("opportunities") else ""
+    trends_text = json.dumps(trends[:5], ensure_ascii=False) if trends else ""
 
     prompt = f"""你是 ALUXE 珠寶品牌的 SG 市場行銷分析師。
-分析以下資料，輸出純 JSON：
+分析以下資料，輸出純 JSON（不含其他文字）：
 
 {{
-  "summary": "2-3句整體觀察，含GSC和市場趨勢洞察",
+  "summary": "2-3句整體觀察，整合評論、廣告、GSC洞察",
   "brands": {{
     "品牌名": {{
       "sentiment_score": 0.0-1.0,
@@ -173,6 +293,16 @@ def analyze(data: list, gsc: dict, trends: list) -> dict:
     }}
   }},
   "competitor_alerts": [{{"brand":"","issue":"","severity":1-5,"opportunity":""}}],
+  "competitor_ads": {{
+    "品牌名": {{
+      "ad_count": 整數,
+      "main_themes": ["廣告主題1","廣告主題2"],
+      "cta_focus": "主要CTA方向",
+      "platforms": ["FB","IG"],
+      "key_offers": ["優惠1","優惠2"],
+      "strategy_insight": "廣告策略洞察"
+    }}
+  }},
   "hot_topics": [{{"topic":"","volume":"high/medium/low","actionable":true,"suggestion":""}}],
   "gsc_insights": {{
     "top_keywords": [{{"keyword":"","clicks":0,"impressions":0,"ctr":0.0,"position":0.0}}],
@@ -182,9 +312,13 @@ def analyze(data: list, gsc: dict, trends: list) -> dict:
   "actionable_top3": ["行動1","行動2","行動3"]
 }}
 
-評論資料：{json.dumps(data[:80], ensure_ascii=False)}
-{gsc_text}
-{trends_text}"""
+評論資料（近 90 天）：{json.dumps(reviews[:60], ensure_ascii=False)}
+
+競品 Meta 廣告資料：{ads_summary}
+
+GSC 關鍵字：{gsc_text}
+SEO 機會點：{opp_text}
+Google Trends SG：{trends_text}"""
 
     r = requests.post(
         "https://api.anthropic.com/v1/messages",
@@ -193,8 +327,7 @@ def analyze(data: list, gsc: dict, trends: list) -> dict:
                  "content-type": "application/json"},
         json={"model": "claude-sonnet-4-5", "max_tokens": 6000,
               "messages": [{"role": "user", "content": prompt}]},
-        timeout=180,
-    )
+        timeout=180)
     r.raise_for_status()
     raw = r.json()["content"][0]["text"].strip()
     if raw.startswith("```"):
@@ -207,6 +340,10 @@ def analyze(data: list, gsc: dict, trends: list) -> dict:
     return result
 
 
+# ══════════════════════════════════════════════════════
+# PART 5 — Google Sheets
+# ══════════════════════════════════════════════════════
+
 def sheets_token() -> str:
     return google_token("https://www.googleapis.com/auth/spreadsheets")
 
@@ -215,26 +352,25 @@ def sheets_append(tok, sheet, rows):
         f"https://sheets.googleapis.com/v4/spreadsheets/{SHEETS_ID}"
         f"/values/{sheet}!A1:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS",
         headers={"Authorization": f"Bearer {tok}"},
-        json={"values": rows}, timeout=30,
-    ).raise_for_status()
+        json={"values": rows}, timeout=30).raise_for_status()
 
 def sheets_update(tok, sheet, rng, rows):
     requests.put(
         f"https://sheets.googleapis.com/v4/spreadsheets/{SHEETS_ID}"
         f"/values/{sheet}!{rng}?valueInputOption=USER_ENTERED",
         headers={"Authorization": f"Bearer {tok}"},
-        json={"values": rows}, timeout=30,
-    ).raise_for_status()
+        json={"values": rows}, timeout=30).raise_for_status()
 
 def write_sheets(report: dict):
     print("[Sheets] 寫入中...")
     tok  = sheets_token()
     date = report["generated_at"][:10]
-    own_scores = [v["sentiment_score"] for k,v in report["brands"].items()
-                  if any(b in k for b in ["ALUXE","JOY COLORi","acredo"])]
-    avg = round(sum(own_scores)/len(own_scores), 2) if own_scores else 0
+    own  = [v["sentiment_score"] for k,v in report["brands"].items()
+            if "ALUXE" in k and "JOY" not in k and "acredo" not in k]
+    avg  = round(sum(own)/len(own), 2) if own else 0
 
-    rows = [["ALUXE SG 輿情監控","","","","","","",""],
+    # Dashboard
+    rows = [["ALUXE SG 輿情監控 v4","","","","","","",""],
             ["最後更新", date, "自家品牌平均分", avg,"","","",""],
             ["","","","","","","",""],
             ["品牌","情感分","正面%","負面%","中性%","評論數","來源","預警"]]
@@ -245,6 +381,7 @@ def write_sheets(report: dict):
                      d.get("alert") or "—"])
     sheets_update(tok, "Dashboard", "A1", rows)
 
+    # Weekly History
     for n,d in report["brands"].items():
         sheets_append(tok, "Weekly History", [[
             date, n, d.get("sentiment_score",""), d.get("positive_pct",""),
@@ -252,27 +389,46 @@ def write_sheets(report: dict):
             ", ".join(d.get("sources",[])), ", ".join(d.get("top_themes",[])),
             d.get("alert") or ""]])
 
+    # Competitor Alerts
     for a in report.get("competitor_alerts",[]):
         sheets_append(tok, "Competitor Alerts", [[
             date, a.get("brand",""), a.get("severity",""),
             a.get("issue",""), a.get("opportunity","")]])
 
+    # Hot Topics
     for t in report.get("hot_topics",[]):
         sheets_append(tok, "Hot Topics", [[
             date, t.get("topic",""), t.get("volume",""),
             "是" if t.get("actionable") else "否", t.get("suggestion","")]])
 
+    # Action Log
     for i,a in enumerate(report.get("actionable_top3",[]), 1):
         sheets_append(tok, "Action Log", [[date, f"優先 {i}", a, "待執行"]])
 
-    gsc = report.get("gsc_insights",{})
-    for kw in gsc.get("top_keywords",[]):
+    # GSC Keywords
+    for kw in report.get("gsc_insights",{}).get("top_keywords",[]):
         sheets_append(tok, "GSC Keywords", [[
             date, kw.get("keyword",""), kw.get("clicks",""),
             kw.get("impressions",""), kw.get("ctr",""), kw.get("position","")]])
 
-    print("[Sheets] 完成")
+    # Competitor Ads（新增工作表）
+    for brand, ad_data in report.get("competitor_ads",{}).items():
+        sheets_append(tok, "Competitor Ads", [[
+            date, brand,
+            ad_data.get("ad_count",""),
+            ", ".join(ad_data.get("main_themes",[])),
+            ad_data.get("cta_focus",""),
+            ", ".join(ad_data.get("platforms",[])),
+            ", ".join(ad_data.get("key_offers",[])),
+            ad_data.get("strategy_insight",""),
+        ]])
 
+    print("[Sheets] 完成（7 個工作表）")
+
+
+# ══════════════════════════════════════════════════════
+# PART 6 — HTML 儀表板
+# ══════════════════════════════════════════════════════
 
 def generate_html(report: dict):
     date = report.get("generated_at","")[:10]
@@ -280,7 +436,7 @@ def generate_html(report: dict):
     def brand_card(name, d):
         sc  = d.get("sentiment_score",0)
         col = "#1D9E75" if sc>=0.7 else "#BA7517" if sc>=0.5 else "#E24B4A"
-        own = any(b in name for b in ["ALUXE","JOY COLORi","acredo"])
+        own = "ALUXE" in name and "JOY" not in name and "acredo" not in name
         themes  = "".join(f'<span class="tag">{t}</span>' for t in d.get("top_themes",[]))
         sources = "".join(f'<span class="src-tag">{s}</span>' for s in d.get("sources",[]))
         alert   = f'<div class="alert-box">{d["alert"]}</div>' if d.get("alert") else ""
@@ -308,6 +464,24 @@ def generate_html(report: dict):
         <div style="font-size:13px;color:#3D3A32;margin:4px 0">{a['issue']}</div>
         <div style="font-size:12px;color:#1D9E75">機會：{a['opportunity']}</div></div>"""
         for a in report.get("competitor_alerts",[])) or '<p style="color:#7A7669;font-size:13px">本週無預警</p>'
+
+    # 競品廣告卡片
+    comp_ads_html = ""
+    for brand, ad_data in report.get("competitor_ads",{}).items():
+        themes = "".join(f'<span class="tag">{t}</span>' for t in ad_data.get("main_themes",[]))
+        offers = "".join(f'<span class="tag" style="background:#E1F5EE;color:#1D9E75">{o}</span>'
+                        for o in ad_data.get("key_offers",[]))
+        plats  = ", ".join(ad_data.get("platforms",[]))
+        comp_ads_html += f"""<div class="ai">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:13px;font-weight:500">{brand}</span>
+            <span style="font-size:11px;color:#7A7669">{ad_data.get('ad_count',0)} 則廣告 · {plats}</span>
+          </div>
+          <div style="font-size:12px;color:#7A7669;margin-bottom:4px">CTA 重點：{ad_data.get('cta_focus','')}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px">{themes}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px">{offers}</div>
+          <div style="font-size:12px;color:#3D3A32;border-left:2px solid var(--gold);padding-left:8px">{ad_data.get('strategy_insight','')}</div>
+        </div>"""
 
     topics_html = "".join(f"""<div class="ti">
         <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
@@ -352,7 +526,7 @@ def generate_html(report: dict):
             <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
               {t['keyword']}
               <span style="font-size:11px;color:{'#1D9E75' if t.get('trend')=='rising' else '#E24B4A' if t.get('trend')=='falling' else '#888'}">
-                {'上升' if t.get('trend')=='rising' else '下降' if t.get('trend')=='falling' else '穩定'}
+                {'↑ 上升' if t.get('trend')=='rising' else '↓ 下降' if t.get('trend')=='falling' else '→ 穩定'}
               </span>
             </div>
             <div style="font-size:12px;color:#7A7669">{t.get('insight','')}</div></div>"""
@@ -396,18 +570,19 @@ h1{{font-family:'DM Serif Display',serif;color:var(--gold);font-size:20px;font-w
 table tr:hover{{background:#F9F8F5}}
 footer{{text-align:center;font-size:11px;color:#7A7669;padding:2rem;border-top:.5px solid var(--border);margin-top:1rem}}
 </style></head><body>
-<header><h1>ALUXE · SG Sentiment Monitor</h1>
+<header><h1>ALUXE · SG Sentiment Monitor v4</h1>
 <span style="color:#7A7669;font-size:12px">報告日期：{date}</span></header>
 <div class="wrap">
   <div class="summary">{report.get('summary','')}</div>
-  <div class="sec"><div class="sec-label">品牌情感分析</div><div class="grid">{brands_html}</div></div>
+  <div class="sec"><div class="sec-label">品牌情感分析（近 90 天）</div><div class="grid">{brands_html}</div></div>
   <div class="sec"><div class="sec-label">競品負評預警</div>{alerts_html}</div>
+  <div class="sec"><div class="sec-label">競品 Meta 廣告監控（本月現役廣告）</div>{comp_ads_html if comp_ads_html else '<p style="color:#7A7669;font-size:13px">無廣告資料</p>'}</div>
   <div class="sec"><div class="sec-label">熱門議題 · 可操作清單</div>{topics_html}</div>
   <div class="sec">
     <div class="sec-label">Google Search Console · 前10大關鍵字</div>
-    {gsc_kw_html if gsc_kw_html else '<p style="color:#7A7669;font-size:13px">GSC 資料載入中</p>'}
+    {gsc_kw_html if gsc_kw_html else '<p style="color:#7A7669;font-size:13px">GSC 資料待修復</p>'}
   </div>
-  {'<div class="sec"><div class="sec-label">SEO 機會點 · 曝光高但 CTR 低</div>' + opp_html + '</div>' if opp_html else ''}
+  {'<div class="sec"><div class="sec-label">SEO 機會點</div>' + opp_html + '</div>' if opp_html else ''}
   {'<div class="sec"><div class="sec-label">市場搜尋趨勢 · Google Trends SG</div>' + trends_html + '</div>' if trends_html else ''}
   <div class="sec">
     <div class="sec-label">本週優先行動 Top 3</div>
@@ -415,24 +590,36 @@ footer{{text-align:center;font-size:11px;color:#7A7669;padding:2rem;border-top:.
     <a class="ext-link" href="https://docs.google.com/spreadsheets/d/{SHEETS_ID}" target="_blank">歷史數據 Google Sheets</a>
   </div>
 </div>
-<footer>ALUXE Marketing Intelligence · Claude + Apify + GSC · {date}</footer>
+<footer>ALUXE Marketing Intelligence · Claude + Apify + Meta Ads · {date}</footer>
 </body></html>"""
 
     (OUTPUT_DIR / "index.html").write_text(html, encoding="utf-8")
     print("[HTML] 完成")
 
 
+# ══════════════════════════════════════════════════════
+# PART 7 — Telegram
+# ══════════════════════════════════════════════════════
+
 def send_telegram(report: dict):
     date = report.get("generated_at","")[:10]
     own  = [v["sentiment_score"] for k,v in report.get("brands",{}).items()
-            if any(b in k for b in ["ALUXE","JOY COLORi","acredo"])]
+            if "ALUXE" in k and "JOY" not in k]
     avg  = round(sum(own)/len(own),2) if own else 0
     icon = "📈" if avg>=0.7 else "📊" if avg>=0.5 else "📉"
 
     alerts = "\n".join(
         f"{'🔴' if a.get('severity',1)>=4 else '🟡'} {a['brand']} — {a['issue']}"
         for a in report.get("competitor_alerts",[])) or "本週無預警"
+
     actions = "\n".join(f"{i+1}. {a}" for i,a in enumerate(report.get("actionable_top3",[])))
+
+    # 廣告摘要
+    ads_summary = ""
+    for brand, ad_data in report.get("competitor_ads",{}).items():
+        count = ad_data.get("ad_count", 0)
+        focus = ad_data.get("cta_focus","")
+        ads_summary += f"\n· {brand}：{count} 則廣告，主打「{focus}」"
 
     gsc = report.get("gsc_insights",{})
     gsc_line = ""
@@ -445,7 +632,8 @@ def send_telegram(report: dict):
     msg = (f"ALUXE SG 輿情週報 · {date}\n\n"
            f"{icon} 自家品牌平均分：{avg}"
            f"{gsc_line}\n\n"
-           f"競品預警\n{alerts}\n\n"
+           f"競品負評預警\n{alerts}\n\n"
+           f"競品廣告動態{ads_summary}\n\n"
            f"本週優先行動\n{actions}\n\n"
            f"儀表板：{PAGES_URL}\n"
            f"數據：https://docs.google.com/spreadsheets/d/{SHEETS_ID}")
@@ -457,6 +645,10 @@ def send_telegram(report: dict):
     print("[Telegram] 完成")
 
 
+# ══════════════════════════════════════════════════════
+# PART 8 — 存檔
+# ══════════════════════════════════════════════════════
+
 def save_json(report: dict):
     hf = OUTPUT_DIR / "history.json"
     history = json.loads(hf.read_text()) if hf.exists() else []
@@ -466,15 +658,23 @@ def save_json(report: dict):
     print("[JSON] 完成")
 
 
+# ══════════════════════════════════════════════════════
+# 主程式
+# ══════════════════════════════════════════════════════
+
 def main():
     print(f"\n{'='*52}")
-    print(f"  ALUXE SG Sentiment v3  —  {datetime.date.today()}")
+    print(f"  ALUXE SG Sentiment v4  —  {datetime.date.today()}")
     print(f"{'='*52}\n")
 
-    data   = fetch_data()
-    gsc    = fetch_gsc()
-    trends = fetch_trends()
-    report = analyze(data, gsc, trends)
+    reviews = fetch_reviews()
+    ig      = fetch_instagram()
+    ads     = fetch_meta_ads()
+    gsc     = fetch_gsc()
+    trends  = fetch_trends()
+
+    all_reviews = reviews + ig
+    report  = analyze(all_reviews, ads, gsc, trends)
 
     save_json(report)
     generate_html(report)
