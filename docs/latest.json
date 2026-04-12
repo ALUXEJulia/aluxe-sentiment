@@ -1,105 +1,138 @@
 {
-  "summary": "ALUXE maintains strong customer satisfaction with exceptional staff service, particularly from GY/Gwee Ying and Elysse. One critical service failure (1-star review on 15 Mar) highlights training gaps. JannPaul and Michael Trio show consistent positive sentiment with strong personalized service models.",
+  "summary": "JannPaul 主導新加坡訂婚鑽戒市場，以卓越客服（特別是 Avery、Eugene、Richmond）及客製化設計獲得壓倒性好評。ALUXE 在 ION Orchard 憑藉 GY (Gwee Ying) 等顧問建立良好口碑，但評論量顯著低於 JannPaul。競品廣告聚焦白金升級、分期付款及週年促銷，ALUXE 需強化差異化定位與數位能見度。",
   "brands": {
-    "ALUXE": {
-      "sentiment_score": 0.94,
-      "positive_pct": 96,
-      "negative_pct": 3,
-      "neutral_pct": 1,
-      "review_count": 27,
-      "sources": [
-        "Google Maps"
-      ],
-      "top_themes": [
-        "Staff Excellence (GY/Gwee Ying/Elysse)",
-        "Patient Service",
-        "Wedding Fair Engagement"
-      ],
-      "alert": "Critical service failure: Male staff member at ION (15 Mar, 4:30pm) displayed rude, dismissive behavior - described as 'interrogating' with limited product variety shown. Customer was a repeat visitor (4th visit).",
-      "sample_positive": "Me and my fiance had a great experience with GY at Aluxe for our diamond ring consultation. She was patient, knowledgeable, and gave honest advice without any pressure",
-      "sample_negative": "When we went into the store today on 15 Mar at around 4.30pm, he didnt greet us with a smile, instead he asked \"why are you here?\" in a tone as if like we werent supposed to be there"
-    },
     "JannPaul": {
-      "sentiment_score": 0.99,
+      "sentiment_score": 1.0,
       "positive_pct": 100,
       "negative_pct": 0,
       "neutral_pct": 0,
-      "review_count": 30,
+      "review_count": 15,
       "sources": [
         "Google Maps"
       ],
       "top_themes": [
-        "Educational Approach",
-        "Customization Excellence",
-        "Staff Expertise (Richmond/Eugene/Avery)"
+        "卓越客服（Avery/Eugene/Richmond）",
+        "客製化設計專業",
+        "鑽石教育透明度"
       ],
       "alert": null,
-      "sample_positive": "Richmond was attentive, knowledgeable, and easy to work with. He took the time to understand what we were looking for and didn't rush the process, which made the whole experience feel comfortable and personalised",
+      "sample_positive": "Great service from JannPaul. Avery was very patient and insightful with design ideas, and very accommodating to changes in design to create something that my fiancé loved!",
       "sample_negative": null
     },
-    "Michael Trio": {
-      "sentiment_score": 0.98,
+    "ALUXE": {
+      "sentiment_score": 1.0,
       "positive_pct": 100,
       "negative_pct": 0,
       "neutral_pct": 0,
-      "review_count": 20,
+      "review_count": 14,
       "sources": [
         "Google Maps"
       ],
       "top_themes": [
-        "Staff Helpfulness (Soo/Iris/Yvone)",
-        "Customization Service",
-        "Pleasant Experience"
+        "GY (Gwee Ying) 專業服務",
+        "無壓力諮詢體驗",
+        "耐心產品解說"
       ],
       "alert": null,
-      "sample_positive": "Iris is very friendly, patient and helpful in my ring selection, give suggestion and honest pros and cons about each type of ring, which helped a lot",
+      "sample_positive": "I had a wonderful experience with GY at Aluxe!! She was incredibly patient with us throughout the entire process, which made a potentially overwhelming decision much easier!",
       "sample_negative": null
     }
   },
   "competitor_alerts": [
     {
-      "brand": "JannPaul",
-      "issue": "Strong educational consultative model - customers spend 3+ hours in detailed diamond education sessions",
-      "severity": 4,
-      "opportunity": "Implement structured diamond education program; train staff on consultative vs transactional selling"
-    },
-    {
-      "brand": "JannPaul",
-      "issue": "Richmond and Eugene receiving exceptional individual praise - creating staff-specific customer loyalty",
-      "severity": 3,
-      "opportunity": "Develop staff recognition program; standardize service excellence across all consultants"
-    },
-    {
       "brand": "Michael Trio",
-      "issue": "Consistent positive sentiment across multiple outlets; strong customization capabilities",
-      "severity": 2,
-      "opportunity": "Enhance customization service offering and marketing communication"
+      "issue": "免費白金升級促銷（4月）+ RM2888 起入門價格策略",
+      "severity": 4,
+      "opportunity": "ALUXE 可推出限時升級優惠（如免費刻字/鑽石品質升級）並強調新加坡本地工藝價值"
+    },
+    {
+      "brand": "Love & Co.",
+      "issue": "高達 50% 折扣 + 0% 分期付款方案",
+      "severity": 5,
+      "opportunity": "與金融機構合作推出 0% 分期計畫，並透過「終身保養服務」強化價值主張"
+    },
+    {
+      "brand": "Lee Hwa Jewellery",
+      "issue": "名人代言（Desmond Tan）+ 999 黃金傳統工藝定位",
+      "severity": 3,
+      "opportunity": "針對現代消費者推出「傳統再造」系列，結合 Si Dian Jin 與當代設計"
     }
   ],
+  "competitor_ads": {
+    "Michael Trio": {
+      "ad_count": 18,
+      "main_themes": [
+        "免費白金升級",
+        "RM2888 起價格親民性",
+        "客製化設計過程展示"
+      ],
+      "cta_focus": "WhatsApp 即時諮詢",
+      "platforms": [
+        "FB",
+        "IG",
+        "WhatsApp"
+      ],
+      "key_offers": [
+        "買對戒送白金升級",
+        "14 週年抽獎（鑽石吊墜大獎）",
+        "25% 折扣（4/1-4/14）"
+      ],
+      "strategy_insight": "透過 UGC 影片（試戴過程）+ 實體門店活動（Sunway Velocity）建立平價高質感形象"
+    },
+    "Love & Co.": {
+      "ad_count": 9,
+      "main_themes": [
+        "預約享高折扣（20-50%）",
+        "0% 利息分期",
+        "Si Dian Jin 現代化"
+      ],
+      "cta_focus": "Book now（預約系統）",
+      "platforms": [
+        "FB",
+        "IG"
+      ],
+      "key_offers": [
+        "對戒 20% off",
+        "白/玫瑰金系列 5% off (滿 $350)",
+        "終身免費清潔"
+      ],
+      "strategy_insight": "以「預約限定優惠」創造緊迫感，並透過分期降低價格門檻"
+    },
+    "JANNPAUL": {
+      "ad_count": 28,
+      "main_themes": [
+        "White Series™ 專利切工技術",
+        "LGD 彩色鑽石（綠/粉）",
+        "工藝過程透明化"
+      ],
+      "cta_focus": "Instagram 導流 + WhatsApp",
+      "platforms": [
+        "IG"
+      ],
+      "key_offers": [
+        "無明顯促銷，強調產品獨特性"
+      ],
+      "strategy_insight": "透過教育型內容（137 面切割、光學對稱性）建立技術權威，避免價格戰"
+    }
+  },
   "hot_topics": [
     {
-      "topic": "Wedding Fair Engagement",
+      "topic": "Lab-Grown Diamond (LGD) 彩色鑽石",
       "volume": "high",
       "actionable": true,
-      "suggestion": "Multiple ALUXE reviews mention wedding fair as first touchpoint. Strengthen fair presence and ensure staff consistency in follow-up appointments"
+      "suggestion": "推出 LGD 彩鑽系列（綠/粉/藍）並強調環保永續價值，對標 JANNPAUL 的 Fancy Color 系列"
     },
     {
-      "topic": "Named Staff Recognition",
-      "volume": "high",
-      "actionable": true,
-      "suggestion": "GY/Gwee Ying mentioned 11+ times, Elysse 3 times. Leverage staff excellence in marketing; implement 'preferred consultant' booking system"
-    },
-    {
-      "topic": "No-Pressure Sales Approach",
+      "topic": "免費白金/鉑金升級促銷",
       "volume": "medium",
       "actionable": true,
-      "suggestion": "Competitors emphasize 'not pushy' - ensure all ALUXE staff trained on consultative approach vs sales pressure"
+      "suggestion": "限時推出「購買對戒免費升級至鉑金」活動（如 4-5 月婚禮旺季）"
     },
     {
-      "topic": "Lab-Grown Diamond Education",
+      "topic": "客製化設計過程可視化",
       "volume": "medium",
       "actionable": true,
-      "suggestion": "JannPaul excels at diamond education (4Cs, light performance). Develop ALUXE's educational content and in-store experience"
+      "suggestion": "製作 IG Reels 展示從諮詢→設計→完成的全流程，模仿 Michael Trio 的 UGC 策略"
     }
   ],
   "gsc_insights": {
@@ -108,25 +141,15 @@
   },
   "market_trends": [
     {
-      "keyword": "Engagement Ring Singapore",
+      "keyword": "engagement ring Singapore",
       "trend": "stable",
-      "insight": "All brands showing consistent wedding/engagement demand; emphasis on personalized service over product alone"
-    },
-    {
-      "keyword": "Wedding Bands Customization",
-      "trend": "rising",
-      "insight": "Customization mentioned across all brands; customers expect bespoke options with detailed consultation"
-    },
-    {
-      "keyword": "Lab Grown Diamonds",
-      "trend": "rising",
-      "insight": "JannPaul receiving specific praise for lab-grown diamond expertise and education - emerging preference segment"
+      "insight": "3/29-4/12 搜尋熱度波動（峰值 100→最低 44），顯示婚禮旺季（3-4月）需求，但整體搜尋量數據不足需持續監控"
     }
   ],
   "actionable_top3": [
-    "URGENT: Investigate and address 15 Mar service failure at ION (4:30pm male staff). Implement immediate retraining and follow up with affected customer (Justin Lee). Review staffing protocols for walk-in customers.",
-    "Standardize GY/Gwee Ying's service excellence model across all staff through documented training program. She represents 40%+ of positive mentions - capture and replicate her approach (patient, knowledgeable, no pressure, wedding fair follow-up).",
-    "Develop comprehensive diamond education program to compete with JannPaul's consultative model. Create in-store educational tools (lighting comparisons, 4Cs demonstrations) and train staff on 1-2 hour consultation format vs quick transactions."
+    "立即推出「4-5 月婚禮季限定：購對戒免費升級鉑金」活動，對標 Michael Trio 促銷並強調新加坡在地工藝",
+    "建立 GY (Gwee Ying) 等明星顧問個人品牌：製作顧問專訪影片、客戶成功故事（模仿 JannPaul 的 Avery 效應）",
+    "啟動 LGD 彩鑽系列（藍/綠色調）+ 教育型內容行銷（IG Reels/部落格），對抗 JANNPAUL 的技術壟斷並吸引環保意識客群"
   ],
-  "generated_at": "2026-04-12T20:58:06.757092"
+  "generated_at": "2026-04-12T21:33:55.417935"
 }
