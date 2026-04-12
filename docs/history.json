@@ -1,5 +1,125 @@
 [
   {
+    "summary": "JOY COLORi 在台中獲得壓倒性好評(100%正面),顧客高度讚揚 Yuki/Manda 等銷售人員的服務。ALUXE 在新加坡表現強勁,特別是 GY/Gwee Ying、Elysse 等顧問獲多次點名表揚,但出現一則嚴重服務態度投訴需關注。JannPaul 以專業鑽石知識見長,Eugene 和 Richmond 獲高度評價,客製化服務和教育式銷售成為競爭優勢。",
+    "brands": {
+      "JOY COLORi": {
+        "sentiment_score": 1.0,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 30,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "優質客服(Yuki/Manda/蓁蓁)",
+          "鑽石知識教育",
+          "未來鑽石環保理念"
+        ],
+        "alert": null,
+        "sample_positive": "超愛Yuki ,也謝謝大家的祝福,真心誠意的感受到誠意,學習到很多的知識,也收穫到很棒的項鍊♥️",
+        "sample_negative": null
+      },
+      "ALUXE": {
+        "sentiment_score": 0.94,
+        "positive_pct": 97,
+        "negative_pct": 3,
+        "neutral_pct": 0,
+        "review_count": 30,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "顧問專業度(GY/Gwee Ying/Elysse)",
+          "無壓力銷售",
+          "婚戒選購體驗"
+        ],
+        "alert": "⚠️ 嚴重服務態度投訴:有顧客反映男性員工態度極其惡劣,詢問「why are you here?」語氣不友善,且選項介紹敷衍,已於3/15被投訴",
+        "sample_positive": "I had a wonderful experience with GY at Aluxe!! She was incredibly patient with us throughout the entire process",
+        "sample_negative": "When we went into the store today on 15 Mar at around 4.30pm, he didnt greet us with a smile, instead he asked \"why are you here?\" in a tone as if like we werent supposed to be there"
+      },
+      "JannPaul": {
+        "sentiment_score": 1.0,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 20,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "鑽石專業教育(Eugene/Richmond)",
+          "客製化設計服務",
+          "耐心諮詢無壓力"
+        ],
+        "alert": null,
+        "sample_positive": "Eugene was very engaging and informative in his craft. He made the entire process interesting and fun rather than a stressful one",
+        "sample_negative": null
+      }
+    },
+    "competitor_alerts": [
+      {
+        "brand": "ALUXE",
+        "issue": "3月15日下午4:30出現服務態度極差個案,男性員工對顧客詢問婚戒需求時表現不耐煩,稱男戒「只有2個選項」且態度傲慢",
+        "severity": 5,
+        "opportunity": "ALUXE 服務品質不穩定,可強化 ALUXE 一致性培訓標準,並在行銷中突出「每位顧客都獲專業禮遇」"
+      },
+      {
+        "brand": "JannPaul",
+        "issue": "顧客高度讚揚 Eugene/Richmond 的「教育式銷售」,花3小時深度講解鑽石知識,形成差異化競爭優勢",
+        "severity": 4,
+        "opportunity": "學習 JannPaul 的鑽石教育模式,但 ALUXE 可強調「高效專業」避免過長諮詢時間"
+      }
+    ],
+    "hot_topics": [
+      {
+        "topic": "個人化顧問服務",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "所有品牌評論都點名特定銷售顧問(Yuki/GY/Eugene),建議培養「明星顧問」制度並在社群媒體宣傳"
+      },
+      {
+        "topic": "Lab-grown diamonds(實驗室培育鑽石)",
+        "volume": "medium",
+        "actionable": true,
+        "suggestion": "JannPaul 和 JOY COLORi 都主打環保鑽石獲好評,ALUXE 可加強永續珠寶故事行銷"
+      },
+      {
+        "topic": "Wedding bands customization",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "婚戒客製化需求旺盛,建議推出「客製化諮詢專案」並簡化流程縮短製作時間"
+      }
+    ],
+    "gsc_insights": {
+      "top_keywords": [],
+      "opportunities": []
+    },
+    "market_trends": [
+      {
+        "keyword": "個人化銷售顧問",
+        "trend": "rising",
+        "insight": "顧客高度重視「被記名的顧問」,點名率超過80%評論,顯示關係型銷售在高價珠寶市場至關重要"
+      },
+      {
+        "keyword": "鑽石教育 vs 快速成交",
+        "trend": "stable",
+        "insight": "JannPaul 以3小時深度諮詢獲讚,ALUXE 以高效率獲好評,市場存在兩種需求:深度學習型與快速決策型買家"
+      },
+      {
+        "keyword": "服務一致性",
+        "trend": "rising",
+        "insight": "ALUXE 出現服務落差引發1星負評,顯示奢侈品牌必須確保每位員工都維持高服務標準,單一負面體驗可能嚴重損害品牌"
+      }
+    ],
+    "actionable_top3": [
+      "立即調查 ALUXE 3月15日服務投訴個案,對涉事員工進行再培訓,並建立「神秘客」定期檢測服務品質",
+      "推出「顧問指名預約系統」:學習競品被高頻點名的銷售明星(GY/Eugene/Yuki),讓優秀顧問成為品牌資產並在官網展示",
+      "開發「鑽石選購教育內容」:製作短影片/IG Reels 講解4C/切工/實驗室鑽石,降低顧客進店焦慮並建立專業形象"
+    ],
+    "generated_at": "2026-04-12T20:19:16.587197"
+  },
+  {
     "summary": "ALUXE dominates recent reviews with consistently high praise for staff (especially GY, Elysse, Gwee Ying) and patient service. One critical service failure on Mar 15 stands out. Competitors JannPaul and Michael Trio maintain strong reputations with personalized service, while JannPaul emphasizes diamond education.",
     "brands": {
       "ALUXE": {
