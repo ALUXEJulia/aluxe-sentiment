@@ -1,5 +1,137 @@
 [
   {
+    "summary": "ALUXE maintains strong customer satisfaction with exceptional staff service, particularly from GY/Gwee Ying and Elysse. One critical service failure (1-star review on 15 Mar) highlights training gaps. JannPaul and Michael Trio show consistent positive sentiment with strong personalized service models.",
+    "brands": {
+      "ALUXE": {
+        "sentiment_score": 0.94,
+        "positive_pct": 96,
+        "negative_pct": 3,
+        "neutral_pct": 1,
+        "review_count": 27,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "Staff Excellence (GY/Gwee Ying/Elysse)",
+          "Patient Service",
+          "Wedding Fair Engagement"
+        ],
+        "alert": "Critical service failure: Male staff member at ION (15 Mar, 4:30pm) displayed rude, dismissive behavior - described as 'interrogating' with limited product variety shown. Customer was a repeat visitor (4th visit).",
+        "sample_positive": "Me and my fiance had a great experience with GY at Aluxe for our diamond ring consultation. She was patient, knowledgeable, and gave honest advice without any pressure",
+        "sample_negative": "When we went into the store today on 15 Mar at around 4.30pm, he didnt greet us with a smile, instead he asked \"why are you here?\" in a tone as if like we werent supposed to be there"
+      },
+      "JannPaul": {
+        "sentiment_score": 0.99,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 30,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "Educational Approach",
+          "Customization Excellence",
+          "Staff Expertise (Richmond/Eugene/Avery)"
+        ],
+        "alert": null,
+        "sample_positive": "Richmond was attentive, knowledgeable, and easy to work with. He took the time to understand what we were looking for and didn't rush the process, which made the whole experience feel comfortable and personalised",
+        "sample_negative": null
+      },
+      "Michael Trio": {
+        "sentiment_score": 0.98,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 20,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "Staff Helpfulness (Soo/Iris/Yvone)",
+          "Customization Service",
+          "Pleasant Experience"
+        ],
+        "alert": null,
+        "sample_positive": "Iris is very friendly, patient and helpful in my ring selection, give suggestion and honest pros and cons about each type of ring, which helped a lot",
+        "sample_negative": null
+      }
+    },
+    "competitor_alerts": [
+      {
+        "brand": "JannPaul",
+        "issue": "Strong educational consultative model - customers spend 3+ hours in detailed diamond education sessions",
+        "severity": 4,
+        "opportunity": "Implement structured diamond education program; train staff on consultative vs transactional selling"
+      },
+      {
+        "brand": "JannPaul",
+        "issue": "Richmond and Eugene receiving exceptional individual praise - creating staff-specific customer loyalty",
+        "severity": 3,
+        "opportunity": "Develop staff recognition program; standardize service excellence across all consultants"
+      },
+      {
+        "brand": "Michael Trio",
+        "issue": "Consistent positive sentiment across multiple outlets; strong customization capabilities",
+        "severity": 2,
+        "opportunity": "Enhance customization service offering and marketing communication"
+      }
+    ],
+    "hot_topics": [
+      {
+        "topic": "Wedding Fair Engagement",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "Multiple ALUXE reviews mention wedding fair as first touchpoint. Strengthen fair presence and ensure staff consistency in follow-up appointments"
+      },
+      {
+        "topic": "Named Staff Recognition",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "GY/Gwee Ying mentioned 11+ times, Elysse 3 times. Leverage staff excellence in marketing; implement 'preferred consultant' booking system"
+      },
+      {
+        "topic": "No-Pressure Sales Approach",
+        "volume": "medium",
+        "actionable": true,
+        "suggestion": "Competitors emphasize 'not pushy' - ensure all ALUXE staff trained on consultative approach vs sales pressure"
+      },
+      {
+        "topic": "Lab-Grown Diamond Education",
+        "volume": "medium",
+        "actionable": true,
+        "suggestion": "JannPaul excels at diamond education (4Cs, light performance). Develop ALUXE's educational content and in-store experience"
+      }
+    ],
+    "gsc_insights": {
+      "top_keywords": [],
+      "opportunities": []
+    },
+    "market_trends": [
+      {
+        "keyword": "Engagement Ring Singapore",
+        "trend": "stable",
+        "insight": "All brands showing consistent wedding/engagement demand; emphasis on personalized service over product alone"
+      },
+      {
+        "keyword": "Wedding Bands Customization",
+        "trend": "rising",
+        "insight": "Customization mentioned across all brands; customers expect bespoke options with detailed consultation"
+      },
+      {
+        "keyword": "Lab Grown Diamonds",
+        "trend": "rising",
+        "insight": "JannPaul receiving specific praise for lab-grown diamond expertise and education - emerging preference segment"
+      }
+    ],
+    "actionable_top3": [
+      "URGENT: Investigate and address 15 Mar service failure at ION (4:30pm male staff). Implement immediate retraining and follow up with affected customer (Justin Lee). Review staffing protocols for walk-in customers.",
+      "Standardize GY/Gwee Ying's service excellence model across all staff through documented training program. She represents 40%+ of positive mentions - capture and replicate her approach (patient, knowledgeable, no pressure, wedding fair follow-up).",
+      "Develop comprehensive diamond education program to compete with JannPaul's consultative model. Create in-store educational tools (lighting comparisons, 4Cs demonstrations) and train staff on 1-2 hour consultation format vs quick transactions."
+    ],
+    "generated_at": "2026-04-12T20:58:06.757092"
+  },
+  {
     "summary": "JannPaul 在 SG 市場持續保持強勁口碑(100% 5星評價,近30日20+則好評),Richmond、Eugene、Avery 等顧問被頻繁點名表揚專業與耐心。ALUXE 同樣表現優異(Gwee Ying、Elysse、Peggy 等獲多次推薦),但出現1則嚴重客訴(3/15,評分1星,員工態度惡劣)需立即處理。GSC 數據缺失,但 Google Trends 顯示「lab grown diamond Singapore」與「engagement ring Singapore」搜尋量在4月初激增,市場需求旺盛。",
     "brands": {
       "JannPaul": {
