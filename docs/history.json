@@ -1,5 +1,107 @@
 [
   {
+    "summary": "JannPaul 在 SG 市場持續保持強勁口碑(100% 5星評價,近30日20+則好評),Richmond、Eugene、Avery 等顧問被頻繁點名表揚專業與耐心。ALUXE 同樣表現優異(Gwee Ying、Elysse、Peggy 等獲多次推薦),但出現1則嚴重客訴(3/15,評分1星,員工態度惡劣)需立即處理。GSC 數據缺失,但 Google Trends 顯示「lab grown diamond Singapore」與「engagement ring Singapore」搜尋量在4月初激增,市場需求旺盛。",
+    "brands": {
+      "JannPaul": {
+        "sentiment_score": 1.0,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 20,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "顧問專業度(Richmond/Eugene/Avery)",
+          "客製化設計",
+          "教育導向(非硬銷)"
+        ],
+        "alert": null,
+        "sample_positive": "Richmond provided a well detailed and interesting demo/lesson. He was professional and friendly throughout. Thank you for wonderful experience and quality in ring workmanship.",
+        "sample_negative": null
+      },
+      "ALUXE": {
+        "sentiment_score": 0.93,
+        "positive_pct": 96,
+        "negative_pct": 4,
+        "neutral_pct": 0,
+        "review_count": 25,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "Gwee Ying/GY 服務",
+          "耐心諮詢",
+          "婚戒購買體驗"
+        ],
+        "alert": "⚠️ 3/15 客訴:男性員工態度惡劣(「why are you here?」質問語氣、選項極少、不耐煩),客戶當場離店。品牌已回應道歉並承諾內訓,需追蹤改善成效。",
+        "sample_positive": "I had a wonderful experience with GY at Aluxe!! She was incredibly patient with us throughout the entire process.",
+        "sample_negative": "Not sure what was the name of the guy that was attending to us, but he was extremely rude... he asked 'why are you here?' in a tone as if like we weren't supposed to be there."
+      }
+    },
+    "competitor_alerts": [
+      {
+        "brand": "ALUXE",
+        "issue": "單一員工服務態度嚴重失誤,客戶形容為「interrogating」式問話,且僅提供2款極簡男戒選項,未展現品牌應有的專業與多元選擇",
+        "severity": 4,
+        "opportunity": "ALUXE 危機為 ALUXE 自身機會:立即強化員工訓練(尤其男性顧問),並在社群/官網強調「無壓力諮詢」與「多元設計」,挽回信任。競品可借鏡此案例強化自身服務標準化。"
+      },
+      {
+        "brand": "JannPaul",
+        "issue": "無明顯負評,但多則評論提及「需預約」,可能造成 walk-in 客戶流失",
+        "severity": 2,
+        "opportunity": "ALUXE 可強化「ION Orchard 地點優勢+walk-in friendly」訊息,吸引臨時客流;JannPaul 則需優化預約流程(如即時線上排隊系統)。"
+      }
+    ],
+    "hot_topics": [
+      {
+        "topic": "lab grown diamond",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "Google Trends 顯示「lab grown diamond Singapore」4/5 搜尋量達峰值(100),且相關查詢「Breakout」等級。ALUXE 應加強 LGD 產品線的 SEO/SEM 投放,並在社群教育「LGD vs 天然鑽石」差異,搶佔市場先機。"
+      },
+      {
+        "topic": "Cartier/Tiffany 品牌聲量暴漲",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "Trends 數據顯示「Cartier Singapore」與「Tiffany & Co.」相關查詢為 Breakout 等級(+1500%~1700%),反映高端品牌關注度提升。ALUXE 可推出「輕奢定位」內容(如「$5K 以下媲美大牌設計」),吸引預算有限但追求品質的消費者。"
+      },
+      {
+        "topic": "顧問個人化服務",
+        "volume": "medium",
+        "actionable": true,
+        "suggestion": "JannPaul 的 Richmond/Eugene、ALUXE 的 Gwee Ying 被多次點名,顯示「顧問 IP 化」有效建立信任。建議 ALUXE 在官網/社群推出「Meet Our Consultants」系列,展示團隊專業背景,並鼓勵客戶指定顧問預約。"
+      }
+    ],
+    "gsc_insights": {
+      "top_keywords": [],
+      "opportunities": []
+    },
+    "market_trends": [
+      {
+        "keyword": "lab grown diamond Singapore",
+        "trend": "rising",
+        "insight": "4/5 搜尋量爆發(+100),相關主題「Synthetic diamond」(+200%)、「Engagement ring」(+90%)同步上升,反映消費者對永續/高CP值選項的接受度提高,且集中於婚戒場景。"
+      },
+      {
+        "keyword": "engagement ring Singapore",
+        "trend": "stable",
+        "insight": "過去30日搜尋量維持穩定(3/26 峰值100,其餘日期5~15),但相關查詢「diamond ring」(+250%)顯示具體產品需求強烈。建議加強「2026婚戒趨勢」、「$3K~$8K 熱銷款」等內容行銷。"
+      },
+      {
+        "keyword": "Cartier/Tiffany",
+        "trend": "rising",
+        "insight": "奢侈品牌搜尋量暴增,但多數消費者可能僅停留在「研究階段」。ALUXE 可推出「大牌平替」專題(如「Cartier Love Ring 風格客製款」),以 SEO 截流高意圖用戶。"
+      }
+    ],
+    "actionable_top3": [
+      "【緊急】處理 ALUXE 3/15 負評:公開回應已落實員工再訓練,並提供該客戶「complimentary consultation」邀約,同時在內部強化「First Impression Protocol」(前3分鐘互動標準化流程),避免類似事件。",
+      "【SEO】針對「lab grown diamond Singapore」投放 Google Ads + 製作 Landing Page(主打「環保認證」、「價格透明」、「GIA 報告」),搭配 Blog 內容「2026 LGD 完整指南」,搶佔 4 月搜尋紅利期。",
+      "【社群】推出「顧問系列」短影音:拍攝 Gwee Ying/Elysse 等明星顧問的「1分鐘選戒秘訣」,並在 Instagram Reels/TikTok 投放,強化「ALUXE = 專業+親切」的品牌印象,同時降低 3/15 負評的長尾影響。"
+    ],
+    "generated_at": "2026-04-12T20:30:12.246529"
+  },
+  {
     "summary": "JOY COLORi 在台中獲得壓倒性好評(100%正面),顧客高度讚揚 Yuki/Manda 等銷售人員的服務。ALUXE 在新加坡表現強勁,特別是 GY/Gwee Ying、Elysse 等顧問獲多次點名表揚,但出現一則嚴重服務態度投訴需關注。JannPaul 以專業鑽石知識見長,Eugene 和 Richmond 獲高度評價,客製化服務和教育式銷售成為競爭優勢。",
     "brands": {
       "JOY COLORi": {
