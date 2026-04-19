@@ -1,0 +1,16 @@
+{
+  "markets": [
+    {
+      "id": "sg",
+      "label": "🇸🇬 Singapore",
+      "data_file": "latest.json",
+      "active": true
+    },
+    {
+      "id": "hk",
+      "label": "🇭🇰 Hong Kong",
+      "data_file": "hk_latest.json",
+      "active": true
+    }
+  ]
+}

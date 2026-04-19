@@ -1,6 +1,9 @@
-<!DOCTYPE html><html lang="zh-TW"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ALUXE SG Sentiment</title>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ALUXE · Sentiment Monitor</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#B8973E;--gold-l:#F5EDD8;--dark:#1A1814;--bg:#FAF9F6;--card:#fff;--border:rgba(0,0,0,.08)}
@@ -8,12 +11,16 @@
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark)}
 header{background:var(--dark);padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center}
 h1{font-family:'DM Serif Display',serif;color:var(--gold);font-size:20px;font-weight:400;letter-spacing:.04em}
+.tab-bar{background:var(--dark);padding:0 2rem;display:flex;gap:0;border-top:1px solid rgba(255,255,255,.08)}
+.tab-btn{color:rgba(255,255,255,.45);font-size:12px;padding:.6rem 1.25rem;cursor:pointer;border-bottom:2px solid transparent;font-family:'DM Sans',sans-serif;background:none;border-top:none;border-left:none;border-right:none;letter-spacing:.04em;transition:all .2s}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-btn:hover{color:rgba(255,255,255,.8)}
+.tab-content{display:none}.tab-content.active{display:block}
 .wrap{max-width:1060px;margin:0 auto;padding:2rem 1.5rem}
 .summary{background:var(--gold-l);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:1rem 1.25rem;font-size:14px;line-height:1.7;color:#3D3A32;margin-bottom:2rem}
 .sec{margin-bottom:2.5rem}
 .sec-label{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#7A7669;margin-bottom:.75rem}
 .ts{font-size:10px;color:#aaa;margin-top:.75rem;padding-top:.5rem;border-top:0.5px solid var(--border)}
-
 .ads-banner{background:var(--card);border:1px solid var(--gold);border-radius:12px;padding:1.25rem;margin-bottom:2rem}
 .ads-banner-top{display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:0.5px solid #E8D9A8}
 .ads-badge{background:var(--dark);color:var(--gold);font-size:10px;font-weight:500;padding:3px 12px;border-radius:20px;letter-spacing:.08em}
@@ -29,7 +36,6 @@ h1{font-family:'DM Serif Display',serif;color:var(--gold);font-size:20px;font-we
 .ad-insight{font-size:10px;color:#555;margin-top:4px;line-height:1.4;border-left:2px solid var(--gold);padding-left:6px}
 .ads-ts{font-size:10px;color:#aaa;margin-top:.875rem;padding-top:.625rem;border-top:0.5px solid #E8D9A8}
 .ads-divider-label{font-size:10px;font-weight:500;color:#7A5F10;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
-
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
 .bc{background:var(--card);border:.5px solid var(--border);border-radius:12px;padding:1.25rem}
 .bc.own{border-color:var(--gold);border-width:1.5px}
@@ -53,238 +59,253 @@ h1{font-family:'DM Serif Display',serif;color:var(--gold);font-size:20px;font-we
 .ext-link{display:inline-block;margin-top:.75rem;font-size:12px;color:var(--gold);text-decoration:none;border:.5px solid var(--gold);padding:4px 14px;border-radius:20px;margin-right:8px}
 table tr:hover td{background:#F9F8F5}
 footer{text-align:center;font-size:11px;color:#7A7669;padding:2rem;border-top:.5px solid var(--border);margin-top:1rem}
-</style></head><body>
-<header><h1>ALUXE · SG Sentiment Monitor v4</h1>
-<span style="color:#7A7669;font-size:12px">報告日期：2026-04-19</span></header>
-<div class="wrap">
+.loading{color:#7A7669;font-size:13px;padding:2rem 0}
+</style>
+</head>
+<body>
 
-  <div class="ads-banner">
-    <div class="ads-banner-top">
-      <span class="ads-badge">廣告監控</span>
-      <span class="ads-subtitle">Meta 廣告資料庫 · 自動更新 · 自家品牌 + 競品</span>
-    </div>
-    <div style="margin-bottom:.875rem"><div class="ads-divider-label">自家品牌</div><div style="display:grid;grid-template-columns:minmax(0,1fr);gap:8px"><div class="ad-card" style="border-color:var(--gold);border-width:1.5px;">
-          <span style="font-size:9px;background:var(--gold-l);color:#7A5F10;padding:1px 8px;border-radius:10px;margin-bottom:4px;display:inline-block">自家品牌</span>
-          <div class="ad-brand">ALUXE 亞立詩 SG</div>
-          <div class="ad-count-row"><span class="ad-count">30</span><span class="ad-count-lbl">則現役廣告</span></div>
-          <div style="font-size:10px;color:#7A5F10;margin-bottom:6px">FB · IG · WhatsApp · Messenger</div>
-          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:5px"><span class="tag">Care Bears聯名系列</span><span class="tag">Winnie the Pooh迪士尼聯名</span><span class="tag">My Ring Studio客製化工具</span><span class="tag">999金回收服務</span><span class="tag">Sleeping Beauty迪士尼系列</span></div>
-          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px"><span class="tag" style="background:#E1F5EE;color:#085041">IP聯名系列推廣</span><span class="tag" style="background:#E1F5EE;color:#085041">My Ring Studio線上客製化</span><span class="tag" style="background:#E1F5EE;color:#085041">999金高價回收</span></div>
-          <div class="ad-cta">主打 CTA：<strong>Learn more / Send WhatsApp message</strong></div>
-          <div class="ad-insight">與競品差異化建議:1)加強Care Bears/Pooh等IP聯名的情感故事行銷,而非單純產品展示 2)My Ring Studio需強化使用便利性和成功案例展示 3)整合免費刻字服務於廣告中突顯附加價值 4)避免999金回收廣告稀釋鑽戒品牌定位,建議分開campaign運作 5)增加顧客推薦影片testimonial提升信任度。</div>
-        </div></div></div>
-    <div><div class="ads-divider-label">競品</div><div class="ads-grid"><div class="ad-card" style="">
-          
-          <div class="ad-brand">Lee Hwa</div>
-          <div class="ad-count-row"><span class="ad-count">4</span><span class="ad-count-lbl">則現役廣告</span></div>
-          <div style="font-size:10px;color:#7A5F10;margin-bottom:6px">FB · IG</div>
-          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:5px"><span class="tag">Imperial Gold 999純金系列</span><span class="tag">古法工藝與現代設計結合</span><span class="tag">名人代言(Desmond Tan)</span></div>
-          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px"><span class="tag" style="background:#E1F5EE;color:#085041">999純金系列推廣</span><span class="tag" style="background:#E1F5EE;color:#085041">傳統工藝與現代設計</span></div>
-          <div class="ad-cta">主打 CTA：<strong>Visit Instagram profile為主</strong></div>
-          <div class="ad-insight">Lee Hwa主攻華人市場的999金傳統婚嫁需求。ALUXE應避免正面競爭,持續聚焦鑽石求婚戒和西式婚戒市場,強化Care Bears/Winnie the Pooh等年輕化IP聯名差異化定位。</div>
-        </div><div class="ad-card" style="">
-          
-          <div class="ad-brand">Jannpaul</div>
-          <div class="ad-count-row"><span class="ad-count">30</span><span class="ad-count-lbl">則現役廣告</span></div>
-          <div style="font-size:10px;color:#7A5F10;margin-bottom:6px">IG · FB · Messenger</div>
-          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:5px"><span class="tag">White Series專利切工技術</span><span class="tag">LGD彩鑽系列(Green/Pink)</span><span class="tag">客製化設計能力</span></div>
-          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px"><span class="tag" style="background:#E1F5EE;color:#085041">專利切工如Octagon Nova/Decagon Nova</span><span class="tag" style="background:#E1F5EE;color:#085041">實驗室培育彩鑽</span><span class="tag" style="background:#E1F5EE;color:#085041">Hearts & Arrows技術</span></div>
-          <div class="ad-cta">主打 CTA：<strong>Visit Instagram profile / Send WhatsApp message</strong></div>
-          <div class="ad-insight">Jannpaul以技術導向和專業鑽石教育建立高端形象。ALUXE應加強GIA認證和My Ring Studio客製化工具的推廣,同時簡化技術溝通,聚焦情感故事和個人化體驗,降低購買門檻。</div>
-        </div><div class="ad-card" style="">
-          
-          <div class="ad-brand">Michael Trio</div>
-          <div class="ad-count-row"><span class="ad-count">17</span><span class="ad-count-lbl">則現役廣告</span></div>
-          <div style="font-size:10px;color:#7A5F10;margin-bottom:6px">FB · IG · WhatsApp · Messenger</div>
-          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:5px"><span class="tag">14週年慶促銷</span><span class="tag">Free Platinum Upgrade</span><span class="tag">The Blue Edit新系列</span><span class="tag">價格透明(RM2888起)</span></div>
-          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px"><span class="tag" style="background:#E1F5EE;color:#085041">買2對戒免費升級platinum</span><span class="tag" style="background:#E1F5EE;color:#085041">20% off $2000以上</span><span class="tag" style="background:#E1F5EE;color:#085041">抽獎活動</span></div>
-          <div class="ad-cta">主打 CTA：<strong>Order now / Send WhatsApp message / Learn more</strong></div>
-          <div class="ad-insight">Michael Trio以促銷和價格優勢搶市佔率。ALUXE不應參與價格戰,而應強化免費終身刻字、My Ring Studio客製化、Care Bears聯名等獨特價值主張,建立情感連結和品牌溢價。</div>
-        </div><div class="ad-card" style="">
-          
-          <div class="ad-brand">Love & Co</div>
-          <div class="ad-count-row"><span class="ad-count">5</span><span class="ad-count-lbl">則現役廣告</span></div>
-          <div style="font-size:10px;color:#7A5F10;margin-bottom:6px">FB · IG · Messenger</div>
-          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:5px"><span class="tag">PayLater分期0利率</span><span class="tag">首購5%折扣</span><span class="tag">Solid gold手鍊$200以下</span><span class="tag">滿$500贈禮</span></div>
-          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px"><span class="tag" style="background:#E1F5EE;color:#085041">Grab PayLater最高$30折扣</span><span class="tag" style="background:#E1F5EE;color:#085041">0%利率分期</span><span class="tag" style="background:#E1F5EE;color:#085041">5%首購折扣碼LVC5NEW</span><span class="tag" style="background:#E1F5EE;color:#085041">終身免費清潔</span></div>
-          <div class="ad-cta">主打 CTA：<strong>Shop now</strong></div>
-          <div class="ad-insight">Love & Co.以電商導向和分期付款降低購買門檻。ALUXE應強化實體店體驗價值(如現場試戴、專業諮詢、即時刻字服務),並考慮與Atome/Grab PayLater合作提供分期選項,但不以此為主要賣點,維持品牌質感。</div>
-        </div></div></div>
-    <div class="ads-ts">資料區間：2026-04-05 至 2026-04-19（過去 14 天，僅限現役廣告）· 來源：Meta 廣告資料庫</div>
-  </div>
+<header>
+  <h1>ALUXE · Sentiment Monitor</h1>
+  <span style="color:#7A7669;font-size:12px" id="header-date"></span>
+</header>
+<div class="tab-bar" id="tab-bar"></div>
+<div id="tab-contents"></div>
+<footer>ALUXE Marketing Intelligence · Claude + Apify + Meta Ads</footer>
 
-  <div class="summary">ALUXE在近14天收穫20則5星好評,顧客高度讚揚員工Kelly、Shirley、Jaya等的專業與耐心服務,免費刻字和客製化服務成亮點。競品Jannpaul以專業鑽石知識和客製化強勢競爭,Michael Trio和Love & Co.則以價格促銷和platinum upgrade吸客。ALUXE應強化差異化優勢如個人化刻字服務和Care Bears聯名系列。</div>
+<script>
+const SHEETS_URL = 'https://docs.google.com/spreadsheets/d/1RYZNRb8CGHN_C3QG4z3Vfr-5ZgnKGLfhQ31QZhTdLt8';
 
-  <div class="sec">
-    <div class="sec-label">品牌情感分析 · 自家品牌 &amp; 競品</div>
-    <div class="grid"><div class="bc own">
-          <div class="bh"><span class="bn">ALUXE</span>
-            <span style="font-size:20px;font-weight:500;color:#1D9E75">1.00</span></div>
-          <span class="own-badge">自家品牌</span>
-          <div class="sources"><span class="src-tag">Google Maps</span></div>
-          <div class="bbar">
-            <div style="width:100%;background:#1D9E75"></div>
-            <div style="width:0%;background:#D3D1C7"></div>
-            <div style="width:0%;background:#E24B4A"></div>
-          </div>
-          <div class="blbl">
-            <span style="color:#1D9E75">正 100%</span>
-            <span style="color:#888">中 0%</span>
-            <span style="color:#E24B4A">負 0%</span>
-            <span style="color:#aaa;margin-left:auto">20 則</span>
-          </div>
-          <div class="themes"><span class="tag">員工服務優秀(Kelly/Shirley/Jaya等)</span><span class="tag">客製化和刻字服務</span><span class="tag">耐心專業無壓力購物體驗</span></div>
-          <div class="quote pos-q">"We had a wonderful experience at ALUXE Singapore, thanks to Shirley. She was patient, knowledgeable, and took the time to understand what we were looking for, explaining all the options clearly without any pressure."</div></div><div class="bc comp">
-          <div class="bh"><span class="bn">Jannpaul</span>
-            <span style="font-size:20px;font-weight:500;color:#1D9E75">1.00</span></div>
-          
-          <div class="sources"><span class="src-tag">Google Maps</span></div>
-          <div class="bbar">
-            <div style="width:100%;background:#1D9E75"></div>
-            <div style="width:0%;background:#D3D1C7"></div>
-            <div style="width:0%;background:#E24B4A"></div>
-          </div>
-          <div class="blbl">
-            <span style="color:#1D9E75">正 100%</span>
-            <span style="color:#888">中 0%</span>
-            <span style="color:#E24B4A">負 0%</span>
-            <span style="color:#aaa;margin-left:auto">19 則</span>
-          </div>
-          <div class="themes"><span class="tag">專業鑽石教育(Eugene/Richmond/Sam)</span><span class="tag">客製化設計能力強</span><span class="tag">無壓力銷售體驗</span></div>
-          <div class="quote pos-q">"Eugene was very engaging and informative in his craft. He made the entire process interesting and fun rather than a stressful one."</div></div><div class="bc comp">
-          <div class="bh"><span class="bn">Michael Trio</span>
-            <span style="font-size:20px;font-weight:500;color:#1D9E75">1.00</span></div>
-          
-          <div class="sources"><span class="src-tag">Google Maps</span></div>
-          <div class="bbar">
-            <div style="width:100%;background:#1D9E75"></div>
-            <div style="width:0%;background:#D3D1C7"></div>
-            <div style="width:0%;background:#E24B4A"></div>
-          </div>
-          <div class="blbl">
-            <span style="color:#1D9E75">正 100%</span>
-            <span style="color:#888">中 0%</span>
-            <span style="color:#E24B4A">負 0%</span>
-            <span style="color:#aaa;margin-left:auto">13 則</span>
-          </div>
-          <div class="themes"><span class="tag">客製化服務專業(Jay/Iris/Soo)</span><span class="tag">產品多樣性高</span><span class="tag">服務細心友善</span></div>
-          <div class="quote pos-q">"Michael Trio has a huge variety of rings to choose from and all the staff we encountered were nice and helpful. Iris was very knowledgeable and guided us with patience."</div></div><div class="bc comp">
-          <div class="bh"><span class="bn">Lee Hwa</span>
-            <span style="font-size:20px;font-weight:500;color:#1D9E75">1.00</span></div>
-          
-          <div class="sources"><span class="src-tag">Google Maps</span></div>
-          <div class="bbar">
-            <div style="width:100%;background:#1D9E75"></div>
-            <div style="width:0%;background:#D3D1C7"></div>
-            <div style="width:0%;background:#E24B4A"></div>
-          </div>
-          <div class="blbl">
-            <span style="color:#1D9E75">正 100%</span>
-            <span style="color:#888">中 0%</span>
-            <span style="color:#E24B4A">負 0%</span>
-            <span style="color:#aaa;margin-left:auto">3 則</span>
-          </div>
-          <div class="themes"><span class="tag">Nicole Ting專業服務</span><span class="tag">友善待客</span><span class="tag">產品品質優良</span></div>
-          <div class="quote pos-q">"This is the second time Nicole Ting served me. She is very professional and was able to help me choose something of my liking. She deserves a promotion."</div></div><div class="bc comp">
-          <div class="bh"><span class="bn">Love & Co</span>
-            <span style="font-size:20px;font-weight:500;color:#1D9E75">1.00</span></div>
-          
-          <div class="sources"><span class="src-tag">Google Maps</span></div>
-          <div class="bbar">
-            <div style="width:100%;background:#1D9E75"></div>
-            <div style="width:0%;background:#D3D1C7"></div>
-            <div style="width:0%;background:#E24B4A"></div>
-          </div>
-          <div class="blbl">
-            <span style="color:#1D9E75">正 100%</span>
-            <span style="color:#888">中 0%</span>
-            <span style="color:#E24B4A">負 0%</span>
-            <span style="color:#aaa;margin-left:auto">20 則</span>
-          </div>
-          <div class="themes"><span class="tag">員工專業耐心(Crystal/Bella/Albert/Lay Xin等)</span><span class="tag">友善服務態度</span><span class="tag">產品款式豐富</span></div>
-          <div class="quote pos-q">"The staff (Crystal) at Love & Co. was very friendly and approachable. They patiently helped me check and find each item I needed, and explained everything clearly."</div></div></div>
-    <div class="ts">資料區間：2026-04-05 至 2026-04-19（近 14 天）· 來源：Google Maps 評論</div>
-  </div>
+// ── 渲染單一地區內容 ──────────────────────────────
 
-  <div class="sec">
-    <div class="sec-label">競品負評預警</div>
-    <div class="ai">
-        <div style="font-size:13px;font-weight:500;color:#E24B4A">
-          Jannpaul <span style="font-size:11px;font-weight:400;margin-left:8px">嚴重度 4/5</span></div>
-        <div style="font-size:13px;color:#3D3A32;margin:4px 0">強勢專業鑽石教育和客製化能力,多位顧客讚揚Eugene/Richmond的專業知識分享</div>
-        <div style="font-size:12px;color:#1D9E75">機會：ALUXE可加強員工鑽石知識培訓,提供類似教育式銷售體驗,突顯GIA認證優勢</div></div><div class="ai">
-        <div style="font-size:13px;font-weight:500;color:#BA7517">
-          Michael Trio <span style="font-size:11px;font-weight:400;margin-left:8px">嚴重度 3/5</span></div>
-        <div style="font-size:13px;color:#3D3A32;margin:4px 0">廣告主打Free Platinum Upgrade和RM2888起價格促銷,價格競爭力強</div>
-        <div style="font-size:12px;color:#1D9E75">機會：ALUXE應強調免費刻字、客製化等附加價值服務,而非純價格競爭</div></div><div class="ai">
-        <div style="font-size:13px;font-weight:500;color:#BA7517">
-          Love & Co <span style="font-size:11px;font-weight:400;margin-left:8px">嚴重度 2/5</span></div>
-        <div style="font-size:13px;color:#3D3A32;margin:4px 0">多個員工被點名表揚,顯示服務團隊整體素質高且一致</div>
-        <div style="font-size:12px;color:#1D9E75">機會：ALUXE已有Kelly/Shirley等明星員工,可建立員工recognition制度鞏固優勢</div></div>
-    <div class="ts">資料區間：2026-04-05 至 2026-04-19（近 14 天）</div>
-  </div>
+function renderMarket(data, marketId) {
+  const date = (data.generated_at || '').slice(0, 10);
+  if (marketId === 'sg') {
+    document.getElementById('header-date').textContent = '報告日期：' + date;
+  }
 
-  <div class="sec">
-    <div class="sec-label">熱門議題 · 可操作清單</div>
-    <div class="ti">
-        <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
-          免費個人化刻字服務
-          <span class="act-badge">可介入</span>
-          <span style="font-size:11px;color:#1D9E75">HIGH</span>
+  let html = '';
+
+  // 廣告區塊（SG 有完整廣告資料）
+  const ads = data.competitor_ads || {};
+  if (Object.keys(ads).length > 0) {
+    let ownHtml = '', compHtml = '';
+    Object.entries(ads).forEach(([brand, ad]) => {
+      const themes = (ad.main_themes || []).map(t => `<span class="tag">${t}</span>`).join('');
+      const offers = (ad.key_offers || []).map(o => `<span class="tag" style="background:#E1F5EE;color:#085041">${o}</span>`).join('');
+      const plats = (ad.platforms || []).join(' · ');
+      const isOwn = ad.own;
+      const card = `<div class="ad-card" style="${isOwn ? 'border-color:var(--gold);border-width:1.5px;' : ''}">
+        ${isOwn ? '<span style="font-size:9px;background:var(--gold-l);color:#7A5F10;padding:1px 8px;border-radius:10px;margin-bottom:4px;display:inline-block">自家品牌</span>' : ''}
+        <div class="ad-brand">${brand}</div>
+        <div class="ad-count-row"><span class="ad-count">${ad.ad_count || 0}</span><span class="ad-count-lbl">則現役廣告</span></div>
+        <div style="font-size:10px;color:#7A5F10;margin-bottom:6px">${plats}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:5px">${themes}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px">${offers}</div>
+        <div class="ad-cta">主打 CTA：<strong>${ad.cta_focus || ''}</strong></div>
+        <div class="ad-insight">${ad.strategy_insight || ''}</div>
+      </div>`;
+      if (isOwn) ownHtml += card;
+      else compHtml += card;
+    });
+    html += `<div class="ads-banner">
+      <div class="ads-banner-top">
+        <span class="ads-badge">廣告監控</span>
+        <span class="ads-subtitle">Meta 廣告資料庫 · 自動更新 · 自家品牌 + 競品</span>
+      </div>
+      ${ownHtml ? `<div style="margin-bottom:.875rem"><div class="ads-divider-label">自家品牌</div><div style="display:grid;grid-template-columns:minmax(0,1fr);gap:8px">${ownHtml}</div></div>` : ''}
+      ${compHtml ? `<div><div class="ads-divider-label">競品</div><div class="ads-grid">${compHtml}</div></div>` : '<p style="color:#7A7669;font-size:13px">無廣告資料</p>'}
+      <div class="ads-ts">來源：Meta 廣告資料庫</div>
+    </div>`;
+  }
+
+  // 整體摘要
+  if (data.summary) {
+    html += `<div class="summary">${data.summary}</div>`;
+  }
+
+  // 品牌情感分析
+  const brands = data.brands || {};
+  if (Object.keys(brands).length > 0) {
+    let cardsHtml = '';
+    Object.entries(brands).forEach(([name, d]) => {
+      const sc = d.sentiment_score || 0;
+      const col = sc >= 0.7 ? '#1D9E75' : sc >= 0.5 ? '#BA7517' : '#E24B4A';
+      const own = name.includes('ALUXE') && !name.includes('JOY');
+      const themes = (d.top_themes || []).map(t => `<span class="tag">${t}</span>`).join('');
+      const sources = (d.sources || []).map(s => `<span class="src-tag">${s}</span>`).join('');
+      const alert = d.alert ? `<div class="alert-box">${d.alert}</div>` : '';
+      const posQ = d.sample_positive ? `<div class="quote pos-q">"${d.sample_positive}"</div>` : '';
+      const negQ = d.sample_negative ? `<div class="quote neg-q">"${d.sample_negative}"</div>` : '';
+      cardsHtml += `<div class="bc ${own ? 'own' : 'comp'}">
+        <div class="bh"><span class="bn">${name}</span>
+          <span style="font-size:20px;font-weight:500;color:${col}">${sc.toFixed(2)}</span></div>
+        ${own ? '<span class="own-badge">自家品牌</span>' : ''}
+        <div class="sources">${sources}</div>
+        <div class="bbar">
+          <div style="width:${d.positive_pct||0}%;background:#1D9E75"></div>
+          <div style="width:${d.neutral_pct||0}%;background:#D3D1C7"></div>
+          <div style="width:${d.negative_pct||0}%;background:#E24B4A"></div>
         </div>
-        <div style="font-size:12px;color:#7A7669">ALUXE評論中多次提及刻字服務(thumbprints/pictures/drawings),建議製作刻字案例集錦影片,於社群和廣告中展示,並強調「免費」和「獨一無二」價值主張,與競品的純折扣促銷區隔。</div></div><div class="ti">
-        <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
-          員工個人服務品牌化
-          <span class="act-badge">可介入</span>
-          <span style="font-size:11px;color:#1D9E75">HIGH</span>
+        <div class="blbl">
+          <span style="color:#1D9E75">正 ${d.positive_pct||0}%</span>
+          <span style="color:#888">中 ${d.neutral_pct||0}%</span>
+          <span style="color:#E24B4A">負 ${d.negative_pct||0}%</span>
+          <span style="color:#aaa;margin-left:auto">${d.review_count||0} 則</span>
         </div>
-        <div style="font-size:12px;color:#7A7669">Kelly/Shirley/Jaya等員工被多次點名表揚,建議建立員工個人品牌recognition計劃,如「本月服務之星」社群專欄、員工專業認證badge展示、顧客可指定喜愛顧問預約等,提升服務一致性和顧客忠誠度。</div></div><div class="ti">
-        <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
-          Wedding Fair活動成效
-          <span class="act-badge">可介入</span>
-          <span style="font-size:11px;color:#BA7517">MEDIUM</span>
-        </div>
-        <div style="font-size:12px;color:#7A7669">有顧客提及「wedding fair」體驗,建議加強Wedding Fair/Bridal Fair參展策略,設計專屬優惠(如Fair限定刻字圖案、現場諮詢禮)、追蹤Fair來客轉換率、建立Fair潛客nurturing流程。</div></div>
-    <div class="ts">資料區間：2026-04-05 至 2026-04-19（近 14 天 Google Maps 評論綜合分析）</div>
-  </div>
+        <div class="themes">${themes}</div>
+        ${alert}${posQ}${negQ}
+      </div>`;
+    });
+    html += `<div class="sec">
+      <div class="sec-label">品牌情感分析 · 自家品牌 &amp; 競品</div>
+      <div class="grid">${cardsHtml}</div>
+      <div class="ts">資料區間：近 14 天 · 來源：Google Maps 評論</div>
+    </div>`;
+  }
 
-  <div class="sec">
-    <div class="sec-label">Google Search Console · 前10大關鍵字</div>
-    <p style="color:#7A7669;font-size:13px">GSC 資料待串接</p><div class="ts">資料區間：串接完成後將顯示過去 28 天資料</div>
-  </div>
+  // 競品負評預警
+  const alerts = data.competitor_alerts || [];
+  let alertsHtml = alerts.length
+    ? alerts.map(a => `<div class="ai">
+        <div style="font-size:13px;font-weight:500;color:${(a.severity||1)>=4?'#E24B4A':'#BA7517'}">
+          ${a.brand} <span style="font-size:11px;font-weight:400;margin-left:8px">嚴重度 ${a.severity}/5</span></div>
+        <div style="font-size:13px;color:#3D3A32;margin:4px 0">${a.issue}</div>
+        <div style="font-size:12px;color:#1D9E75">機會：${a.opportunity}</div></div>`).join('')
+    : '<p style="color:#7A7669;font-size:13px">本週無預警</p>';
+  html += `<div class="sec"><div class="sec-label">競品負評預警</div>${alertsHtml}</div>`;
 
-  
+  // 熱門議題
+  const topics = data.hot_topics || [];
+  if (topics.length) {
+    const topicsHtml = topics.map(t => `<div class="ti">
+      <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        ${t.topic}
+        ${t.actionable ? '<span class="act-badge">可介入</span>' : ''}
+        <span style="font-size:11px;color:${t.volume==='high'?'#1D9E75':'#BA7517'}">${(t.volume||'').toUpperCase()}</span>
+      </div>
+      <div style="font-size:12px;color:#7A7669">${t.suggestion||''}</div></div>`).join('');
+    html += `<div class="sec"><div class="sec-label">熱門議題 · 可操作清單</div>${topicsHtml}</div>`;
+  }
 
-  <div class="sec"><div class="sec-label">市場搜尋趨勢 · Google Trends SG</div><div class="ti">
-            <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
-              engagement ring Singapore
-              <span style="font-size:11px;color:#1D9E75">
-                ↑ 上升
-              </span>
-            </div>
-            <div style="font-size:12px;color:#7A7669">4/5起搜尋量從0暴增至100(peak),顯示求婚季節性需求啟動,可能與復活節/5-6月婚禮旺季相關,ALUXE應即刻加強engagement ring系列推廣和SEO優化。</div></div><div class="ti">
-            <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
-              客製化戒指需求
-              <span style="font-size:11px;color:#888">
-                → 穩定
-              </span>
-            </div>
-            <div style="font-size:12px;color:#7A7669">多個品牌評論均提及customization/bespoke設計,顯示SG市場重視個人化,ALUXE的My Ring Studio工具和免費刻字服務正切中市場需求,應加大此優勢的曝光。</div></div><div class="ti">
-            <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
-              Lab-grown diamond (LGD)市場
-              <span style="font-size:11px;color:#1D9E75">
-                ↑ 上升
-              </span>
-            </div>
-            <div style="font-size:12px;color:#7A7669">Jannpaul大量推廣LGD彩鑽系列(Green/Pink),顯示實驗室鑽石接受度提升,ALUXE需評估是否引入LGD產品線或明確定位為天然鑽專家,避免市場模糊。</div></div><div class="ts">資料區間：2026-04-05 至 2026-04-19（過去 14 天）</div></div>
+  // GSC（SG 專屬）
+  const gsc = data.gsc_insights || {};
+  if (gsc.top_keywords && gsc.top_keywords.length) {
+    const rows = gsc.top_keywords.slice(0,10).map(k =>
+      `<tr><td style="padding:6px 8px;font-size:12px">${k.keyword}</td>
+       <td style="padding:6px 8px;font-size:12px;text-align:right">${k.clicks.toLocaleString()}</td>
+       <td style="padding:6px 8px;font-size:12px;text-align:right">${k.impressions.toLocaleString()}</td>
+       <td style="padding:6px 8px;font-size:12px;text-align:right">${k.ctr}%</td>
+       <td style="padding:6px 8px;font-size:12px;text-align:right">#${k.position}</td></tr>`).join('');
+    html += `<div class="sec"><div class="sec-label">Google Search Console · 前10大關鍵字</div>
+      <table style="width:100%;border-collapse:collapse">
+        <thead><tr style="border-bottom:0.5px solid var(--border)">
+          <th style="padding:6px 8px;text-align:left;font-weight:500;color:#7A7669;font-size:12px">關鍵字</th>
+          <th style="padding:6px 8px;text-align:right;font-weight:500;color:#7A7669;font-size:12px">點擊</th>
+          <th style="padding:6px 8px;text-align:right;font-weight:500;color:#7A7669;font-size:12px">曝光</th>
+          <th style="padding:6px 8px;text-align:right;font-weight:500;color:#7A7669;font-size:12px">CTR</th>
+          <th style="padding:6px 8px;text-align:right;font-weight:500;color:#7A7669;font-size:12px">排名</th>
+        </tr></thead><tbody>${rows}</tbody></table>
+    </div>`;
+  } else if (marketId === 'sg') {
+    html += `<div class="sec"><div class="sec-label">Google Search Console · 前10大關鍵字</div>
+      <p style="color:#7A7669;font-size:13px">GSC 資料待串接</p></div>`;
+  }
 
-  <div class="sec">
-    <div class="sec-label">本週優先行動 Top 3</div>
-    <div class="action-item"><span class="anum">1</span><span>立即優化「engagement ring Singapore」等高峰關鍵字SEO和SEM投放,搭配4-6月求婚旺季推出限時優惠(如免費升級刻字圖案、wedding band bundle優惠),抓住搜尋流量紅利。</span></div><div class="action-item"><span class="anum">2</span><span>製作「ALUXE免費刻字服務完整指南」影片和案例集(含thumbprints/drawings實例),於FB/IG廣告和官網首頁推廣,強化與Michael Trio價格戰和Jannpaul技術戰的差異化,建立情感價值護城河。</span></div><div class="action-item"><span class="anum">3</span><span>建立員工服務品牌化機制:1)社群每月spotlight優秀員工如Kelly/Shirley並分享服務故事 2)官網增設顧問介紹頁面和預約指定顧問功能 3)內部設立「顧客點名表揚」獎勵制度,提升全員服務水準,鞏固口碑優勢。</span></div>
-    <div class="ts">資料區間：根據 2026-04-19 週報綜合分析產出</div>
-    <a class="ext-link" href="https://docs.google.com/spreadsheets/d/1RYZNRb8CGHN_C3QG4z3Vfr-5ZgnKGLfhQ31QZhTdLt8" target="_blank">歷史數據 Google Sheets</a>
-  </div>
+  // Google Trends
+  const trends = data.market_trends || [];
+  if (trends.length) {
+    const trendsHtml = trends.map(t => `<div class="ti">
+      <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        ${t.keyword}
+        <span style="font-size:11px;color:${t.trend==='rising'?'#1D9E75':t.trend==='falling'?'#E24B4A':'#888'}">
+          ${t.trend==='rising'?'↑ 上升':t.trend==='falling'?'↓ 下降':'→ 穩定'}
+        </span>
+      </div>
+      <div style="font-size:12px;color:#7A7669">${t.insight||''}</div></div>`).join('');
+    html += `<div class="sec"><div class="sec-label">市場搜尋趨勢 · Google Trends</div>${trendsHtml}</div>`;
+  }
 
-</div>
-<footer>ALUXE Marketing Intelligence · Claude + Apify + Meta Ads · 2026-04-19</footer>
-</body></html>
+  // 本週優先行動
+  const actions = data.actionable_top3 || [];
+  if (actions.length) {
+    const actHtml = actions.map((a,i) =>
+      `<div class="action-item"><span class="anum">${i+1}</span><span>${a}</span></div>`).join('');
+    html += `<div class="sec">
+      <div class="sec-label">本週優先行動 Top 3</div>
+      ${actHtml}
+      <a class="ext-link" href="${SHEETS_URL}" target="_blank">歷史數據 Google Sheets</a>
+    </div>`;
+  }
+
+  return html;
+}
+
+// ── Tab 切換 ──────────────────────────────────────────
+
+const loadedMarkets = {};
+
+function switchTab(marketId, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + marketId).classList.add('active');
+  btn.classList.add('active');
+  loadMarket(marketId);
+}
+
+function loadMarket(marketId) {
+  if (loadedMarkets[marketId]) return;
+  loadedMarkets[marketId] = true;
+
+  const container = document.getElementById('content-' + marketId);
+  container.innerHTML = '<p class="loading">資料載入中...</p>';
+
+  const market = window._markets.find(m => m.id === marketId);
+  if (!market) return;
+
+  fetch(market.data_file + '?t=' + Date.now())
+    .then(r => r.ok ? r.json() : Promise.reject('資料尚未生成'))
+    .then(data => {
+      container.innerHTML = renderMarket(data, marketId);
+    })
+    .catch(() => {
+      container.innerHTML = `<p class="loading">⚠️ ${market.label} 資料尚未生成</p>`;
+    });
+}
+
+// ── 初始化：讀取 config.json ─────────────────────────
+
+fetch('config.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(config => {
+    const markets = config.markets.filter(m => m.active);
+    window._markets = markets;
+
+    const tabBar = document.getElementById('tab-bar');
+    const tabContents = document.getElementById('tab-contents');
+
+    markets.forEach((market, i) => {
+      // Tab 按鈕
+      const btn = document.createElement('button');
+      btn.className = 'tab-btn' + (i === 0 ? ' active' : '');
+      btn.textContent = market.label;
+      btn.onclick = () => switchTab(market.id, btn);
+      tabBar.appendChild(btn);
+
+      // Tab 內容區
+      const div = document.createElement('div');
+      div.id = 'tab-' + market.id;
+      div.className = 'tab-content' + (i === 0 ? ' active' : '');
+      div.innerHTML = `<div class="wrap"><div id="content-${market.id}"></div></div>`;
+      tabContents.appendChild(div);
+    });
+
+    // 載入第一個地區
+    if (markets.length > 0) loadMarket(markets[0].id);
+  })
+  .catch(() => {
+    document.getElementById('tab-contents').innerHTML =
+      '<div class="wrap"><p class="loading">⚠️ 無法讀取設定檔</p></div>';
+  });
+</script>
+</body>
+</html>
