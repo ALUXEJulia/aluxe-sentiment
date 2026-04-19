@@ -1,5 +1,260 @@
 [
   {
+    "summary": "ALUXE 近14天收穫19則5星評論,無負評,顧客高度讚揚Melody、Christina、Megan等員工服務態度及產品品質;競品JannPaul、Michael Trio、Love & Co同樣維持高評分,服務人員專業度與客戶體驗成為共同競爭焦點;Engagement Ring Singapore搜尋量於4月5日達峰值後回落,顯示求婚旺季波動,需把握流量窗口。",
+    "brands": {
+      "ALUXE": {
+        "sentiment_score": 1.0,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 19,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "優質服務人員(Melody/Christina/Megan/Shirley/Kelly/Jaya等)",
+          "產品質量優秀(18K/鑽戒/客製化)",
+          "專業耐心諮詢"
+        ],
+        "alert": null,
+        "sample_positive": "Great service from Christina, Friendly and well-versed in her domain knowledge. Highly recommend!",
+        "sample_negative": null
+      },
+      "Jannpaul": {
+        "sentiment_score": 1.0,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 15,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "鑽石專業知識(Eugene/Sam/Richmond)",
+          "客製化設計流程順暢",
+          "無壓力購買體驗"
+        ],
+        "alert": null,
+        "sample_positive": "Eugene was very engaging and informative in his craft. He made the entire process interesting and fun rather than a stressful one.",
+        "sample_negative": null
+      },
+      "Michael Trio": {
+        "sentiment_score": 1.0,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 12,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "Jay/Soo/Iris專業服務",
+          "產品多樣性(求婚戒/婚戒)",
+          "客製化體驗流暢"
+        ],
+        "alert": null,
+        "sample_positive": "Was attended and served by Jay. Very good experience from choosing of gem and customising of ring setting with good follow up of date of collection.",
+        "sample_negative": null
+      },
+      "Lee Hwa": {
+        "sentiment_score": 1.0,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 3,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "Nicole Ting/Cielo專業服務",
+          "黃金產品品質",
+          "員工專業度"
+        ],
+        "alert": null,
+        "sample_positive": "This is the second time Nicole Ting served me. She is very professional and was able to help me choose something of my liking. She deserves a promotion.",
+        "sample_negative": null
+      },
+      "Love & Co": {
+        "sentiment_score": 1.0,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 17,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "Tina/Jack/Athz/Rainie熱情服務",
+          "穿耳服務體驗佳",
+          "婚戒選購無壓力"
+        ],
+        "alert": null,
+        "sample_positive": "Was looking for a wedding band and Jack served us. He was very friendly and inviting from the get go which was nice because sometimes surveying rings can be intimidating but he had a 'no worries' type of attitude which we liked.",
+        "sample_negative": null
+      }
+    },
+    "competitor_alerts": [
+      {
+        "brand": "Jannpaul",
+        "issue": "Eugene/Richmond/Sam等多名員工被反覆點名表揚專業度,形成強大個人IP效應",
+        "severity": 4,
+        "opportunity": "ALUXE可建立員工明星制度(如Melody專屬品牌標籤),強化服務人員個人化行銷"
+      },
+      {
+        "brand": "Love & Co",
+        "issue": "高頻提及穿耳服務(ear piercing)與促銷活動(PayLater優惠),拓展非傳統婚戒客群",
+        "severity": 3,
+        "opportunity": "ALUXE可考慮增設輕珠寶/配飾服務線,搶佔年輕客群入門市場"
+      },
+      {
+        "brand": "Michael Trio",
+        "issue": "14週年慶活動(Free Platinum Upgrade/20% off)聲量顯著,節慶行銷成熟",
+        "severity": 3,
+        "opportunity": "ALUXE需規劃品牌週年慶/季度大促,避免促銷空窗期流失價格敏感客群"
+      }
+    ],
+    "competitor_ads": {
+      "ALUXE": {
+        "ad_count": 30,
+        "own": true,
+        "main_themes": [
+          "Disney/Care Bears IP聯名",
+          "999黃金回收服務",
+          "My Ring Studio客製化工具"
+        ],
+        "cta_focus": "WhatsApp諮詢/Learn More",
+        "platforms": [
+          "FB",
+          "IG",
+          "WhatsApp"
+        ],
+        "key_offers": [
+          "黃金回收透明定價",
+          "Disney聯名限定款",
+          "客製化戒指設計工具"
+        ],
+        "strategy_insight": "ALUXE當前以IP聯名(Care Bears/Winnie the Pooh/Sleeping Beauty)打造情感連結,但廣告文案過長(200+字元)且CTA混亂(Learn More/WhatsApp並存)。建議:(1)簡化文案至80字元以內突出單一賣點(如'Disney聯名限量50%售罄'),(2)統一CTA為WhatsApp預約(移除Learn More分散注意力),(3)競品如Lee Hwa主打Imperial Gold工藝傳承、Love & Co強調PayLater分期0利率,ALUXE應強化'18K價格優勢+終身清潔保養'差異化賣點,避免與高價競品正面競爭。"
+      },
+      "Lee Hwa": {
+        "ad_count": 4,
+        "own": false,
+        "main_themes": [
+          "Imperial Gold工藝傳承",
+          "999純金產品",
+          "名人代言(Desmond Tan)"
+        ],
+        "cta_focus": "Visit Instagram Profile",
+        "platforms": [
+          "FB",
+          "IG"
+        ],
+        "key_offers": [
+          "古法工藝現代設計",
+          "999純金保值"
+        ],
+        "strategy_insight": "主打文化傳承與工藝稀缺性,以'centuries craftsmanship'建立高端品牌形象,目標客群偏傳統投資型買家"
+      },
+      "Love & Co": {
+        "ad_count": 5,
+        "own": false,
+        "main_themes": [
+          "0%分期付款(PayLater)",
+          "首購5%折扣",
+          "終身清潔服務"
+        ],
+        "cta_focus": "Shop Now",
+        "platforms": [
+          "FB",
+          "IG"
+        ],
+        "key_offers": [
+          "PayLater最高減$30",
+          "首購折扣碼LVC5NEW",
+          "滿$500贈禮"
+        ],
+        "strategy_insight": "強勢金融促銷(0%分期+現金回饋)降低購買門檻,搭配動態產品廣告({{product.name}})精準再行銷,適合價格敏感型年輕客群"
+      },
+      "Michael Trio": {
+        "ad_count": 17,
+        "own": false,
+        "main_themes": [
+          "14週年慶典",
+          "免費鉑金升級",
+          "客製化流程展示"
+        ],
+        "cta_focus": "Send WhatsApp/Learn More",
+        "platforms": [
+          "FB",
+          "IG",
+          "WhatsApp"
+        ],
+        "key_offers": [
+          "買2戒指免費升級鉑金",
+          "滿$2000享20%折扣",
+          "週年慶抽獎"
+        ],
+        "strategy_insight": "節慶行銷成熟(14週年多波段促銷),透過UGC內容(客戶訂製過程影片)建立信任感,搭配RM2888起超低價入門款擴大漏斗"
+      },
+      "Jannpaul": {
+        "ad_count": 30,
+        "own": false,
+        "main_themes": [
+          "White Series專利切工",
+          "實驗室培育鑽石(LGD)",
+          "Fancy彩鑽系列"
+        ],
+        "cta_focus": "Visit Instagram Profile/WhatsApp",
+        "platforms": [
+          "FB",
+          "IG"
+        ],
+        "key_offers": [
+          "141切面Round Nova切工",
+          "LGD Green/Pink彩鑽",
+          "Hearts & Arrows圖案"
+        ],
+        "strategy_insight": "技術導向行銷(137/141 facets數據化呈現),以專利切工White Series建立技術壁壘,搭配LGD環保議題吸引ESG意識客群,但廣告過度專業化(facet/pavilion術語)可能阻礙大眾理解"
+      }
+    },
+    "hot_topics": [
+      {
+        "topic": "員工服務個人化IP",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "所有品牌評論高頻出現具體員工姓名(Melody/Eugene/Jack等),建議ALUXE推出'明星顧問計畫':在官網/社交媒體展示各門市Top Sales個人故事,搭配'指定顧問預約'功能,將服務體驗人格化"
+      },
+      {
+        "topic": "客製化設計流程透明化",
+        "volume": "medium",
+        "actionable": true,
+        "suggestion": "Michael Trio/Jannpaul評論多次提及'客製化過程順暢''frequent updates',建議ALUXE開發'訂單追蹤系統'(如My Ring Studio擴展為全流程可視化),每個製作階段自動推送照片+進度更新,降低客戶焦慮"
+      },
+      {
+        "topic": "過敏友善材質(Nickel allergy)",
+        "volume": "low",
+        "actionable": true,
+        "suggestion": "ALUXE評論提及'Super wide range of choices of rings (especially for those who have Nickel allergy!)',此為差異化賣點,建議在產品頁面增設'過敏友善篩選器'並製作科普內容(鎳過敏vs 18K/鉑金選擇指南)"
+      }
+    ],
+    "gsc_insights": {
+      "top_keywords": [],
+      "opportunities": []
+    },
+    "market_trends": [
+      {
+        "keyword": "engagement ring Singapore",
+        "trend": "falling",
+        "insight": "4月5日達峰值100後持續下滑至4月19日趨近0,顯示求婚旺季(3-4月)已過高峰,5-6月將進入淡季。建議ALUXE:(1)4月底前加大'Last Call'限時促銷廣告投放,(2)5月起轉向'Wedding Band'關鍵字(婚禮旺季滯後2-3個月),(3)開發'週年紀念/情人節'等非婚戒場景內容儲備淡季流量"
+      }
+    ],
+    "actionable_top3": [
+      "立即簡化Meta廣告文案至80字元內+統一CTA為WhatsApp,測試'Disney聯名限量售罄倒數'緊迫感文案,預期CTR提升20-30%",
+      "於2週內推出'ALUXE明星顧問'官網專區,展示Melody/Christina等高評價員工個人介紹+預約連結,搭配'指定顧問享額外贈禮'激勵措施",
+      "5月1日前上線'Wedding Band'專題頁面+SEO優化(targeting'wedding band Singapore'關鍵字),搭配'求婚成功後3個月內訂購婚戒享15% off'的CRM自動化郵件,承接求婚客群轉化"
+    ],
+    "generated_at": "2026-04-19T10:53:08.132875"
+  },
+  {
     "summary": "ALUXE 在近 30 天內獲得全面正面評價（100% 五星），顧客高度讚揚 Melody、Christina、Kelly、Peggy 等員工的耐心服務與專業推薦，並強調鎳過敏友善材質與多元設計選擇。競品中 Love & Co. 與 Michael Trio 積極投放預約導向廣告（最高 50% off、免費鉑金升級），ALUXE 自家廣告則聚焦 Care Bears 聯名與 WhatsApp 導流，但缺乏明確限時優惠 hook。Google Trends 顯示 4 月初 'engagement ring Singapore' 搜尋量飆升至 100，建議立即強化 SEO 與限時促銷以搶佔婚季流量。",
     "brands": {
       "ALUXE": {
