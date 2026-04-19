@@ -1,5 +1,5 @@
 """
-ALUXE SG Sentiment Analysis Pipeline — v5.0
+ALUXE SG Sentiment Analysis Pipeline — v5.1
 修正：Sheets 工作表名稱加上 _SG 後綴
 """
 
@@ -326,8 +326,15 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
     prompt = f"""你是 ALUXE 珠寶品牌的 SG 市場行銷分析師。
 分析以下資料，輸出純 JSON（不含其他文字）：
 
+分析重點請聚焦於：
+1. 競品廣告策略：哪些品牌的廣告打法值得學習？具體是哪種訴求、格式或優惠機制？
+2. 內容行銷機會：從評論和趨勢中，找出 ALUXE 可深耕的主題或關鍵字，適合用於部落格或廣告素材
+3. 可操作的廣告／內容建議：具體到「可以做什麼」，聚焦在廣告策略和內容優化
+
+請避免建議：員工個人 IP 經營、員工故事系列、社群帳號人格化、網紅合作
+
 {{
-  "summary": "2-3句整體觀察，整合評論、廣告、GSC洞察",
+  "summary": "2-3句整體觀察，聚焦競品策略動態與 ALUXE 可學習的方向",
   "brands": {{
     "品牌名": {{
       "sentiment_score": 0.0-1.0,
@@ -351,16 +358,20 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
       "cta_focus": "主要CTA方向",
       "platforms": ["FB","IG"],
       "key_offers": ["優惠1","優惠2"],
-      "strategy_insight": "廣告策略洞察，自家品牌請給出與競品的差異化建議"
+      "strategy_insight": "廣告策略洞察：競品在打什麼、用什麼格式、主打什麼訴求，ALUXE 可以如何借鏡或差異化"
     }}
   }},
-  "hot_topics": [{{"topic":"","volume":"high/medium/low","actionable":true,"suggestion":""}}],
+  "hot_topics": [{{"topic":"","volume":"high/medium/low","actionable":true,"suggestion":"具體的廣告切角或部落格主題建議"}}],
   "gsc_insights": {{
     "top_keywords": [{{"keyword":"","clicks":0,"impressions":0,"ctr":0.0,"position":0.0}}],
-    "opportunities": [{{"keyword":"","impressions":0,"ctr":0.0,"suggestion":"建議"}}]
+    "opportunities": [{{"keyword":"","impressions":0,"ctr":0.0,"suggestion":"可寫成部落格文章或廣告素材的方向"}}]
   }},
-  "market_trends": [{{"keyword":"","trend":"rising/stable/falling","insight":"市場意義"}}],
-  "actionable_top3": ["行動1","行動2","行動3"]
+  "market_trends": [{{"keyword":"","trend":"rising/stable/falling","insight":"市場趨勢對 ALUXE 廣告或內容策略的意義"}}],
+  "actionable_top3": [
+    "🎯 本週可學習的競品廣告動作：（具體說明哪個品牌做了什麼、ALUXE 可以怎麼借鏡）",
+    "📝 內容行銷機會：（具體的部落格主題或廣告素材切角）",
+    "🔍 SEO／關鍵字機會：（從 Trends 或 GSC 找到的可優化方向）"
+  ]
 }}
 
 評論資料（近 14 天，每則含 _brand 欄位標示所屬品牌）：{json.dumps(sampled_reviews, ensure_ascii=False)}
