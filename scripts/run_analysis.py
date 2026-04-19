@@ -1,6 +1,6 @@
 """
-ALUXE SG Sentiment Analysis Pipeline — v4.7
-修正：maxReviews 30、每品牌各取 20 則送分析（共最多 100 則）
+ALUXE SG Sentiment Analysis Pipeline — v4.8
+修正：Sheets 工作表名稱加上 _SG 後綴
 """
 
 import os, json, datetime, base64, requests, time
@@ -432,11 +432,11 @@ def write_sheets(report: dict):
                      d.get("negative_pct",""), d.get("neutral_pct",""),
                      d.get("review_count",""), ", ".join(d.get("sources",[])),
                      d.get("alert") or "—"])
-    sheets_update(tok, "Dashboard", "A1", rows)
+    sheets_update(tok, "Dashboard_SG", "A1", rows)
 
     # Weekly History
     for n,d in report["brands"].items():
-        sheets_append(tok, "Weekly History", [[
+        sheets_append(tok, "Weekly History_SG", [[
             date, n, d.get("sentiment_score",""), d.get("positive_pct",""),
             d.get("negative_pct",""), d.get("neutral_pct",""), d.get("review_count",""),
             ", ".join(d.get("sources",[])), ", ".join(d.get("top_themes",[])),
@@ -444,29 +444,29 @@ def write_sheets(report: dict):
 
     # Competitor Alerts
     for a in report.get("competitor_alerts",[]):
-        sheets_append(tok, "Competitor Alerts", [[
+        sheets_append(tok, "Competitor Alerts_SG", [[
             date, a.get("brand",""), a.get("severity",""),
             a.get("issue",""), a.get("opportunity","")]])
 
     # Hot Topics
     for t in report.get("hot_topics",[]):
-        sheets_append(tok, "Hot Topics", [[
+        sheets_append(tok, "Hot Topics_SG", [[
             date, t.get("topic",""), t.get("volume",""),
             "是" if t.get("actionable") else "否", t.get("suggestion","")]])
 
     # Action Log
     for i,a in enumerate(report.get("actionable_top3",[]), 1):
-        sheets_append(tok, "Action Log", [[date, f"優先 {i}", a, "待執行"]])
+        sheets_append(tok, "Action Log_SG", [[date, f"優先 {i}", a, "待執行"]])
 
     # GSC Keywords
     for kw in report.get("gsc_insights",{}).get("top_keywords",[]):
-        sheets_append(tok, "GSC Keywords", [[
+        sheets_append(tok, "GSC Keywords_SG", [[
             date, kw.get("keyword",""), kw.get("clicks",""),
             kw.get("impressions",""), kw.get("ctr",""), kw.get("position","")]])
 
     # Competitor Ads（新增工作表）
     for brand, ad_data in report.get("competitor_ads",{}).items():
-        sheets_append(tok, "Competitor Ads", [[
+        sheets_append(tok, "Competitor Ads_SG", [[
             date, brand,
             ad_data.get("ad_count",""),
             ", ".join(ad_data.get("main_themes",[])),
