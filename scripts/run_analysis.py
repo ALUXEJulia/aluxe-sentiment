@@ -367,10 +367,24 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
     for r in reviews:
         brand_reviews[r.get("_brand", "Unknown")].append(r)
 
+    # 建立 page_name → 標準品牌名稱 的對應表
+    page_to_brand = {}
+    for p in ALL_FB_PAGES:
+        page_to_brand[p["name"].lower()] = p["name"]
+        page_to_brand[p["url"].split("/")[-1].lower()] = p["name"]
+
+    def normalize_brand(page_name):
+        key = page_name.lower()
+        for k, v in page_to_brand.items():
+            if k in key or key in k:
+                return v
+        return page_name
+
     ads_by_brand = defaultdict(list)
     ads_own = {}
     for ad in ads:
-        brand = ad.get("brand", "Unknown")
+        raw_brand = ad.get("brand", "Unknown")
+        brand = normalize_brand(raw_brand)
         ads_own[brand] = ad.get("own", False)
         ads_by_brand[brand].append({
             "title": ad.get("title", ""),
