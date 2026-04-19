@@ -1,6 +1,6 @@
 """
-ALUXE SG Sentiment Analysis Pipeline — v4.6
-修正：maxReviews 60、移除 Instagram Residential Proxy、IG wait 改 30 秒
+ALUXE SG Sentiment Analysis Pipeline — v4.7
+修正：maxReviews 30、每品牌各取 20 則送分析（共最多 100 則）
 """
 
 import os, json, datetime, base64, requests, time
@@ -145,7 +145,7 @@ def fetch_reviews() -> list:
         try:
             items = apify_run("compass~google-maps-reviews-scraper", {
                 "startUrls": [{"url": u} for u in urls],
-                "maxReviews": 60,
+                "maxReviews": 30,
                 "language": "en",
                 "reviewsSort": "newest",
             })
@@ -321,7 +321,7 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
         brand_reviews[r.get("_brand", "Unknown")].append(r)
     sampled_reviews = []
     for brand_list in brand_reviews.values():
-        sampled_reviews.extend(brand_list[:50])
+        sampled_reviews.extend(brand_list[:20])
 
     prompt = f"""你是 ALUXE 珠寶品牌的 SG 市場行銷分析師。
 分析以下資料，輸出純 JSON（不含其他文字）：
