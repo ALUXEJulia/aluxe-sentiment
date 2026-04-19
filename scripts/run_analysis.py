@@ -1,6 +1,6 @@
 """
-ALUXE SG Sentiment Analysis Pipeline — v4.2
-新增：Love & Co Maps URL、Instagram username 模式修復、資料區間標籤統一為 30 天
+ALUXE SG Sentiment Analysis Pipeline — v4.4
+新增：每品牌各取 50 則送分析（共最多 250 則）、max_tokens 12000
 """
 
 import os, json, datetime, base64, requests, time
@@ -130,14 +130,14 @@ def apify_run(actor_id: str, payload: dict, wait: int = 120) -> list:
 # ══════════════════════════════════════════════════════
 
 def fetch_reviews() -> list:
-    print("[Apify] Google Maps 評論（直接 URL，近 30 天，按品牌合併）...")
+    print("[Apify] Google Maps 評論（直接 URL，近 14 天，按品牌合併）...")
     if not GOOGLE_MAPS_URLS:
         print("  -> 無 URL，略過")
         return []
 
     # 按品牌分批抓，確保每則評論都有品牌標記
     all_reviews = []
-    cutoff = datetime.datetime.utcnow() - datetime.timedelta(days=30)
+    cutoff = datetime.datetime.utcnow() - datetime.timedelta(days=14)
 
     for brand, urls in GOOGLE_MAPS_BRAND_URLS.items():
         if not urls:
@@ -166,7 +166,7 @@ def fetch_reviews() -> list:
         except Exception as e:
             print(f"  -> {brand} 失敗：{e}")
 
-    print(f"  -> 合計 {len(all_reviews)} 筆（近 30 天）")
+    print(f"  -> 合計 {len(all_reviews)} 筆（近 14 天）")
     return all_reviews
 
 
@@ -318,6 +318,15 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
     opp_text    = json.dumps(gsc.get("opportunities", [])[:5], ensure_ascii=False) if gsc.get("opportunities") else ""
     trends_text = json.dumps(trends[:5], ensure_ascii=False) if trends else ""
 
+    # 每個品牌各取最多 10 則，避免 prompt 過長導致 JSON 截斷
+    from collections import defaultdict
+    brand_reviews = defaultdict(list)
+    for r in reviews:
+        brand_reviews[r.get("_brand", "Unknown")].append(r)
+    sampled_reviews = []
+    for brand_list in brand_reviews.values():
+        sampled_reviews.extend(brand_list[:50])
+
     prompt = f"""你是 ALUXE 珠寶品牌的 SG 市場行銷分析師。
 分析以下資料，輸出純 JSON（不含其他文字）：
 
@@ -358,7 +367,7 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
   "actionable_top3": ["行動1","行動2","行動3"]
 }}
 
-評論資料（近 30 天，每則含 _brand 欄位標示所屬品牌）：{json.dumps(reviews[:80], ensure_ascii=False)}
+評論資料（近 14 天，每則含 _brand 欄位標示所屬品牌）：{json.dumps(sampled_reviews, ensure_ascii=False)}
 
 重要：brands 欄位請以 _brand 欄位為準合併成五個品牌（ALUXE、Jannpaul、Michael Trio、Lee Hwa、Love & Co），不要拆成個別分店。
 
@@ -373,7 +382,7 @@ Google Trends SG：{trends_text}"""
         headers={"x-api-key": ANTHROPIC_API_KEY,
                  "anthropic-version": "2023-06-01",
                  "content-type": "application/json"},
-        json={"model": "claude-sonnet-4-5", "max_tokens": 6000,
+        json={"model": "claude-sonnet-4-5", "max_tokens": 12000,
               "messages": [{"role": "user", "content": prompt}]},
         timeout=180)
     r.raise_for_status()
@@ -483,7 +492,7 @@ def generate_html(report: dict):
     today = datetime.date.today()
     date_90d_start = (today - datetime.timedelta(days=90)).strftime("%Y-%m-%d")
     date_28d_start = (today - datetime.timedelta(days=28)).strftime("%Y-%m-%d")
-    date_30d_start = (today - datetime.timedelta(days=30)).strftime("%Y-%m-%d")
+    date_14d_start = (today - datetime.timedelta(days=14)).strftime("%Y-%m-%d")
 
     def ts(label): return f'<div class="ts">資料區間：{label}</div>'
 
@@ -603,7 +612,7 @@ def generate_html(report: dict):
             </div>
             <div style="font-size:12px;color:#7A7669">{t.get('insight','')}</div></div>"""
             for t in report["market_trends"])
-        trends_html += ts(f"{date_30d_start} 至 {date}（過去 30 天）")
+        trends_html += ts(f"{date_14d_start} 至 {date}（過去 14 天）")
 
     actions_html = "".join(
         f'<div class="action-item"><span class="anum">{i+1}</span><span>{a}</span></div>'
@@ -676,7 +685,7 @@ footer{{text-align:center;font-size:11px;color:#7A7669;padding:2rem;border-top:.
     </div>
     {'<div style="margin-bottom:.875rem"><div class="ads-divider-label">自家品牌</div><div style="display:grid;grid-template-columns:minmax(0,1fr);gap:8px">' + own_ads_html + '</div></div>' if own_ads_html else ''}
     {'<div><div class="ads-divider-label">競品</div><div class="ads-grid">' + comp_ads_html + '</div></div>' if comp_ads_html else '<p style="color:#7A7669;font-size:13px">無廣告資料</p>'}
-    <div class="ads-ts">資料區間：{date_30d_start} 至 {date}（過去 30 天，僅限現役廣告）· 來源：Meta 廣告資料庫</div>
+    <div class="ads-ts">資料區間：{date_14d_start} 至 {date}（過去 14 天，僅限現役廣告）· 來源：Meta 廣告資料庫</div>
   </div>
 
   <div class="summary">{report.get('summary','')}</div>
@@ -684,19 +693,19 @@ footer{{text-align:center;font-size:11px;color:#7A7669;padding:2rem;border-top:.
   <div class="sec">
     <div class="sec-label">品牌情感分析 · 自家品牌 &amp; 競品</div>
     <div class="grid">{brands_html}</div>
-    {ts(f"{date_30d_start} 至 {date}（近 30 天）· 來源：Google Maps 評論")}
+    {ts(f"{date_14d_start} 至 {date}（近 14 天）· 來源：Google Maps 評論")}
   </div>
 
   <div class="sec">
     <div class="sec-label">競品負評預警</div>
     {alerts_html}
-    {ts(f"{date_30d_start} 至 {date}（近 30 天）")}
+    {ts(f"{date_14d_start} 至 {date}（近 14 天）")}
   </div>
 
   <div class="sec">
     <div class="sec-label">熱門議題 · 可操作清單</div>
     {topics_html}
-    {ts(f"{date_30d_start} 至 {date}（近 30 天 Google Maps 評論綜合分析）")}
+    {ts(f"{date_14d_start} 至 {date}（近 14 天 Google Maps 評論綜合分析）")}
   </div>
 
   <div class="sec">
