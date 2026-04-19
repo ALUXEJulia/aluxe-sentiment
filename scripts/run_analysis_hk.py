@@ -1,6 +1,6 @@
 """
-ALUXE HK Sentiment Analysis Pipeline — v1.3
-修正：Sheets 工作表名稱統一為 _HK 後綴格式
+ALUXE HK Sentiment Analysis Pipeline — v1.5
+修正：Threads Actor 改為 apify/threads-profile-api-scraper
 品牌：ALUXE HK、iprimo、銀作白石、Diabond、Love Bird Diamond、Ragazza、Futago Bridal
 """
 
@@ -225,8 +225,9 @@ def fetch_threads_hk() -> list:
         return []
     print("[Apify] HK Threads 貼文留言...")
     try:
-        items = apify_run("apify/threads-scraper", {
+        items = apify_run("apify/threads-profile-api-scraper", {
             "usernames": THREADS_HANDLES_HK,
+            "resultsType": "posts",
             "resultsLimit": 10,
         }, wait=60)
         for item in items:
@@ -388,7 +389,7 @@ def write_sheets_hk(report: dict):
     print("[Sheets] HK 寫入中...")
     tok  = sheets_token()
     date = report["generated_at"][:10]
-    own  = [v["sentiment_score"] for k,v in report["brands"].items() if "ALUXE" in k]
+    own  = [v["sentiment_score"] for k,v in report["brands"].items() if "ALUXE" in k and v.get("sentiment_score") is not None]
     avg  = round(sum(own)/len(own), 2) if own else 0
 
     # HK Dashboard
