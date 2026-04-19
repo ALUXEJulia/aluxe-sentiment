@@ -333,16 +333,31 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
     for r in reviews:
         brand_reviews[r.get("_brand", "Unknown")].append(r)
 
+    # 建立 page_name → 標準品牌名稱 的對應表
+    page_to_brand = {}
+    for p in ALL_FB_PAGES:
+        page_to_brand[p["name"].lower()] = p["name"]
+        page_to_brand[p["url"].split("/")[-1].lower()] = p["name"]
+
+    def normalize_brand(page_name):
+        key = page_name.lower()
+        for k, v in page_to_brand.items():
+            if k in key or key in k:
+                return v
+        return page_name
+
     ads_by_brand = defaultdict(list)
     ads_own = {}
     for ad in ads:
-        brand = ad.get("brand", "Unknown")
+        raw_brand = ad.get("brand", "Unknown")
+        brand = normalize_brand(raw_brand)
         ads_own[brand] = ad.get("own", False)
         ads_by_brand[brand].append({
             "title": ad.get("title", ""),
             "body": (ad.get("body") or "")[:150],
             "cta": ad.get("cta", ""),
             "platforms": ad.get("platforms", []),
+            "start_date": ad.get("start_date", ""),
         })
     # 廣告分配：最新一半+最舊一半，總上限75則，剩餘配額補給其他品牌
     TOTAL_ADS = 75
@@ -373,6 +388,12 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
     for b in ads_by_brand:
         ads_by_brand[b] = pick_ads(ads_by_brand[b], allocated.get(b, BASE_PER_BRAND))
 
+    # Debug：確認廣告分配結果
+    total_after = sum(len(v) for v in ads_by_brand.values())
+    print(f"  [廣告分配] 分配後總數：{total_after} 則")
+    for b, alist in ads_by_brand.items():
+        print(f"    {b}：{len(alist)} 則")
+
     trends_text = json.dumps(trends[:5], ensure_ascii=False) if trends else ""
     all_brands = list(GOOGLE_MAPS_BRAND_URLS.keys())
     brand_results = {}
@@ -380,7 +401,14 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
     for brand in all_brands:
         print(f"  [Claude] 分析 {brand}...")
         b_reviews = brand_reviews.get(brand, [])[:20]
+        # 模糊匹配廣告品牌（因 page_name 可能與標準名稱略有不同）
         b_ads = ads_by_brand.get(brand, [])
+        if not b_ads:
+            for k in ads_by_brand:
+                if brand.lower() in k.lower() or k.lower() in brand.lower():
+                    b_ads = ads_by_brand[k]
+                    break
+        b_ads = b_ads[:15]  # 硬性上限，每品牌最多 15 則
         own = "ALUXE" in brand
         try:
             result = analyze_brand_hk(brand, b_reviews, b_ads, trends_text, own)
