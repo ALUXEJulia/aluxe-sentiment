@@ -1,7 +1,7 @@
 """
-ALUXE HK Sentiment Analysis Pipeline — v1.6
-修正：分析重點聚焦競品廣告策略與內容行銷機會，移除員工IP建議
-品牌：ALUXE HK、iprimo、銀作白石、Diabond、Love Bird Diamond、Ragazza、Futago Bridal
+ALUXE HK Sentiment Analysis Pipeline — v1.7
+修正：移除Diabond/Futago Bridal、修正銀座白石名稱、iprimo/銀座白石排前、每品牌10則
+品牌：ALUXE HK、iprimo、銀座白石、Love Bird Diamond、Ragazza
 """
 
 import os, json, datetime, base64, requests, time
@@ -19,10 +19,6 @@ PAGES_URL         = os.environ.get("PAGES_URL", "https://aluxejulia.github.io/al
 # ── HK 品牌設定 ───────────────────────────────────────
 
 GOOGLE_MAPS_BRAND_URLS = {
-    "ALUXE HK": [
-        "https://maps.app.goo.gl/sNfXVbvuxRgVZKnn8",
-        "https://maps.app.goo.gl/32fUqPG2BfUUpSAx6",
-    ],
     "iprimo": [
         "https://maps.app.goo.gl/zy5QPYQyxWwMTcdc9",
         "https://maps.app.goo.gl/uSLDjBvLmo72aXE1A",
@@ -30,13 +26,14 @@ GOOGLE_MAPS_BRAND_URLS = {
         "https://maps.app.goo.gl/wS3Nk4ckNd2fWwSV6",
         "https://maps.app.goo.gl/7xdWNxhdCch6T2S87",
     ],
-    "銀作白石": [
+    "銀座白石": [
         "https://maps.app.goo.gl/Y2w8R5vFt4mHpGuh8",
         "https://maps.app.goo.gl/omjj7aAB2AKXVEhv5",
         "https://maps.app.goo.gl/ktWRKb7wskvuqkGF6",
     ],
-    "Diabond": [
-        "https://maps.app.goo.gl/9ghwinLHyDJHuQ9ZA",
+    "ALUXE HK": [
+        "https://maps.app.goo.gl/sNfXVbvuxRgVZKnn8",
+        "https://maps.app.goo.gl/32fUqPG2BfUUpSAx6",
     ],
     "Love Bird Diamond": [
         "https://maps.app.goo.gl/M8SmVvgrLwoRLWBo7",
@@ -45,20 +42,15 @@ GOOGLE_MAPS_BRAND_URLS = {
     "Ragazza": [
         "https://maps.app.goo.gl/SK6EV7FBZ63JEpnd7",
     ],
-    "Futago Bridal": [
-        "https://maps.app.goo.gl/KUU8ryZWoV7nBdms7",
-    ],
 }
 
 # Meta 廣告 — FB 粉絲頁
 ALL_FB_PAGES = [
-    {"name": "ALUXE HK",        "url": "https://www.facebook.com/aluxe.hk",              "own": True},
     {"name": "iprimo",          "url": "https://www.facebook.com/iprimo.hk",             "own": False},
-    {"name": "銀作白石",         "url": "https://www.facebook.com/diamondshiraishi.hk",   "own": False},
-    {"name": "Diabond",         "url": "https://www.facebook.com/diabondhk",             "own": False},
+    {"name": "銀座白石",         "url": "https://www.facebook.com/diamondshiraishi.hk",   "own": False},
+    {"name": "ALUXE HK",        "url": "https://www.facebook.com/aluxe.hk",              "own": True},
     {"name": "Love Bird Diamond","url": "https://www.facebook.com/lovebirddiamond",       "own": False},
     {"name": "Ragazza",         "url": "https://www.facebook.com/ragazzaita",            "own": False},
-    {"name": "Futago Bridal",   "url": "https://www.facebook.com/futagobridal",          "own": False},
 ]
 
 # Instagram 帳號（待補充）
@@ -69,13 +61,11 @@ IG_HANDLES_HK = [
 
 # Threads 帳號
 THREADS_HANDLES_HK = [
-    "aluxe_hk",
     "iprimohk",
     "ginzadiamond_hk",
-    "diabondhk",
+    "aluxe_hk",
     "lovebird.diamond",
     "ragazza_diamond_official",
-    "futago_bridal_hk",
 ]
 
 TREND_KEYWORDS_HK = [
@@ -235,13 +225,11 @@ def fetch_threads_hk() -> list:
             # 從帳號對應品牌
             username = item.get("username", "")
             brand_map = {
-                "aluxe_hk": "ALUXE HK",
                 "iprimohk": "iprimo",
-                "ginzadiamond_hk": "銀作白石",
-                "diabondhk": "Diabond",
+                "ginzadiamond_hk": "銀座白石",
+                "aluxe_hk": "ALUXE HK",
                 "lovebird.diamond": "Love Bird Diamond",
                 "ragazza_diamond_official": "Ragazza",
-                "futago_bridal_hk": "Futago Bridal",
             }
             item["_brand"] = brand_map.get(username, username)
         print(f"  -> {len(items)} 則 Threads 貼文")
@@ -298,7 +286,7 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
         brand_reviews[r.get("_brand", "Unknown")].append(r)
     sampled = []
     for bl in brand_reviews.values():
-        sampled.extend(bl[:20])
+        sampled.extend(bl[:10])
 
     brand_list = "、".join(GOOGLE_MAPS_BRAND_URLS.keys())
 
@@ -349,7 +337,7 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
   ]
 }}
 
-重要：brands 欄位請合併成七個品牌（{brand_list}），不要拆成個別分店。
+重要：brands 欄位請合併成五個品牌（{brand_list}），不要拆成個別分店。
 評論資料（近 14 天）：{json.dumps(sampled, ensure_ascii=False)}
 競品 Meta 廣告資料：{ads_summary}
 Google Trends HK：{trends_text}"""
