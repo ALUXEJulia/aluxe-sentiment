@@ -374,11 +374,39 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
         ads_own[brand] = ad.get("own", False)
         ads_by_brand[brand].append({
             "title": ad.get("title", ""),
-            "body": (ad.get("body") or "")[:300],
+            "body": (ad.get("body") or "")[:150],
             "cta": ad.get("cta", ""),
             "platforms": ad.get("platforms", []),
             "start_date": ad.get("start_date", ""),
         })
+    # 廣告分配：最新一半+最舊一半，總上限75則，剩餘配額補給其他品牌
+    TOTAL_ADS = 75
+    BASE_PER_BRAND = 15
+
+    def pick_ads(ad_list, quota):
+        if not ad_list: return []
+        asc  = sorted(ad_list, key=lambda x: x.get("start_date",""))
+        desc = sorted(ad_list, key=lambda x: x.get("start_date",""), reverse=True)
+        half = quota // 2
+        newest = desc[:half]
+        oldest = asc[:quota - half]
+        seen = {id(a) for a in newest}
+        return (newest + [a for a in oldest if id(a) not in seen])[:quota]
+
+    brands_with_ads = [b for b in ads_by_brand if ads_by_brand[b]]
+    allocated = {b: min(len(ads_by_brand[b]), BASE_PER_BRAND) for b in brands_with_ads}
+    leftover  = TOTAL_ADS - sum(allocated.values())
+    while leftover > 0:
+        can_more = [b for b in brands_with_ads if len(ads_by_brand[b]) > allocated[b]]
+        if not can_more: break
+        give = max(1, leftover // len(can_more))
+        for b in can_more:
+            add = min(give, len(ads_by_brand[b]) - allocated[b], leftover)
+            allocated[b] += add
+            leftover -= add
+            if leftover == 0: break
+    for b in ads_by_brand:
+        ads_by_brand[b] = pick_ads(ads_by_brand[b], allocated.get(b, BASE_PER_BRAND))
 
     gsc_text    = json.dumps(gsc.get("keywords", [])[:10], ensure_ascii=False) if gsc.get("keywords") else ""
     opp_text    = json.dumps(gsc.get("opportunities", [])[:5], ensure_ascii=False) if gsc.get("opportunities") else ""
