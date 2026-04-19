@@ -1,0 +1,335 @@
+{
+  "summary": "近14天競品評論呈正面,以服務細心、款式多元、鑽石品質為核心優勢。Diabond與銀作白石持續通過專業講解及員工服務建立口碑,Love Bird Diamond及iprimo同樣獲得顧客滿意。廣告端,銀作白石、Diabond、Ragazza密集投放節慶優惠與產品教育內容,ALUXE則主打迪士尼聯名與My Ring Studio體驗,顯示市場競爭激烈。Lab-grown鑽石、日式服務、客製化成為三大市場趨勢。",
+  "brands": {
+    "ALUXE HK": {
+      "sentiment_score": 1.0,
+      "positive_pct": 0,
+      "negative_pct": 0,
+      "neutral_pct": 0,
+      "review_count": 0,
+      "sources": [
+        "Google Maps"
+      ],
+      "top_themes": [],
+      "alert": "過去14天無新評論數據,需加強顧客回饋收集或提升Google Maps曝光",
+      "sample_positive": null,
+      "sample_negative": null
+    },
+    "iprimo": {
+      "sentiment_score": 1.0,
+      "positive_pct": 100,
+      "negative_pct": 0,
+      "neutral_pct": 0,
+      "review_count": 1,
+      "sources": [
+        "Google Maps"
+      ],
+      "top_themes": [
+        "五星評價",
+        "無文字評論",
+        "整體評分4.5"
+      ],
+      "alert": null,
+      "sample_positive": null,
+      "sample_negative": null
+    },
+    "銀作白石": {
+      "sentiment_score": 1.0,
+      "positive_pct": 100,
+      "negative_pct": 0,
+      "neutral_pct": 0,
+      "review_count": 5,
+      "sources": [
+        "Google Maps"
+      ],
+      "top_themes": [
+        "專業細心講解",
+        "日式服務",
+        "特殊刻字服務"
+      ],
+      "alert": null,
+      "sample_positive": "Christy很細心詳細地推介對戒款式,亦就住客人的喜好介紹相近似的款式,令我們找到自己心儀的結婚對戒。",
+      "sample_negative": null
+    },
+    "Diabond": {
+      "sentiment_score": 1.0,
+      "positive_pct": 100,
+      "negative_pct": 0,
+      "neutral_pct": 0,
+      "review_count": 6,
+      "sources": [
+        "Google Maps"
+      ],
+      "top_themes": [
+        "專業服務及款待",
+        "詳細講解",
+        "Lab-grown鑽石品質"
+      ],
+      "alert": null,
+      "sample_positive": "I got a pair of 0.3ct lab-grown diamond studs in 18K white gold from Bella, and I'm really happy with them. The design is simple, elegant, and perfect for everyday wear.",
+      "sample_negative": null
+    },
+    "Love Bird Diamond": {
+      "sentiment_score": 1.0,
+      "positive_pct": 100,
+      "negative_pct": 0,
+      "neutral_pct": 0,
+      "review_count": 3,
+      "sources": [
+        "Google Maps"
+      ],
+      "top_themes": [
+        "與日本廠商聯繫",
+        "優質客服",
+        "款式選擇多"
+      ],
+      "alert": null,
+      "sample_positive": "Very keen contact with Japan manufacturers! Great CS.",
+      "sample_negative": null
+    },
+    "Ragazza": {
+      "sentiment_score": 1.0,
+      "positive_pct": 100,
+      "negative_pct": 0,
+      "neutral_pct": 0,
+      "review_count": 3,
+      "sources": [
+        "Google Maps"
+      ],
+      "top_themes": [
+        "鑽石專業講解",
+        "員工耐心服務",
+        "整體購買體驗佳"
+      ],
+      "alert": null,
+      "sample_positive": "本來對鑽石沒有任何認知,Harbour逐步講解鑽石的不同等級,再逐步協助搵合適嘅鑽石。整個購買流程體驗非常好",
+      "sample_negative": null
+    },
+    "Futago Bridal": {
+      "sentiment_score": 1.0,
+      "positive_pct": 0,
+      "negative_pct": 0,
+      "neutral_pct": 0,
+      "review_count": 0,
+      "sources": [
+        "Google Maps"
+      ],
+      "top_themes": [],
+      "alert": "過去14天無新評論數據,品牌認知度可能不足",
+      "sample_positive": null,
+      "sample_negative": null
+    }
+  },
+  "competitor_alerts": [
+    {
+      "brand": "Diabond",
+      "issue": "員工Bella與Joanne持續獲得正面點名,形成個人IP效應",
+      "severity": 3,
+      "opportunity": "ALUXE可建立顧問個人化服務標準並在社交媒體展示團隊專業形象"
+    },
+    {
+      "brand": "銀作白石",
+      "issue": "強調日文漢字刻字、Wave獨特設計等差異化服務",
+      "severity": 3,
+      "opportunity": "ALUXE可推出客製化刻字或獨家設計元素強化產品獨特性"
+    },
+    {
+      "brand": "Love Bird Diamond",
+      "issue": "強調日本製造商直接聯繫作為信任背書",
+      "severity": 2,
+      "opportunity": "ALUXE可透明化供應鏈或強化品牌故事以建立信任"
+    }
+  ],
+  "competitor_ads": {
+    "Diabond": {
+      "ad_count": 9,
+      "own": false,
+      "main_themes": [
+        "復活節折扣(低至68折)",
+        "Toi Et Moi水滴祖母綠設計",
+        "Halo光環效應教育"
+      ],
+      "cta_focus": "Shop now / Send WhatsApp message",
+      "platforms": [
+        "FB",
+        "IG"
+      ],
+      "key_offers": [
+        "復活節疊加優惠(1件8折/2件75折/3件以上更多折扣)",
+        "強調IGI證書與18K白金"
+      ],
+      "strategy_insight": "節慶促銷+產品教育雙軌策略,大量使用技術術語(Halo Effect/Elongating Shape)建立專業形象,WhatsApp CTA促成即時對話"
+    },
+    "銀作白石": {
+      "ad_count": 27,
+      "own": false,
+      "main_themes": [
+        "日本No.1品牌定位",
+        "Sarine Light Ultimate等級",
+        "Easter Fair限定禮遇"
+      ],
+      "cta_focus": "Book now預約諮詢",
+      "platforms": [
+        "FB",
+        "IG"
+      ],
+      "key_offers": [
+        "預約享$300 OFF",
+        "購買訂婚戒贈原創珠寶盒/購買對戒贈旅行戒指包",
+        "強調Diamond Journey溯源技術"
+      ],
+      "strategy_insight": "密集投放(27則廣告)顯示預算充足,主打日本製造+科技認證雙重背書,預約機制降低決策門檻,Easter Fair與新品Pure Brightness同步推廣"
+    },
+    "Futago Bridal": {
+      "ad_count": 1,
+      "own": false,
+      "main_themes": [
+        "La Primrose花語系列"
+      ],
+      "cta_focus": "Visit Instagram profile",
+      "platforms": [
+        "IG"
+      ],
+      "key_offers": [
+        "15種花融入設計,每款獨特花語"
+      ],
+      "strategy_insight": "廣告量少但聚焦IG平台,以情感化花語敘事吸引重視象徵意義的顧客"
+    },
+    "Ragazza": {
+      "ad_count": 30,
+      "own": false,
+      "main_themes": [
+        "GIA培育鑽石",
+        "天然鑽與培育鑽雙軌",
+        "Perfect Match結婚對戒"
+      ],
+      "cta_focus": "Learn more / Shop now",
+      "platforms": [
+        "FB",
+        "IG"
+      ],
+      "key_offers": [
+        "1卡培育鑽約HK$11,200-15,000",
+        "天然鑽1卡HK$38,600",
+        "強調GIA證書與18K/PT950金屬"
+      ],
+      "strategy_insight": "高廣告量(30則)顯示激進市場策略,培育鑽與天然鑽並行滿足不同預算,價格透明化建立信任,Perfect Match客製化對戒切入婚戒市場"
+    },
+    "Love Bird Diamond": {
+      "ad_count": 30,
+      "own": false,
+      "main_themes": [
+        "日本製婚戒(10+品牌)",
+        "Pickleball匹克球珠寶創新",
+        "300+款式多樣性"
+      ],
+      "cta_focus": "Shop now / Send WhatsApp message",
+      "platforms": [
+        "FB",
+        "IG"
+      ],
+      "key_offers": [
+        "Nocur特價$8,800/對",
+        "Tennis Bracelet $7,800起",
+        "培育鑽3卡戒指$13,200"
+      ],
+      "strategy_insight": "高廣告量(30則)展示產品廣度,全港首創Pickleball珠寶突破傳統品類,日本代理品牌矩陣建立選擇優勢,樓上店定位壓低價格門檻"
+    },
+    "I-PRIMO": {
+      "ad_count": 27,
+      "own": false,
+      "main_themes": [
+        "日本婚戒專門店",
+        "手型分析個人化服務",
+        "迪士尼聯名系列"
+      ],
+      "cta_focus": "Learn more預約鑑賞",
+      "platforms": [
+        "FB",
+        "IG"
+      ],
+      "key_offers": [
+        "Perfect Propose Ring求婚支援服務",
+        "黑鑽對戒/初空系列",
+        "迪士尼K.UNO設計款"
+      ],
+      "strategy_insight": "高廣告量(27則)與銀作白石競爭激烈,強調手型分析等顧問式服務差異化,迪士尼聯名擴大受眾,Perfect Propose Ring降低求婚選擇焦慮"
+    },
+    "ALUXE HK": {
+      "ad_count": 30,
+      "own": true,
+      "main_themes": [
+        "迪士尼聯名(阿拉丁/維尼/米奇等)",
+        "Care Bears聯名",
+        "My Ring Studio客製化體驗"
+      ],
+      "cta_focus": "Learn more預約諮詢",
+      "platforms": [
+        "FB",
+        "IG"
+      ],
+      "key_offers": [
+        "預約享$300折扣",
+        "下訂迪士尼戒享專屬戒盒",
+        "Care Bears首波贈聯名珠寶盒"
+      ],
+      "strategy_insight": "IP聯名矩陣建立情感連結,My Ring Studio線上+線下體驗創新,粉鑽系列切入高端市場,acredo德國工藝背書提升品牌格調,廣告量與競品持平顯示市場投入"
+    }
+  },
+  "hot_topics": [
+    {
+      "topic": "Lab-grown培育鑽石",
+      "volume": "high",
+      "actionable": true,
+      "suggestion": "Diabond/Ragazza大量推廣培育鑽且價格透明(1卡約HK$11K-15K),ALUXE可推出LOVE CREATED系列專頁強化教育內容,並設計價格對比工具突顯性價比"
+    },
+    {
+      "topic": "日式服務與日本製造",
+      "volume": "high",
+      "actionable": true,
+      "suggestion": "銀作白石/I-PRIMO/Love Bird Diamond均強調日本血統,ALUXE可透過德國acredo工藝故事或台灣品牌精神建立差異化敘事"
+    },
+    {
+      "topic": "IP聯名(迪士尼/Care Bears)",
+      "volume": "medium",
+      "actionable": true,
+      "suggestion": "ALUXE迪士尼系列已投放大量廣告,建議製作客戶故事影片(如阿拉丁求婚成功案例)增強社交證明,Care Bears可針對年輕女性推出限時快閃活動"
+    },
+    {
+      "topic": "客製化與個人化服務",
+      "volume": "medium",
+      "actionable": true,
+      "suggestion": "My Ring Studio已上線但廣告滲透率需提升,可製作「3分鐘完成夢想戒指」短影片並設置IG/FB限時動態互動遊戲增加體驗人數"
+    },
+    {
+      "topic": "節慶禮遇(Easter/情人節)",
+      "volume": "medium",
+      "actionable": true,
+      "suggestion": "競品已推Easter Fair,ALUXE可搶先佈局母親節(5月)或七夕(8月)推出限定款+預約禮,避開直接競爭期"
+    }
+  ],
+  "market_trends": [
+    {
+      "keyword": "lab grown diamond Hong Kong",
+      "trend": "stable",
+      "insight": "Google Trends無數據但廣告端Diabond/Ragazza大量投放顯示品類成長,培育鑽已從小眾走向主流"
+    },
+    {
+      "keyword": "專業講解/鑽石教育",
+      "trend": "rising",
+      "insight": "Diabond廣告大量使用Halo Effect/Elongating Shape等術語,顧客評論高度肯定員工講解能力,顯示消費者決策更依賴專業引導"
+    },
+    {
+      "keyword": "WhatsApp即時諮詢",
+      "trend": "rising",
+      "insight": "多數競品廣告CTA為WhatsApp,顯示HK市場偏好即時對話勝過表單預約,ALUXE需優化WhatsApp回應速度與話術"
+    }
+  ],
+  "actionable_top3": [
+    "立即優化My Ring Studio推廣:製作15秒IG Reels展示「選鑽→選戒台→刻字」流暢體驗,投放FB/IG廣告並設置「完成設計贈$500折扣」限時優惠,目標2週內體驗人數達500人",
+    "啟動員工個人IP計劃:學習Diabond的Bella/Joanne效應,挑選2-3位資深顧問拍攝「鑽石冷知識」系列短片於社交媒體發布,每週1則並在評論引導預約該顧問,3個月內建立專家形象",
+    "推出「培育鑽透明計劃」:參考Ragazza價格公開策略,在官網設置培育鑽vs天然鑽對比頁面(含價格/證書/環保數據),搭配「同預算升級方案」吸引預算型顧客,同步投放教育型廣告強化LOVE CREATED系列認知"
+  ],
+  "generated_at": "2026-04-19T16:50:37.957943",
+  "market": "HK"
+}
