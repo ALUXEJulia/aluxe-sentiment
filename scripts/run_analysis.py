@@ -394,8 +394,8 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
             "start_date": ad.get("start_date", ""),
         })
     # 廣告分配：最新一半+最舊一半，總上限75則，剩餘配額補給其他品牌
-    TOTAL_ADS = 75
-    BASE_PER_BRAND = 15
+    TOTAL_ADS = 40
+    BASE_PER_BRAND = 8
 
     def pick_ads(ad_list, quota):
         if not ad_list: return []
@@ -432,7 +432,7 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
 
     for brand in all_brands:
         print(f"  [Claude] 分析 {brand}...")
-        b_reviews = brand_reviews.get(brand, [])[:20]
+        b_reviews = brand_reviews.get(brand, [])[:10]
         b_ads = ads_by_brand.get(brand, [])
         own = "ALUXE" in brand
         try:
