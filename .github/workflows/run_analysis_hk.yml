@@ -5,6 +5,9 @@ on:
     - cron: '0 1 * * 1'  # 每週一 09:00 SGT (UTC+8 = UTC 01:00)
   workflow_dispatch:       # 允許手動觸發
 
+permissions:
+  contents: write
+
 jobs:
   run-hk-analysis:
     runs-on: ubuntu-latest
