@@ -1,4 +1,4 @@
-name: Run HK Sentiment Analysis
+name: ALUXE HK Weekly Sentiment Report
 
 on:
   schedule:
