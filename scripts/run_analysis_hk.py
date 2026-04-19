@@ -272,6 +272,9 @@ def claude_call_hk(prompt: str, max_tokens: int = 8192) -> dict:
         json={"model": "claude-sonnet-4-5", "max_tokens": max_tokens,
               "messages": [{"role": "user", "content": prompt}]},
         timeout=180)
+    if not r.ok:
+        print(f"  [API錯誤] status={r.status_code}, body={r.text[:500]}")
+        print(f"  [API錯誤] prompt長度={len(prompt)} 字元")
     r.raise_for_status()
     raw = r.json()["content"][0]["text"].strip()
     if raw.startswith("```"):
