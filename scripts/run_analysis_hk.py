@@ -1,6 +1,6 @@
 """
-ALUXE HK Sentiment Analysis Pipeline — v1.7
-修正：移除Diabond/Futago Bridal、修正銀座白石名稱、iprimo/銀座白石排前、每品牌10則
+ALUXE HK Sentiment Analysis Pipeline — v1.8
+新增：每品牌獨立 Claude 分析，廣告不截斷
 品牌：ALUXE HK、iprimo、銀座白石、Love Bird Diamond、Ragazza
 """
 
@@ -262,92 +262,14 @@ def fetch_trends_hk() -> list:
 # PART 4 — Claude 分析
 # ══════════════════════════════════════════════════════
 
-def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
-    print("[Claude] HK 分析中...")
-
-    ads_by_brand = {}
-    for ad in ads:
-        brand = ad.get("brand", "Unknown")
-        if brand not in ads_by_brand:
-            ads_by_brand[brand] = {"own": ad.get("own", False), "ads": []}
-        ads_by_brand[brand]["ads"].append({
-            "title": ad.get("title", ""),
-            "body": (ad.get("body") or "")[:200],
-            "cta": ad.get("cta", ""),
-            "platforms": ad.get("platforms", []),
-        })
-
-    ads_summary  = json.dumps(ads_by_brand, ensure_ascii=False)
-    trends_text  = json.dumps(trends[:5], ensure_ascii=False) if trends else ""
-
-    # 每品牌各取最新 20 則
-    brand_reviews = defaultdict(list)
-    for r in reviews:
-        brand_reviews[r.get("_brand", "Unknown")].append(r)
-    sampled = []
-    for bl in brand_reviews.values():
-        sampled.extend(bl[:10])
-
-    brand_list = "、".join(GOOGLE_MAPS_BRAND_URLS.keys())
-
-    prompt = f"""你是 ALUXE 珠寶品牌的 HK 市場行銷分析師。
-分析以下資料，輸出純 JSON（不含其他文字）：
-
-分析重點請聚焦於：
-1. 競品廣告策略：哪些品牌的廣告打法值得學習？具體是哪種訴求、格式或優惠機制？
-2. 內容行銷機會：從評論和趨勢中，找出 ALUXE HK 可深耕的主題或關鍵字，適合用於部落格或廣告素材
-3. 可操作的廣告／內容建議：具體到「可以做什麼」，聚焦在廣告策略和內容優化
-
-請避免建議：員工個人 IP 經營、員工故事系列、社群帳號人格化、網紅合作
-
-{{
-  "summary": "2-3句整體觀察，聚焦競品策略動態與 ALUXE HK 可學習的方向",
-  "brands": {{
-    "品牌名": {{
-      "sentiment_score": 0.0-1.0,
-      "positive_pct": 整數,
-      "negative_pct": 整數,
-      "neutral_pct": 整數,
-      "review_count": 整數,
-      "sources": ["Google Maps"],
-      "top_themes": ["主題1","主題2","主題3"],
-      "alert": null或"預警描述",
-      "sample_positive": "留言原文或null",
-      "sample_negative": "留言原文或null"
-    }}
-  }},
-  "competitor_alerts": [{{"brand":"","issue":"","severity":1-5,"opportunity":""}}],
-  "competitor_ads": {{
-    "品牌名": {{
-      "ad_count": 整數,
-      "own": true或false,
-      "main_themes": ["廣告主題1","廣告主題2"],
-      "cta_focus": "主要CTA方向",
-      "platforms": ["FB","IG"],
-      "key_offers": ["優惠1","優惠2"],
-      "strategy_insight": "廣告策略洞察：競品在打什麼、用什麼格式、主打什麼訴求，ALUXE HK 可以如何借鏡或差異化"
-    }}
-  }},
-  "hot_topics": [{{"topic":"","volume":"high/medium/low","actionable":true,"suggestion":"具體的廣告切角或部落格主題建議"}}],
-  "market_trends": [{{"keyword":"","trend":"rising/stable/falling","insight":"市場趨勢對 ALUXE HK 廣告或內容策略的意義"}}],
-  "actionable_top3": [
-    "🎯 本週可學習的競品廣告動作：（具體說明哪個品牌做了什麼、ALUXE HK 可以怎麼借鏡）",
-    "📝 內容行銷機會：（具體的部落格主題或廣告素材切角）",
-    "🔍 市場趨勢機會：（從 Trends 找到的 HK 市場可優化方向）"
-  ]
-}}
-
-重要：brands 欄位請合併成五個品牌（{brand_list}），不要拆成個別分店。
-評論資料（近 14 天）：{json.dumps(sampled, ensure_ascii=False)}
-競品 Meta 廣告資料：{ads_summary}
-Google Trends HK：{trends_text}"""
-
+def claude_call_hk(prompt: str, max_tokens: int = 8192) -> dict:
+    """共用 Claude API 呼叫函數"""
     r = requests.post(
         "https://api.anthropic.com/v1/messages",
         headers={"x-api-key": ANTHROPIC_API_KEY,
                  "anthropic-version": "2023-06-01",
                  "content-type": "application/json"},
-        json={"model": "claude-sonnet-4-5", "max_tokens": 8192,
+        json={"model": "claude-sonnet-4-5", "max_tokens": max_tokens,
               "messages": [{"role": "user", "content": prompt}]},
         timeout=180)
     r.raise_for_status()
@@ -356,9 +278,138 @@ Google Trends HK：{trends_text}"""
         raw = raw.split("```")[1]
         if raw.startswith("json"):
             raw = raw[4:]
-    result = json.loads(raw.strip())
-    result["generated_at"] = datetime.datetime.utcnow().isoformat()
-    result["market"] = "HK"
+    return json.loads(raw.strip())
+
+
+def analyze_brand_hk(brand: str, reviews: list, ads: list, trends_text: str, own: bool) -> dict:
+    """單一品牌深度分析（HK）"""
+    brand_ads = json.dumps(ads, ensure_ascii=False)
+    brand_reviews_text = json.dumps(reviews, ensure_ascii=False)
+    own_label = "自家品牌" if own else "競品"
+
+    prompt = f"""你是 ALUXE 珠寶品牌的 HK 市場行銷分析師。
+針對【{brand}】（{own_label}）進行深度分析，輸出純 JSON（不含其他文字）：
+
+分析重點：
+1. 廣告策略：這個品牌目前在打什麼廣告？用什麼訴求、格式、優惠機制？
+2. 顧客評論洞察：顧客最在意什麼？有什麼正面/負面主題？
+3. {"ALUXE HK 可以如何從此品牌借鏡或做出差異化？" if not own else "ALUXE HK 自身的優勢是什麼？哪些地方可以強化？"}
+
+請避免建議：員工個人IP、員工故事、社群人格化
+
+{{
+  "sentiment_score": 0.0-1.0,
+  "positive_pct": 整數,
+  "negative_pct": 整數,
+  "neutral_pct": 整數,
+  "review_count": 整數,
+  "sources": ["Google Maps"],
+  "top_themes": ["主題1","主題2","主題3"],
+  "alert": null或"預警描述",
+  "sample_positive": "留言原文或null",
+  "sample_negative": "留言原文或null",
+  "ad_count": 整數,
+  "own": {"true" if own else "false"},
+  "main_themes": ["廣告主題1","廣告主題2"],
+  "cta_focus": "主要CTA方向",
+  "platforms": ["FB","IG"],
+  "key_offers": ["優惠1","優惠2"],
+  "strategy_insight": "廣告策略洞察與{"ALUXE HK強化建議" if own else "ALUXE HK借鏡方向"}"
+}}
+
+評論資料（近14天）：{brand_reviews_text}
+廣告資料：{brand_ads}
+{"Google Trends HK：" + trends_text if trends_text and own else ""}"""
+
+    result = claude_call_hk(prompt)
+    result["brand"] = brand
+    return result
+
+
+def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
+    print("[Claude] HK 分析中（每品牌獨立分析）...")
+
+    brand_reviews = defaultdict(list)
+    for r in reviews:
+        brand_reviews[r.get("_brand", "Unknown")].append(r)
+
+    ads_by_brand = defaultdict(list)
+    ads_own = {}
+    for ad in ads:
+        brand = ad.get("brand", "Unknown")
+        ads_own[brand] = ad.get("own", False)
+        ads_by_brand[brand].append({
+            "title": ad.get("title", ""),
+            "body": (ad.get("body") or "")[:300],
+            "cta": ad.get("cta", ""),
+            "platforms": ad.get("platforms", []),
+        })
+
+    trends_text = json.dumps(trends[:5], ensure_ascii=False) if trends else ""
+    all_brands = list(GOOGLE_MAPS_BRAND_URLS.keys())
+    brand_results = {}
+
+    for brand in all_brands:
+        print(f"  [Claude] 分析 {brand}...")
+        b_reviews = brand_reviews.get(brand, [])[:20]
+        b_ads = ads_by_brand.get(brand, [])
+        own = "ALUXE" in brand
+        try:
+            result = analyze_brand_hk(brand, b_reviews, b_ads, trends_text, own)
+            brand_results[brand] = result
+        except Exception as e:
+            print(f"  [Claude] {brand} 分析失敗：{e}")
+            brand_results[brand] = {
+                "sentiment_score": 0, "positive_pct": 0, "negative_pct": 0,
+                "neutral_pct": 0, "review_count": 0, "sources": ["Google Maps"],
+                "top_themes": [], "alert": None, "sample_positive": None, "sample_negative": None,
+                "ad_count": len(b_ads), "own": own, "main_themes": [], "cta_focus": "",
+                "platforms": [], "key_offers": [], "strategy_insight": ""
+            }
+
+    # 整體摘要
+    print("  [Claude] 產出整體摘要...")
+    brand_list = "、".join(all_brands)
+    summary_data = {b: {k: v for k, v in r.items() if k in ["strategy_insight", "top_themes", "cta_focus", "key_offers", "alert"]}
+                    for b, r in brand_results.items()}
+    summary_prompt = f"""你是 ALUXE 珠寶品牌的 HK 市場行銷分析師。
+根據以下各品牌分析結果，輸出純 JSON（不含其他文字）：
+
+請避免建議：員工個人IP、員工故事、社群人格化
+
+{{
+  "summary": "2-3句整體觀察，聚焦競品策略動態與 ALUXE HK 可學習的方向",
+  "competitor_alerts": [{{"brand":"","issue":"","severity":1-5,"opportunity":""}}],
+  "hot_topics": [{{"topic":"","volume":"high/medium/low","actionable":true,"suggestion":"具體的廣告切角或部落格主題建議"}}],
+  "market_trends": [{{"keyword":"","trend":"rising/stable/falling","insight":"對 ALUXE HK 廣告或內容策略的意義"}}],
+  "actionable_top3": [
+    "🎯 本週可學習的競品廣告動作：（具體說明哪個品牌做了什麼、ALUXE HK 可以怎麼借鏡）",
+    "📝 內容行銷機會：（具體的部落格主題或廣告素材切角）",
+    "🔍 市場趨勢機會：（從 Trends 找到的 HK 市場可優化方向）"
+  ]
+}}
+
+各品牌分析摘要：{json.dumps(summary_data, ensure_ascii=False)}
+Google Trends HK：{trends_text}"""
+
+    summary_result = claude_call_hk(summary_prompt)
+
+    result = {
+        "summary": summary_result.get("summary", ""),
+        "brands": {b: {k: v for k, v in r.items() if k in [
+            "sentiment_score", "positive_pct", "negative_pct", "neutral_pct",
+            "review_count", "sources", "top_themes", "alert", "sample_positive", "sample_negative"
+        ]} for b, r in brand_results.items()},
+        "competitor_ads": {b: {k: v for k, v in r.items() if k in [
+            "ad_count", "own", "main_themes", "cta_focus", "platforms", "key_offers", "strategy_insight"
+        ]} for b, r in brand_results.items()},
+        "competitor_alerts": summary_result.get("competitor_alerts", []),
+        "hot_topics": summary_result.get("hot_topics", []),
+        "market_trends": summary_result.get("market_trends", []),
+        "actionable_top3": summary_result.get("actionable_top3", []),
+        "generated_at": datetime.datetime.utcnow().isoformat(),
+        "market": "HK"
+    }
     print("[Claude] HK 完成")
     return result
 

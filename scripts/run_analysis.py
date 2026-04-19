@@ -1,5 +1,5 @@
 """
-ALUXE SG Sentiment Analysis Pipeline — v5.1
+ALUXE SG Sentiment Analysis Pipeline — v5.2
 修正：Sheets 工作表名稱加上 _SG 後綴
 """
 
@@ -292,104 +292,14 @@ def fetch_trends() -> list:
 # PART 4 — Claude 分析
 # ══════════════════════════════════════════════════════
 
-def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
-    print("[Claude] 分析中...")
-
-    # 廣告摘要
-    ads_by_brand = {}
-    for ad in ads:
-        brand = ad.get("brand", "Unknown")
-        if brand not in ads_by_brand:
-            ads_by_brand[brand] = {"own": ad.get("own", False), "ads": []}
-        ads_by_brand[brand]["ads"].append({
-            "title": ad.get("title", ""),
-            "body": (ad.get("body") or "")[:200],
-            "cta": ad.get("cta", ""),
-            "platforms": ad.get("platforms", []),
-            "start_date": ad.get("start_date", ""),
-        })
-
-    ads_summary = json.dumps(ads_by_brand, ensure_ascii=False)
-    gsc_text    = json.dumps(gsc.get("keywords", [])[:10], ensure_ascii=False) if gsc.get("keywords") else ""
-    opp_text    = json.dumps(gsc.get("opportunities", [])[:5], ensure_ascii=False) if gsc.get("opportunities") else ""
-    trends_text = json.dumps(trends[:5], ensure_ascii=False) if trends else ""
-
-    # 每個品牌各取最多 10 則，避免 prompt 過長導致 JSON 截斷
-    from collections import defaultdict
-    brand_reviews = defaultdict(list)
-    for r in reviews:
-        brand_reviews[r.get("_brand", "Unknown")].append(r)
-    sampled_reviews = []
-    for brand_list in brand_reviews.values():
-        sampled_reviews.extend(brand_list[:20])
-
-    prompt = f"""你是 ALUXE 珠寶品牌的 SG 市場行銷分析師。
-分析以下資料，輸出純 JSON（不含其他文字）：
-
-分析重點請聚焦於：
-1. 競品廣告策略：哪些品牌的廣告打法值得學習？具體是哪種訴求、格式或優惠機制？
-2. 內容行銷機會：從評論和趨勢中，找出 ALUXE 可深耕的主題或關鍵字，適合用於部落格或廣告素材
-3. 可操作的廣告／內容建議：具體到「可以做什麼」，聚焦在廣告策略和內容優化
-
-請避免建議：員工個人 IP 經營、員工故事系列、社群帳號人格化、網紅合作
-
-{{
-  "summary": "2-3句整體觀察，聚焦競品策略動態與 ALUXE 可學習的方向",
-  "brands": {{
-    "品牌名": {{
-      "sentiment_score": 0.0-1.0,
-      "positive_pct": 整數,
-      "negative_pct": 整數,
-      "neutral_pct": 整數,
-      "review_count": 整數,
-      "sources": ["Google Maps"],
-      "top_themes": ["主題1","主題2","主題3"],
-      "alert": null或"預警描述",
-      "sample_positive": "留言原文或null",
-      "sample_negative": "留言原文或null"
-    }}
-  }},
-  "competitor_alerts": [{{"brand":"","issue":"","severity":1-5,"opportunity":""}}],
-  "competitor_ads": {{
-    "品牌名": {{
-      "ad_count": 整數,
-      "own": true或false,
-      "main_themes": ["廣告主題1","廣告主題2"],
-      "cta_focus": "主要CTA方向",
-      "platforms": ["FB","IG"],
-      "key_offers": ["優惠1","優惠2"],
-      "strategy_insight": "廣告策略洞察：競品在打什麼、用什麼格式、主打什麼訴求，ALUXE 可以如何借鏡或差異化"
-    }}
-  }},
-  "hot_topics": [{{"topic":"","volume":"high/medium/low","actionable":true,"suggestion":"具體的廣告切角或部落格主題建議"}}],
-  "gsc_insights": {{
-    "top_keywords": [{{"keyword":"","clicks":0,"impressions":0,"ctr":0.0,"position":0.0}}],
-    "opportunities": [{{"keyword":"","impressions":0,"ctr":0.0,"suggestion":"可寫成部落格文章或廣告素材的方向"}}]
-  }},
-  "market_trends": [{{"keyword":"","trend":"rising/stable/falling","insight":"市場趨勢對 ALUXE 廣告或內容策略的意義"}}],
-  "actionable_top3": [
-    "🎯 本週可學習的競品廣告動作：（具體說明哪個品牌做了什麼、ALUXE 可以怎麼借鏡）",
-    "📝 內容行銷機會：（具體的部落格主題或廣告素材切角）",
-    "🔍 SEO／關鍵字機會：（從 Trends 或 GSC 找到的可優化方向）"
-  ]
-}}
-
-評論資料（近 14 天，每則含 _brand 欄位標示所屬品牌）：{json.dumps(sampled_reviews, ensure_ascii=False)}
-
-重要：brands 欄位請以 _brand 欄位為準合併成五個品牌（ALUXE、Jannpaul、Michael Trio、Lee Hwa、Love & Co），不要拆成個別分店。
-
-競品 Meta 廣告資料：{ads_summary}
-
-GSC 關鍵字：{gsc_text}
-SEO 機會點：{opp_text}
-Google Trends SG：{trends_text}"""
-
+def claude_call(prompt: str, max_tokens: int = 8192) -> dict:
+    """共用 Claude API 呼叫函數"""
     r = requests.post(
         "https://api.anthropic.com/v1/messages",
         headers={"x-api-key": ANTHROPIC_API_KEY,
                  "anthropic-version": "2023-06-01",
                  "content-type": "application/json"},
-        json={"model": "claude-sonnet-4-5", "max_tokens": 12000,
+        json={"model": "claude-sonnet-4-5", "max_tokens": max_tokens,
               "messages": [{"role": "user", "content": prompt}]},
         timeout=180)
     r.raise_for_status()
@@ -398,9 +308,154 @@ Google Trends SG：{trends_text}"""
         raw = raw.split("```")[1]
         if raw.startswith("json"):
             raw = raw[4:]
-    result = json.loads(raw.strip())
-    result["generated_at"] = datetime.datetime.utcnow().isoformat()
-    print("[Claude] 完成")
+    return json.loads(raw.strip())
+
+
+def analyze_brand_sg(brand: str, reviews: list, ads: list, gsc_text: str, opp_text: str, trends_text: str, own: bool) -> dict:
+    """單一品牌深度分析"""
+    brand_ads = json.dumps(ads, ensure_ascii=False)
+    brand_reviews_text = json.dumps(reviews, ensure_ascii=False)
+    own_label = "自家品牌" if own else "競品"
+
+    prompt = f"""你是 ALUXE 珠寶品牌的 SG 市場行銷分析師。
+針對【{brand}】（{own_label}）進行深度分析，輸出純 JSON（不含其他文字）：
+
+分析重點：
+1. 廣告策略：這個品牌目前在打什麼廣告？用什麼訴求、格式、優惠機制？
+2. 顧客評論洞察：顧客最在意什麼？有什麼正面/負面主題？
+3. {"ALUXE 可以如何從此品牌借鏡或做出差異化？" if not own else "ALUXE 自身的優勢是什麼？哪些地方可以強化？"}
+
+請避免建議：員工個人IP、員工故事、社群人格化
+
+{{
+  "sentiment_score": 0.0-1.0,
+  "positive_pct": 整數,
+  "negative_pct": 整數,
+  "neutral_pct": 整數,
+  "review_count": 整數,
+  "sources": ["Google Maps"],
+  "top_themes": ["主題1","主題2","主題3"],
+  "alert": null或"預警描述",
+  "sample_positive": "留言原文或null",
+  "sample_negative": "留言原文或null",
+  "ad_count": 整數,
+  "own": {"true" if own else "false"},
+  "main_themes": ["廣告主題1","廣告主題2"],
+  "cta_focus": "主要CTA方向",
+  "platforms": ["FB","IG"],
+  "key_offers": ["優惠1","優惠2"],
+  "strategy_insight": "廣告策略洞察與{"ALUXE強化建議" if own else "ALUXE借鏡方向"}"
+}}
+
+評論資料（近14天）：{brand_reviews_text}
+廣告資料：{brand_ads}
+{"GSC關鍵字：" + gsc_text if gsc_text and own else ""}
+{"SEO機會：" + opp_text if opp_text and own else ""}
+{"Google Trends SG：" + trends_text if trends_text and own else ""}"""
+
+    result = claude_call(prompt)
+    result["brand"] = brand
+    return result
+
+
+def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
+    print("[Claude] 分析中（每品牌獨立分析）...")
+
+    # 整理資料
+    from collections import defaultdict
+    brand_reviews = defaultdict(list)
+    for r in reviews:
+        brand_reviews[r.get("_brand", "Unknown")].append(r)
+
+    ads_by_brand = defaultdict(list)
+    ads_own = {}
+    for ad in ads:
+        brand = ad.get("brand", "Unknown")
+        ads_own[brand] = ad.get("own", False)
+        ads_by_brand[brand].append({
+            "title": ad.get("title", ""),
+            "body": (ad.get("body") or "")[:300],
+            "cta": ad.get("cta", ""),
+            "platforms": ad.get("platforms", []),
+            "start_date": ad.get("start_date", ""),
+        })
+
+    gsc_text    = json.dumps(gsc.get("keywords", [])[:10], ensure_ascii=False) if gsc.get("keywords") else ""
+    opp_text    = json.dumps(gsc.get("opportunities", [])[:5], ensure_ascii=False) if gsc.get("opportunities") else ""
+    trends_text = json.dumps(trends[:5], ensure_ascii=False) if trends else ""
+
+    # 所有品牌清單
+    all_brands = ["ALUXE", "Jannpaul", "Michael Trio", "Lee Hwa", "Love & Co"]
+    brand_results = {}
+
+    for brand in all_brands:
+        print(f"  [Claude] 分析 {brand}...")
+        b_reviews = brand_reviews.get(brand, [])[:20]
+        b_ads = ads_by_brand.get(brand, [])
+        own = "ALUXE" in brand
+        try:
+            result = analyze_brand_sg(brand, b_reviews, b_ads, gsc_text, opp_text, trends_text, own)
+            brand_results[brand] = result
+        except Exception as e:
+            print(f"  [Claude] {brand} 分析失敗：{e}")
+            brand_results[brand] = {
+                "sentiment_score": 0, "positive_pct": 0, "negative_pct": 0,
+                "neutral_pct": 0, "review_count": 0, "sources": ["Google Maps"],
+                "top_themes": [], "alert": None, "sample_positive": None, "sample_negative": None,
+                "ad_count": len(b_ads), "own": own, "main_themes": [], "cta_focus": "",
+                "platforms": [], "key_offers": [], "strategy_insight": ""
+            }
+
+    # 整體摘要 + actionable_top3
+    print("  [Claude] 產出整體摘要...")
+    summary_data = {b: {k: v for k, v in r.items() if k in ["strategy_insight", "top_themes", "cta_focus", "key_offers", "alert"]}
+                    for b, r in brand_results.items()}
+    summary_prompt = f"""你是 ALUXE 珠寶品牌的 SG 市場行銷分析師。
+根據以下各品牌分析結果，輸出純 JSON（不含其他文字）：
+
+請避免建議：員工個人IP、員工故事、社群人格化
+
+{{
+  "summary": "2-3句整體觀察，聚焦競品策略動態與 ALUXE 可學習的方向",
+  "competitor_alerts": [{{"brand":"","issue":"","severity":1-5,"opportunity":""}}],
+  "hot_topics": [{{"topic":"","volume":"high/medium/low","actionable":true,"suggestion":"具體的廣告切角或部落格主題建議"}}],
+  "gsc_insights": {{
+    "top_keywords": [{{"keyword":"","clicks":0,"impressions":0,"ctr":0.0,"position":0.0}}],
+    "opportunities": [{{"keyword":"","impressions":0,"ctr":0.0,"suggestion":"可寫成部落格文章或廣告素材的方向"}}]
+  }},
+  "market_trends": [{{"keyword":"","trend":"rising/stable/falling","insight":"對 ALUXE 廣告或內容策略的意義"}}],
+  "actionable_top3": [
+    "🎯 本週可學習的競品廣告動作：（具體說明哪個品牌做了什麼、ALUXE 可以怎麼借鏡）",
+    "📝 內容行銷機會：（具體的部落格主題或廣告素材切角）",
+    "🔍 SEO／關鍵字機會：（從 Trends 或 GSC 找到的可優化方向）"
+  ]
+}}
+
+各品牌分析摘要：{json.dumps(summary_data, ensure_ascii=False)}
+GSC關鍵字：{gsc_text}
+SEO機會：{opp_text}
+Google Trends SG：{trends_text}"""
+
+    summary_result = claude_call(summary_prompt)
+
+    # 合併結果
+    result = {
+        "summary": summary_result.get("summary", ""),
+        "brands": {b: {k: v for k, v in r.items() if k in [
+            "sentiment_score", "positive_pct", "negative_pct", "neutral_pct",
+            "review_count", "sources", "top_themes", "alert", "sample_positive", "sample_negative"
+        ]} for b, r in brand_results.items()},
+        "competitor_ads": {b: {k: v for k, v in r.items() if k in [
+            "ad_count", "own", "main_themes", "cta_focus", "platforms", "key_offers", "strategy_insight"
+        ]} for b, r in brand_results.items()},
+        "competitor_alerts": summary_result.get("competitor_alerts", []),
+        "hot_topics": summary_result.get("hot_topics", []),
+        "gsc_insights": summary_result.get("gsc_insights", {"top_keywords": [], "opportunities": []}),
+        "market_trends": summary_result.get("market_trends", []),
+        "actionable_top3": summary_result.get("actionable_top3", []),
+        "generated_at": datetime.datetime.utcnow().isoformat(),
+    }
+    print("[Claude] SG 完成")
     return result
 
 
