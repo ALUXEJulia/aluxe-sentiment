@@ -145,7 +145,7 @@ def fetch_reviews() -> list:
         try:
             items = apify_run("compass~google-maps-reviews-scraper", {
                 "startUrls": [{"url": u} for u in urls],
-                "maxReviews": 20,
+                "maxReviews": 100,
                 "language": "en",
                 "reviewsSort": "newest",
             })
