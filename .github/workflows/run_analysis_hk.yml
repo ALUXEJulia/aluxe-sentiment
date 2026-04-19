@@ -1,0 +1,42 @@
+name: Run HK Sentiment Analysis
+
+on:
+  schedule:
+    - cron: '0 1 * * 1'  # 每週一 09:00 SGT (UTC+8 = UTC 01:00)
+  workflow_dispatch:       # 允許手動觸發
+
+jobs:
+  run-hk-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests cryptography
+
+      - name: Run HK sentiment analysis
+        env:
+          APIFY_TOKEN:            ${{ secrets.APIFY_TOKEN }}
+          ANTHROPIC_API_KEY:      ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN:     ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:       ${{ secrets.TELEGRAM_CHAT_ID }}
+          GOOGLE_SHEETS_ID:       ${{ secrets.GOOGLE_SHEETS_ID }}
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          PAGES_URL:              ${{ secrets.PAGES_URL }}
+        run: python scripts/run_analysis_hk.py
+
+      - name: Commit updated HK dashboard
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/hk_latest.json docs/hk_history.json
+          git diff --cached --quiet || git commit -m "chore: update HK dashboard $(date -u +%Y-%m-%d)"
+          git push
