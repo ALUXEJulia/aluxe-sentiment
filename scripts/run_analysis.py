@@ -1,6 +1,6 @@
 """
-ALUXE SG Sentiment Analysis Pipeline — v4.4
-新增：每品牌各取 50 則送分析（共最多 250 則）、max_tokens 12000
+ALUXE SG Sentiment Analysis Pipeline — v4.6
+修正：maxReviews 60、移除 Instagram Residential Proxy、IG wait 改 30 秒
 """
 
 import os, json, datetime, base64, requests, time
@@ -145,7 +145,7 @@ def fetch_reviews() -> list:
         try:
             items = apify_run("compass~google-maps-reviews-scraper", {
                 "startUrls": [{"url": u} for u in urls],
-                "maxReviews": 100,
+                "maxReviews": 60,
                 "language": "en",
                 "reviewsSort": "newest",
             })
@@ -177,11 +177,7 @@ def fetch_instagram() -> list:
         comments = apify_run("apify/instagram-comment-scraper", {
             "directUrls": [f"https://www.instagram.com/{h}/" for h in IG_HANDLES],
             "resultsLimit": 20,
-            "proxy": {
-                "useApifyProxy": True,
-                "apifyProxyGroups": ["RESIDENTIAL"],
-            },
-        }, wait=90)
+        }, wait=30)
 
         for c in comments:
             c["_source"] = "Instagram"
