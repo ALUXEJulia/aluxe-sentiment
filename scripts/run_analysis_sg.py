@@ -222,6 +222,7 @@ def fetch_meta_ads() -> list:
                 "ad_library_url": ad.get("ad_library_url", ""),
                 "own": own_flag,
                 "_source": "Meta Ads Library",
+                "_raw_ad": ad,
             })
 
         print(f"  -> {len(result)} 則廣告")
@@ -661,7 +662,8 @@ def save_raw_googlemaps(tok, reviews, market):
 
 
 def save_raw_metaads(tok, ads, market):
-    """把 Meta 廣告寫入 Raw Data_MetaAds 分頁（去重後）。"""
+    """把 Meta 廣告寫入 Raw Data_MetaAds 分頁（去重後）。
+    讀取 _raw_ad 欄位（原始 Apify 資料），再從中提取欄位。"""
     print(f"[Raw Data] MetaAds {market} writing...")
     if not ads:
         print(f"  -> no ads data, skip")
@@ -674,28 +676,34 @@ def save_raw_metaads(tok, ads, market):
                  for p in ALL_FB_PAGES}
     new_rows = []
     skipped = 0
+    no_raw = 0
     for ad in ads:
-        ad_id = str(ad.get("ad_archive_id", ""))
+        # 從 _raw_ad 拿原始資料；若沒有則 fallback 用外層
+        raw = ad.get("_raw_ad")
+        if raw is None:
+            no_raw += 1
+            continue
+        ad_id = str(raw.get("ad_archive_id", ""))
         if not ad_id:
             continue
         if ad_id in existing_ids:
             skipped += 1
             continue
-        snap = ad.get("snapshot", {}) or {}
+        snap = raw.get("snapshot", {}) or {}
         body = snap.get("body", {})
         body_text = body.get("text", "") if isinstance(body, dict) else str(body or "")
-        platforms = ad.get("publisher_platform", [])
+        platforms = raw.get("publisher_platform", [])
         platforms_str = ", ".join(platforms) if isinstance(platforms, list) else str(platforms)
-        page_name = snap.get("page_name", ad.get("page_name", ""))
+        page_name = raw.get("page_name", snap.get("page_name", ""))
         info = page_info.get(page_name, {"brand": page_name, "is_own": False})
         row = [
             scrape_date, week, market, info["brand"], info["is_own"],
             ad_id, page_name, snap.get("title", ""), body_text,
             snap.get("cta_text", ""), snap.get("link_description", ""),
-            snap.get("display_format", ""), ad.get("start_date_formatted", ""),
-            ad.get("end_date_formatted", ""), ad.get("is_active", ""),
-            platforms_str, ad.get("ad_library_url", ""),
-            json.dumps(ad, ensure_ascii=False),
+            snap.get("display_format", ""), raw.get("start_date_formatted", ""),
+            raw.get("end_date_formatted", ""), raw.get("is_active", ""),
+            platforms_str, raw.get("ad_library_url", ""),
+            json.dumps(raw, ensure_ascii=False),
         ]
         new_rows.append(row)
         existing_ids.add(ad_id)
@@ -704,9 +712,9 @@ def save_raw_metaads(tok, ads, market):
         for i in range(0, len(new_rows), batch_size):
             batch = new_rows[i:i + batch_size]
             sheets_append(tok, "Raw Data_MetaAds", batch)
-        print(f"  -> wrote {len(new_rows)} new ads (skipped {skipped} duplicates)")
+        print(f"  -> wrote {len(new_rows)} new ads (skipped {skipped} duplicates, {no_raw} no _raw_ad)")
     else:
-        print(f"  -> no new ads ({skipped} duplicates)")
+        print(f"  -> no new ads ({skipped} duplicates, {no_raw} no _raw_ad)")
 
 
 # ══════════════════════════════════════════════════════

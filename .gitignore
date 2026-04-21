@@ -1,0 +1,29 @@
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+
+# Environment variables / secrets
+.env
+*.env.local
+credentials.env
+
+# Backup files
+*.bak
+*.bak2
+*.bak3
+*.backup-*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
