@@ -565,6 +565,125 @@ def save_json_hk(report: dict):
     print("[JSON] HK 完成")
 
 
+
+
+# ══════════════════════════════════════════════════════
+# PART 5.5 — Raw Data 儲存（新增）
+# ══════════════════════════════════════════════════════
+
+def get_iso_week(d=None):
+    """回傳 ISO 週次字串，例如 '2026-W17'"""
+    if d is None:
+        d = datetime.date.today()
+    year, week, _ = d.isocalendar()
+    return f"{year}-W{week:02d}"
+
+
+def sheets_read_column(tok, sheet, col, start_row=2, limit=5000):
+    """讀取指定分頁某一欄的值，用來去重比對。"""
+    rng = f"{sheet}!{col}{start_row}:{col}"
+    try:
+        r = requests.get(
+            f"https://sheets.googleapis.com/v4/spreadsheets/{SHEETS_ID}/values/{rng}",
+            headers={"Authorization": f"Bearer {tok}"},
+            timeout=30,
+        )
+        r.raise_for_status()
+        values = r.json().get("values", [])
+        flat = [row[0] for row in values if row and row[0]]
+        return flat[-limit:] if len(flat) > limit else flat
+    except Exception as e:
+        print(f"  [Raw Data] read column failed: {e}")
+        return []
+
+
+def save_raw_googlemaps(tok, reviews, market):
+    """把 Google Maps 評論寫入 Raw Data_GoogleMaps 分頁（去重後）。"""
+    print(f"[Raw Data] GoogleMaps {market} writing...")
+    gm_reviews = [r for r in reviews if r.get("_source") == "Google Maps"]
+    if not gm_reviews:
+        print(f"  -> no Google Maps data, skip")
+        return
+    existing_urls = set(sheets_read_column(tok, "Raw Data_GoogleMaps", "I", limit=5000))
+    print(f"  -> existing review_url: {len(existing_urls)} rows")
+    scrape_date = datetime.date.today().isoformat()
+    week = get_iso_week()
+    new_rows = []
+    skipped = 0
+    for r in gm_reviews:
+        review_url = r.get("reviewUrl", "")
+        if not review_url:
+            continue
+        if review_url in existing_urls:
+            skipped += 1
+            continue
+        row = [
+            scrape_date, week, market, r.get("_brand", ""),
+            r.get("title", ""), r.get("name", ""), r.get("stars", ""),
+            r.get("text", ""), review_url, r.get("url", ""),
+            json.dumps(r, ensure_ascii=False),
+        ]
+        new_rows.append(row)
+        existing_urls.add(review_url)
+    if new_rows:
+        batch_size = 500
+        for i in range(0, len(new_rows), batch_size):
+            batch = new_rows[i:i + batch_size]
+            sheets_append(tok, "Raw Data_GoogleMaps", batch)
+        print(f"  -> wrote {len(new_rows)} new reviews (skipped {skipped} duplicates)")
+    else:
+        print(f"  -> no new reviews ({skipped} duplicates)")
+
+
+def save_raw_metaads(tok, ads, market):
+    """把 Meta 廣告寫入 Raw Data_MetaAds 分頁（去重後）。"""
+    print(f"[Raw Data] MetaAds {market} writing...")
+    if not ads:
+        print(f"  -> no ads data, skip")
+        return
+    existing_ids = set(sheets_read_column(tok, "Raw Data_MetaAds", "F", limit=5000))
+    print(f"  -> existing ad_id: {len(existing_ids)} rows")
+    scrape_date = datetime.date.today().isoformat()
+    week = get_iso_week()
+    page_info = {p["name"]: {"brand": p["name"], "is_own": p.get("own", False)}
+                 for p in ALL_FB_PAGES}
+    new_rows = []
+    skipped = 0
+    for ad in ads:
+        ad_id = str(ad.get("ad_archive_id", ""))
+        if not ad_id:
+            continue
+        if ad_id in existing_ids:
+            skipped += 1
+            continue
+        snap = ad.get("snapshot", {}) or {}
+        body = snap.get("body", {})
+        body_text = body.get("text", "") if isinstance(body, dict) else str(body or "")
+        platforms = ad.get("publisher_platform", [])
+        platforms_str = ", ".join(platforms) if isinstance(platforms, list) else str(platforms)
+        page_name = snap.get("page_name", ad.get("page_name", ""))
+        info = page_info.get(page_name, {"brand": page_name, "is_own": False})
+        row = [
+            scrape_date, week, market, info["brand"], info["is_own"],
+            ad_id, page_name, snap.get("title", ""), body_text,
+            snap.get("cta_text", ""), snap.get("link_description", ""),
+            snap.get("display_format", ""), ad.get("start_date_formatted", ""),
+            ad.get("end_date_formatted", ""), ad.get("is_active", ""),
+            platforms_str, ad.get("ad_library_url", ""),
+            json.dumps(ad, ensure_ascii=False),
+        ]
+        new_rows.append(row)
+        existing_ids.add(ad_id)
+    if new_rows:
+        batch_size = 500
+        for i in range(0, len(new_rows), batch_size):
+            batch = new_rows[i:i + batch_size]
+            sheets_append(tok, "Raw Data_MetaAds", batch)
+        print(f"  -> wrote {len(new_rows)} new ads (skipped {skipped} duplicates)")
+    else:
+        print(f"  -> no new ads ({skipped} duplicates)")
+
+
 # ══════════════════════════════════════════════════════
 # PART 7 — Telegram
 # ══════════════════════════════════════════════════════
@@ -609,6 +728,12 @@ def main():
     trends  = fetch_trends_hk()
 
     all_reviews = reviews + threads
+
+    # ★ 新增：保存 Raw Data（在分析之前先存，避免分析失敗就沒資料）
+    raw_tok = sheets_token()
+    save_raw_googlemaps(raw_tok, reviews, market="HK")
+    save_raw_metaads(raw_tok, ads, market="HK")
+
     report  = analyze_hk(all_reviews, ads, trends)
 
     save_json_hk(report)
