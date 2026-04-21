@@ -3,7 +3,7 @@ ALUXE SG Sentiment Analysis Pipeline — v5.2
 修正：Sheets 工作表名稱加上 _SG 後綴
 """
 
-import os, json, datetime, base64, requests, time
+import os, json, datetime, base64, requests, time, sys
 from pathlib import Path
 
 APIFY_TOKEN       = os.environ["APIFY_TOKEN"]
@@ -457,6 +457,9 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
             # 用真實總數覆蓋 Claude 看到的樣本數
             result["ad_count"] = total_counts.get(brand, len(b_ads))
             brand_results[brand] = result
+            # 避免 rate limit：每個品牌呼叫之間 sleep 60 秒
+            print(f"  [Sleep] 60 秒避免 rate limit...")
+            time.sleep(60)
         except Exception as e:
             print(f"  [Claude] {brand} 分析失敗：{e}")
             brand_results[brand] = {
@@ -497,6 +500,9 @@ GSC關鍵字：{gsc_text}
 SEO機會：{opp_text}
 Google Trends SG：{trends_text}"""
 
+    # 避免 rate limit：summary 之前也 sleep 60 秒
+    print(f"  [Sleep] 60 秒避免 rate limit...")
+    time.sleep(60)
     summary_result = claude_call(summary_prompt)
 
     # 合併結果
@@ -812,6 +818,31 @@ def send_telegram(report: dict):
     print("[Telegram] 完成")
 
 
+def send_failure_telegram(failures: list, successes: list, market: str = "SG"):
+    """發送失敗通知"""
+    date = datetime.date.today().isoformat()
+    workflow_url = "https://github.com/ALUXEJulia/aluxe-sentiment/actions"
+
+    fail_lines = "\n".join(f"· {f}" for f in failures) if failures else "（無）"
+    success_lines = "\n".join(f"· {s}" for s in successes) if successes else "（無）"
+
+    msg = (
+        f"⚠️ ALUXE {market} 輿情週報執行異常 · {date}\n\n"
+        f"失敗項目：\n{fail_lines}\n\n"
+        f"仍然成功：\n{success_lines}\n\n"
+        f"工作流：{workflow_url}"
+    )
+
+    try:
+        requests.post(
+            f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+            json={"chat_id": TELEGRAM_CHAT_ID, "text": msg}, timeout=30,
+        ).raise_for_status()
+        print("[Telegram] 失敗通知已發送")
+    except Exception as e:
+        print(f"[Telegram] 失敗通知發送失敗：{e}")
+
+
 # ══════════════════════════════════════════════════════
 # PART 8 — 存檔
 # ══════════════════════════════════════════════════════
@@ -834,6 +865,9 @@ def main():
     print(f"  ALUXE SG Sentiment v4  —  {datetime.date.today()}")
     print(f"{'='*52}\n")
 
+    failures = []
+    successes = []
+
     reviews = fetch_reviews()
     ig      = fetch_instagram()
     ads     = fetch_meta_ads()
@@ -842,19 +876,56 @@ def main():
 
     all_reviews = reviews + ig
 
-    # ★ 新增：保存 Raw Data（在分析之前先存，避免分析失敗就沒資料）
-    raw_tok = sheets_token()
-    save_raw_googlemaps(raw_tok, reviews, market="SG")
-    save_raw_metaads(raw_tok, ads, market="SG")
+    # ★ 保存 Raw Data（在分析之前先存）
+    try:
+        raw_tok = sheets_token()
+        save_raw_googlemaps(raw_tok, reviews, market="SG")
+        save_raw_metaads(raw_tok, ads, market="SG")
+        successes.append(f"Raw Data 保存（GoogleMaps {len(reviews)} 筆 + MetaAds {len(ads)} 筆）")
+    except Exception as e:
+        failures.append(f"Raw Data 保存失敗：{type(e).__name__}: {str(e)[:100]}")
+        print(f"[Raw Data] 失敗：{e}")
 
-    report  = analyze(all_reviews, ads, gsc, trends)
+    # 分析（這裡如果失敗，後面 save_json 等都不會執行）
+    try:
+        report = analyze(all_reviews, ads, gsc, trends)
+        successes.append(f"Claude 分析（{len(report.get('brands', {}))} 個品牌）")
+    except Exception as e:
+        failures.append(f"Claude 分析嚴重失敗：{type(e).__name__}: {str(e)[:100]}")
+        print(f"[Claude] 嚴重失敗：{e}")
+        send_failure_telegram(failures, successes, market="SG")
+        sys.exit(1)
 
-    save_json(report)
-    generate_html(report)
-    write_sheets(report)
-    send_telegram(report)
+    # 後續輸出
+    try:
+        save_json(report)
+        successes.append("JSON 存檔")
+    except Exception as e:
+        failures.append(f"JSON 存檔失敗：{type(e).__name__}")
 
-    print(f"\n✅ 完成")
+    try:
+        generate_html(report)
+        successes.append("Dashboard config 更新")
+    except Exception as e:
+        failures.append(f"Dashboard config 失敗：{type(e).__name__}")
+
+    try:
+        write_sheets(report)
+        successes.append("Sheets 寫入（7 個分頁）")
+    except Exception as e:
+        failures.append(f"Sheets 寫入失敗：{type(e).__name__}: {str(e)[:100]}")
+
+    try:
+        send_telegram(report)
+        successes.append("Telegram 週報發送")
+    except Exception as e:
+        failures.append(f"Telegram 週報發送失敗：{type(e).__name__}")
+
+    # 如果有任何失敗，發失敗通知
+    if failures:
+        send_failure_telegram(failures, successes, market="SG")
+
+    print(f"\n✅ 完成（失敗 {len(failures)} 項，成功 {len(successes)} 項）")
     print(f"   網頁：{PAGES_URL}")
     print(f"   試算表：https://docs.google.com/spreadsheets/d/{SHEETS_ID}")
 

@@ -4,7 +4,7 @@ ALUXE HK Sentiment Analysis Pipeline — v1.8
 品牌：ALUXE HK、iprimo、銀座白石、Love Bird Diamond、Ragazza
 """
 
-import os, json, datetime, base64, requests, time
+import os, json, datetime, base64, requests, time, sys
 from pathlib import Path
 from collections import defaultdict
 
@@ -433,6 +433,9 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
             # 優先用 total_counts，找不到才用 b_ads 樣本數
             result["ad_count"] = total_counts.get(brand, len(b_ads))
             brand_results[brand] = result
+            # 避免 rate limit：每個品牌呼叫之間 sleep 60 秒
+            print(f"  [Sleep] 60 秒避免 rate limit...")
+            time.sleep(60)
         except Exception as e:
             print(f"  [Claude] {brand} 分析失敗：{e}")
             brand_results[brand] = {
@@ -468,6 +471,9 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
 各品牌分析摘要：{json.dumps(summary_data, ensure_ascii=False)}
 Google Trends HK：{trends_text}"""
 
+    # 避免 rate limit：summary 之前也 sleep 60 秒
+    print(f"  [Sleep] 60 秒避免 rate limit...")
+    time.sleep(60)
     summary_result = claude_call_hk(summary_prompt)
 
     result = {
@@ -758,6 +764,31 @@ def send_telegram_hk(report: dict):
     print("[Telegram] HK 完成")
 
 
+def send_failure_telegram_hk(failures: list, successes: list):
+    """發送 HK 失敗通知"""
+    date = datetime.date.today().isoformat()
+    workflow_url = "https://github.com/ALUXEJulia/aluxe-sentiment/actions"
+
+    fail_lines = "\n".join(f"· {f}" for f in failures) if failures else "（無）"
+    success_lines = "\n".join(f"· {s}" for s in successes) if successes else "（無）"
+
+    msg = (
+        f"⚠️ ALUXE HK 輿情週報執行異常 · {date}\n\n"
+        f"失敗項目：\n{fail_lines}\n\n"
+        f"仍然成功：\n{success_lines}\n\n"
+        f"工作流：{workflow_url}"
+    )
+
+    try:
+        requests.post(
+            f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+            json={"chat_id": TELEGRAM_CHAT_ID, "text": msg}, timeout=30,
+        ).raise_for_status()
+        print("[Telegram] HK 失敗通知已發送")
+    except Exception as e:
+        print(f"[Telegram] HK 失敗通知發送失敗：{e}")
+
+
 # ══════════════════════════════════════════════════════
 # 主程式
 # ══════════════════════════════════════════════════════
@@ -767,6 +798,9 @@ def main():
     print(f"  ALUXE HK Sentiment v1.0  —  {datetime.date.today()}")
     print(f"{'='*52}\n")
 
+    failures = []
+    successes = []
+
     reviews = fetch_reviews_hk()
     threads = fetch_threads_hk()
     ads     = fetch_meta_ads_hk()
@@ -774,18 +808,48 @@ def main():
 
     all_reviews = reviews + threads
 
-    # ★ 新增：保存 Raw Data（在分析之前先存，避免分析失敗就沒資料）
-    raw_tok = sheets_token()
-    save_raw_googlemaps(raw_tok, reviews, market="HK")
-    save_raw_metaads(raw_tok, ads, market="HK")
+    # ★ 保存 Raw Data
+    try:
+        raw_tok = sheets_token()
+        save_raw_googlemaps(raw_tok, reviews, market="HK")
+        save_raw_metaads(raw_tok, ads, market="HK")
+        successes.append(f"Raw Data 保存（GoogleMaps {len(reviews)} 筆 + MetaAds {len(ads)} 筆）")
+    except Exception as e:
+        failures.append(f"Raw Data 保存失敗：{type(e).__name__}: {str(e)[:100]}")
+        print(f"[Raw Data] 失敗：{e}")
 
-    report  = analyze_hk(all_reviews, ads, trends)
+    # 分析
+    try:
+        report = analyze_hk(all_reviews, ads, trends)
+        successes.append(f"Claude 分析（{len(report.get('brands', {}))} 個品牌）")
+    except Exception as e:
+        failures.append(f"Claude 分析嚴重失敗：{type(e).__name__}: {str(e)[:100]}")
+        print(f"[Claude] HK 嚴重失敗：{e}")
+        send_failure_telegram_hk(failures, successes)
+        sys.exit(1)
 
-    save_json_hk(report)
-    write_sheets_hk(report)
-    send_telegram_hk(report)
+    try:
+        save_json_hk(report)
+        successes.append("JSON 存檔")
+    except Exception as e:
+        failures.append(f"JSON 存檔失敗：{type(e).__name__}")
 
-    print(f"\n✅ HK 完成")
+    try:
+        write_sheets_hk(report)
+        successes.append("Sheets HK 寫入（6 個分頁）")
+    except Exception as e:
+        failures.append(f"Sheets HK 寫入失敗：{type(e).__name__}: {str(e)[:100]}")
+
+    try:
+        send_telegram_hk(report)
+        successes.append("Telegram HK 週報發送")
+    except Exception as e:
+        failures.append(f"Telegram HK 週報發送失敗：{type(e).__name__}")
+
+    if failures:
+        send_failure_telegram_hk(failures, successes)
+
+    print(f"\n✅ HK 完成（失敗 {len(failures)} 項，成功 {len(successes)} 項）")
     print(f"   試算表：https://docs.google.com/spreadsheets/d/{SHEETS_ID}")
 
 
