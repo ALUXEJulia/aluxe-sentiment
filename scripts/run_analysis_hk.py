@@ -46,11 +46,11 @@ GOOGLE_MAPS_BRAND_URLS = {
 
 # Meta 廣告 — FB 粉絲頁
 ALL_FB_PAGES = [
-    {"name": "iprimo",          "page_id": "100064850551818", "url": "https://www.facebook.com/iprimo.hk",             "own": False},
-    {"name": "銀座白石",         "page_id": "100063840998738", "url": "https://www.facebook.com/diamondshiraishi.hk",   "own": False},
-    {"name": "ALUXE HK",        "page_id": "100064941450204", "url": "https://www.facebook.com/aluxe.hk",              "own": True},
-    {"name": "Love Bird Diamond","page_id": "100068555377282", "url": "https://www.facebook.com/lovebirddiamond",       "own": False},
-    {"name": "Ragazza",         "page_id": "100063752931260", "url": "https://www.facebook.com/ragazzaita",            "own": False},
+    {"name": "iprimo",          "page_id": "447627645287013", "url": "https://www.facebook.com/iprimo.hk",             "own": False},
+    {"name": "銀座白石",         "page_id": "113104910058655", "url": "https://www.facebook.com/diamondshiraishi.hk",   "own": False},
+    {"name": "ALUXE HK",        "page_id": "1437308496566008", "url": "https://www.facebook.com/aluxe.hk",              "own": True},
+    {"name": "Love Bird Diamond","page_id": "137214539707429", "url": "https://www.facebook.com/lovebirddiamond",       "own": False},
+    {"name": "Ragazza",         "page_id": "315018305502718", "url": "https://www.facebook.com/ragazzaita",            "own": False},
 ]
 
 # Instagram 帳號（待補充）
@@ -379,9 +379,12 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
         if not ad_list: return []
         asc  = sorted(ad_list, key=lambda x: x.get("start_date",""))
         desc = sorted(ad_list, key=lambda x: x.get("start_date",""), reverse=True)
-        half = quota // 2
-        newest = desc[:half]
-        oldest = asc[:quota - half]
+        # 取樣比例：2/3 最新 + 1/3 最舊
+        # quota=15 時 → 最新 10 + 最舊 5
+        # quota=8 時  → 最新 5  + 最舊 3
+        newest_n = (quota * 2) // 3
+        newest = desc[:newest_n]
+        oldest = asc[:quota - newest_n]
         seen = {id(a) for a in newest}
         return (newest + [a for a in oldest if id(a) not in seen])[:quota]
 

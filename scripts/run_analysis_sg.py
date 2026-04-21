@@ -406,16 +406,19 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
             "start_date": ad.get("start_date", ""),
         })
     # 廣告分配：最新一半+最舊一半，總上限75則，剩餘配額補給其他品牌
-    TOTAL_ADS = 40
-    BASE_PER_BRAND = 8
+    TOTAL_ADS = 75
+    BASE_PER_BRAND = 15
 
     def pick_ads(ad_list, quota):
         if not ad_list: return []
         asc  = sorted(ad_list, key=lambda x: x.get("start_date",""))
         desc = sorted(ad_list, key=lambda x: x.get("start_date",""), reverse=True)
-        half = quota // 2
-        newest = desc[:half]
-        oldest = asc[:quota - half]
+        # 取樣比例：2/3 最新 + 1/3 最舊
+        # quota=15 時 → 最新 10 + 最舊 5
+        # quota=8 時  → 最新 5  + 最舊 3
+        newest_n = (quota * 2) // 3
+        newest = desc[:newest_n]
+        oldest = asc[:quota - newest_n]
         seen = {id(a) for a in newest}
         return (newest + [a for a in oldest if id(a) not in seen])[:quota]
 
