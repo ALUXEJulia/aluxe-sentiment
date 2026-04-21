@@ -299,9 +299,12 @@ def claude_call(prompt: str, max_tokens: int = 8192) -> dict:
         headers={"x-api-key": ANTHROPIC_API_KEY,
                  "anthropic-version": "2023-06-01",
                  "content-type": "application/json"},
-        json={"model": "claude-sonnet-4-5", "max_tokens": max_tokens,
+        json={"model": "claude-sonnet-4-6", "max_tokens": max_tokens,
               "messages": [{"role": "user", "content": prompt}]},
         timeout=180)
+    if not r.ok:
+        print(f"  [API錯誤] status={r.status_code}, body={r.text[:500]}")
+        print(f"  [API錯誤] prompt長度={len(prompt)} 字元")
     r.raise_for_status()
     raw = r.json()["content"][0]["text"].strip()
     if raw.startswith("```"):
@@ -599,7 +602,7 @@ def generate_html(report: dict):
     # 只需更新 config.json 確保地區清單正確
     config = {
         "markets": [
-            {"id": "sg", "label": "🇸🇬 Singapore", "data_file": "latest.json",    "active": True},
+            {"id": "sg", "label": "🇸🇬 Singapore", "data_file": "sg_latest.json", "active": True},
             {"id": "hk", "label": "🇭🇰 Hong Kong",  "data_file": "hk_latest.json", "active": True},
         ]
     }
@@ -658,11 +661,11 @@ def send_telegram(report: dict):
 # ══════════════════════════════════════════════════════
 
 def save_json(report: dict):
-    hf = OUTPUT_DIR / "history.json"
+    hf = OUTPUT_DIR / "sg_history.json"
     history = json.loads(hf.read_text()) if hf.exists() else []
     history.insert(0, report)
     hf.write_text(json.dumps(history[:26], ensure_ascii=False, indent=2))
-    (OUTPUT_DIR / "latest.json").write_text(json.dumps(report, ensure_ascii=False, indent=2))
+    (OUTPUT_DIR / "sg_latest.json").write_text(json.dumps(report, ensure_ascii=False, indent=2))
     print("[JSON] 完成")
 
 

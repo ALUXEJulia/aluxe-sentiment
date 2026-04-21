@@ -36,12 +36,12 @@ jobs:
           GOOGLE_SHEETS_ID:       ${{ secrets.GOOGLE_SHEETS_ID }}
           GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
           PAGES_URL:       ${{ secrets.PAGES_URL }}
-        run: python scripts/run_analysis.py
+        run: python scripts/run_analysis_sg.py
 
       - name: Commit updated dashboard
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/
-          git diff --staged --quiet || git commit -m "chore: weekly sentiment report $(date +%Y-%m-%d)"
+          git add docs/sg_latest.json docs/sg_history.json
+          git diff --staged --quiet || git commit -m "chore: update SG dashboard $(date -u +%Y-%m-%d)"
           git push
