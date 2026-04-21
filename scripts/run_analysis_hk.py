@@ -717,9 +717,25 @@ def send_telegram_hk(report: dict):
 
     actions = "\n".join(f"{i+1}. {a}" for i,a in enumerate(report.get("actionable_top3",[])))
 
+    # 廣告摘要：分自家 + 競品兩段
+    own_ads_summary = ""
+    comp_ads_summary = ""
+    for brand, ad_data in report.get("competitor_ads",{}).items():
+        count = ad_data.get("ad_count", 0)
+        focus = ad_data.get("cta_focus","")
+        line = f"\n· {brand}：{count} 則廣告，主打「{focus}」"
+        if ad_data.get("own", False):
+            own_ads_summary += line
+        else:
+            comp_ads_summary += line
+    own_ads_section = f"自家廣告動態{own_ads_summary}\n\n" if own_ads_summary else ""
+    comp_ads_section = f"競品廣告動態{comp_ads_summary}\n\n" if comp_ads_summary else ""
+
     msg = (f"🇭🇰 ALUXE HK 輿情週報 · {date}\n\n"
            f"{icon} 自家品牌平均分：{avg}\n\n"
            f"競品負評預警\n{alerts}\n\n"
+           f"{own_ads_section}"
+           f"{comp_ads_section}"
            f"本週優先行動\n{actions}\n\n"
            f"儀表板：{PAGES_URL}")
 
