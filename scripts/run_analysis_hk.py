@@ -397,6 +397,8 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
             allocated[b] += add
             leftover -= add
             if leftover == 0: break
+    # 在挑選代表樣本之前，先記下每品牌的真實廣告總數
+    total_counts = {b: len(ads_by_brand[b]) for b in ads_by_brand}
     for b in ads_by_brand:
         ads_by_brand[b] = pick_ads(ads_by_brand[b], allocated.get(b, BASE_PER_BRAND))
 
@@ -424,6 +426,9 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
         own = "ALUXE" in brand
         try:
             result = analyze_brand_hk(brand, b_reviews, b_ads, trends_text, own)
+            # 用真實總數覆蓋 Claude 看到的樣本數
+            # 優先用 total_counts，找不到才用 b_ads 樣本數
+            result["ad_count"] = total_counts.get(brand, len(b_ads))
             brand_results[brand] = result
         except Exception as e:
             print(f"  [Claude] {brand} 分析失敗：{e}")
@@ -680,6 +685,10 @@ def save_raw_metaads(tok, ads, market):
         page_name = raw.get("page_name", snap.get("page_name", ""))
         raw_page_id = str(raw.get("page_id", ""))
         info = page_info.get(raw_page_id, {"brand": page_name, "is_own": False})
+        # 截斷 raw_json 避免超過 Google Sheets 單格 50000 字元上限
+        raw_json_str = json.dumps(raw, ensure_ascii=False)
+        if len(raw_json_str) > 49000:
+            raw_json_str = raw_json_str[:49000] + "...[TRUNCATED]"
         row = [
             scrape_date, week, market, info["brand"], info["is_own"],
             ad_id, page_name, snap.get("title", ""), body_text,
@@ -687,7 +696,7 @@ def save_raw_metaads(tok, ads, market):
             snap.get("display_format", ""), raw.get("start_date_formatted", ""),
             raw.get("end_date_formatted", ""), raw.get("is_active", ""),
             platforms_str, raw.get("ad_library_url", ""),
-            json.dumps(raw, ensure_ascii=False),
+            raw_json_str,
         ]
         new_rows.append(row)
         existing_ids.add(ad_id)
@@ -729,7 +738,7 @@ def send_telegram_hk(report: dict):
         else:
             comp_ads_summary += line
     own_ads_section = f"自家廣告動態{own_ads_summary}\n\n" if own_ads_summary else ""
-    comp_ads_section = f"競品廣告動態{comp_ads_summary}\n\n" if comp_ads_summary else ""
+    comp_ads_section = f"競品廣告動態（每品牌取最新+最舊代表樣本分析）{comp_ads_summary}\n\n" if comp_ads_summary else ""
 
     msg = (f"🇭🇰 ALUXE HK 輿情週報 · {date}\n\n"
            f"{icon} 自家品牌平均分：{avg}\n\n"
