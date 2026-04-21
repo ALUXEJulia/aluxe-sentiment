@@ -1,5 +1,294 @@
 [
   {
+    "summary": "競品普遍依賴節慶促銷與動態商品廣告（Lee Hwa、Love & Co、Michael Trio），視覺識別模糊、缺乏品牌深度內容；JannPaul 則以技術美學與教育型內容建立壁壘。ALUXE 擁有極高口碑評分（近14天10則全5星）與服務一致性優勢，但廣告資料缺失顯示付費曝光佈局有待補強。可學習方向聚焦於：將強勁口碑轉化為廣告素材、以工藝教育內容填補競品空白、並善用差異化產品定位（抗鎳過敏、18K性價比）搶佔精準需求族群。",
+    "brands": {
+      "ALUXE": {
+        "sentiment_score": 0.97,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 10,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "親切專業的服務體驗",
+          "豐富的戒指款式與材質選擇",
+          "高性價比的18K金珠寶"
+        ],
+        "alert": null,
+        "sample_positive": "Amazing experience with Aluxe since the first visit, was just surveying around for wedding ring choices and was really impressed by their service and recommendations, even if we were just taking a look their service was top notch. Super wide range of choices of rings (especially for those who have Nickel allergy!). Thank you once again Jem Aluxe team for the wonderful service 🤍",
+        "sample_negative": null
+      },
+      "Jannpaul": {
+        "sentiment_score": 0.97,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 10,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "顧問式無壓力銷售體驗",
+          "鑽石專業知識教育",
+          "客製化戒指設計流程順暢"
+        ],
+        "alert": null,
+        "sample_positive": "He took the time to guide us through the fundamentals, explaining key factors like clarity, cut etc in a way that was easy to understand. We really appreciated the short lesson as it helped us feel more confident in making our decision.",
+        "sample_negative": null
+      },
+      "Michael Trio": {
+        "sentiment_score": 0.97,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 10,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "專業耐心的顧問服務體驗",
+          "婚戒與訂婚戒指客製化選擇豐富",
+          "從選購到取貨的流暢全程體驗"
+        ],
+        "alert": null,
+        "sample_positive": "Michael Trio has a huge variety of rings to choose from and all the staff we encountered were nice and helpful. My partner and I were served by Iris, who was very knowledgeable and guided us with patience. It was a super pleasant experience with her and we're very pleased with the wedding bands we got from here. Highly recommend!",
+        "sample_negative": null
+      },
+      "Lee Hwa": {
+        "sentiment_score": 0.93,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 3,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "專業且耐心的服務態度",
+          "個人化選購協助",
+          "額外增值服務（如免費清潔金飾）"
+        ],
+        "alert": null,
+        "sample_positive": "She went the extra mile by helping to clean one of our gold items as well. Great service overall — would definitely recommend her!",
+        "sample_negative": null
+      },
+      "Love & Co": {
+        "sentiment_score": 0.95,
+        "positive_pct": 100,
+        "negative_pct": 0,
+        "neutral_pct": 0,
+        "review_count": 10,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "耐心親切的服務態度",
+          "專業推薦與選購引導",
+          "貼心細心的顧客體驗"
+        ],
+        "alert": null,
+        "sample_positive": "Lay Xin was very helpful in showing me the rings of my taste. She was patient and informative. Thank you for the good customer service!",
+        "sample_negative": null
+      }
+    },
+    "competitor_ads": {
+      "ALUXE": {
+        "ad_count": 0,
+        "own": true,
+        "main_themes": [
+          "暫無廣告資料，無法識別主題"
+        ],
+        "cta_focus": "暫無廣告資料，無法判斷CTA方向",
+        "platforms": [],
+        "key_offers": [
+          "暫無廣告資料，無法識別優惠機制"
+        ],
+        "strategy_insight": "【評論洞察】近14天10則評論全數5星，情感分數極高（0.97），顯示ALUXE在門市服務體驗上具備強勁口碑優勢。顧客最在意三大要素：①服務品質（親切、耐心、專業知識）②產品多樣性（18K金、黃金、白金、鉑金、抗鎳過敏系列）③性價比（'Cheap and super quality 18k'）。ION Orchard（870則評論）與JEM（233則評論）均維持高評分，跨店服務一致性佳。\n\n【廣告策略現況】本次資料區間內廣告資料為空，無法分析現行付費廣告策略、訴求及優惠機制，建議補充FB Ads Library或Meta廣告資料以完整評估。\n\n【ALUXE優勢強化建議】\n1. 將顧客真實評論中的情感關鍵詞（'happy engagement ring'、'no hesitation'、'wider range'）轉化為廣告素材文案，以社會證明（Social Proof）為核心訴求，在FB/IG投放圖文或短影音廣告。\n2. 「抗鎳過敏系列」是差異化賣點，市場上少有品牌主動標榜，可作為獨立廣告主題打造需求導向內容，吸引對金屬過敏的消費族群。\n3. 「價格親民＋18K品質」的性價比定位可透過對比式廣告或教育性內容強化，例如『為什麼選18K金？』系列貼文，建立品牌信任感。\n4. 建議在訂婚季（11月至2月）及婚禮旺季前3個月加碼投放，CTA聚焦『預約試戴』或『免費諮詢』，降低決策門檻，引導線下到店轉換。\n5. ION Orchard店評論數達870則，可作為品牌公信力錨點，在廣告素材中強調總評論數及星級，強化新客信任。"
+      },
+      "Jannpaul": {
+        "ad_count": 9,
+        "own": false,
+        "main_themes": [
+          "White Series™ 專利切割技術展示（D-10 Decagon Nova / Oval X / Cushion Nova / Square Nova）",
+          "Lab Grown Diamond（LGD）彩色鑽石新品系列（Fancy Intense Green）"
+        ],
+        "cta_focus": "以 Instagram Profile 導流為主，部分搭配 WhatsApp 詢價轉換，強調視覺吸睛後引導私訊洽談",
+        "platforms": [
+          "FB",
+          "IG"
+        ],
+        "key_offers": [
+          "獨家專利多面切割技術（125–141 facets）作為產品差異化賣點",
+          "LGD 彩色鑽石（Fancy Green）限量新品話題造勢"
+        ],
+        "strategy_insight": "JannPaul 廣告策略高度聚焦於「技術美學」訴求——以自有 White Series™ 專利切割命名體系（Nova 系列）持續輸出視覺內容，強化品牌技術壁壘印象，而非價格競爭。CTA 以 Instagram Profile 為主，意在積累品牌追蹤者與視覺心佔率，再以 WhatsApp 作為高意圖轉換入口，形成「種草→私訊→到店」漏斗。顧客評論則呼應其「顧問式無壓力銷售」定位，顯示線下體驗與線上廣告訴求高度一致。ALUXE 借鏡方向：(1) 建立品牌專屬產品命名語言，強化技術或工藝識別度，避免陷入同質化視覺競爭；(2) 在廣告內容中加入珠寶工藝教育元素（如切割/鑲嵌工藝說明），提升消費者決策信心，複製 JannPaul 線下教育體驗的線上版本；(3) 差異化切入點：JannPaul 主打鑽石切割技術理性訴求，ALUXE 可強化「情感設計語言」與「婚禮/人生里程碑情境敘事」作為感性對位，吸引重視故事感而非技術規格的消費族群；(4) 考慮以 WhatsApp 或 LINE 等即時通訊工具作為高意圖 CTA，縮短問詢至預約的轉換路徑。"
+      },
+      "Michael Trio": {
+        "ad_count": 8,
+        "own": false,
+        "main_themes": [
+          "婚戒／訂婚戒指價格入門導流（從RM2888起）",
+          "限時節慶優惠升級（Raya / Free Platinum Upgrade）"
+        ],
+        "cta_focus": "WhatsApp即時諮詢與促銷報價引流",
+        "platforms": [
+          "FB",
+          "IG",
+          "AUDIENCE_NETWORK",
+          "MESSENGER"
+        ],
+        "key_offers": [
+          "免費升級鉑金婚戒（購買任意兩條婚戒）",
+          "訂婚鑽戒低至RM2888",
+          "Raya節日專屬鉑金升級優惠"
+        ],
+        "strategy_insight": "Michael Trio廣告策略以低門檻價格錨點（RM2888起）搭配節慶限時升級優惠（免費鉑金升級）製造入場誘因，CTA集中於WhatsApp直接溝通，大幅縮短詢問到轉換的距離；廣告素材同時投放英文與中文版本，精準覆蓋SG及MY雙市場。評論面則強調無壓力、有耐心的一對一顧問體驗，形成口碑飛輪。ALUXE借鏡方向：①可針對SG市場開發SGD計價的明確入門價格廣告，降低消費者詢問門檻；②強化「婚禮全旅程陪伴」訴求，突顯從設計到交件的品質把關，與Michael Trio的「服務友善」做出品質層次差異；③廣告格式建議加入產品細節視覺（工藝特寫、材質說明），以ALUXE的工藝深度與品牌故事取代Michael Trio以動態商品目錄為主的泛化素材，強化精品感與信任度。"
+      },
+      "Lee Hwa": {
+        "ad_count": 5,
+        "own": false,
+        "main_themes": [
+          "母親節節慶促銷",
+          "黃金珠寶產品推廣（動態商品廣告）"
+        ],
+        "cta_focus": "節慶限時優惠驅動到店消費，輔以動態商品廣告引導瀏覽學習",
+        "platforms": [
+          "FB",
+          "IG"
+        ],
+        "key_offers": [
+          "$Gold Price/GM 黃金時價優惠",
+          "工費最高五折優惠",
+          "1-for-1 999黃金吊墜 @ $188",
+          "母親節期間限定（5月8–12日）Tampines Mall 快閃活動"
+        ],
+        "strategy_insight": "Lee Hwa 目前廣告策略以節慶促銷為核心驅動力，母親節活動主打高性價比黃金優惠（時價計算、工費折扣、買一送一），訴求清晰且價格門檻低，適合大眾市場快速轉換。同時大量投放動態商品廣告（{{product.name}} 模板），顯示其依賴自動化商品目錄廣告觸達潛在買家，廣告創意投入相對低。顧客評論則高度聚焦於門市服務人員的專業度與個人化協助，說明其品牌黏著度來自線下體驗而非品牌故事或設計差異化。ALUXE 借鏡與差異化方向：(1) 借鏡其節慶促銷節奏，於母親節前提早佈局主題廣告，但訴求應聚焦「設計工藝與情感意義」而非純價格競爭，拉開品牌層次；(2) 針對 Lee Hwa 動態商品廣告創意薄弱的缺口，ALUXE 可強化高質感視覺廣告與產品故事文案，以設計美學與品牌理念作為差異化核心；(3) Lee Hwa 顧客最在意服務體驗，ALUXE 可將「品牌購買旅程」的精緻感（如包裝、客製化刻字、購後關懷）轉化為廣告素材主軸，強調整體體驗價值而非單一服務人員，避免個人化依賴風險。"
+      },
+      "Love & Co": {
+        "ad_count": 8,
+        "own": false,
+        "main_themes": [
+          "促銷折扣與支付優惠（PayLater / BNPL）",
+          "婚戒與訂婚鑽戒產品推廣"
+        ],
+        "cta_focus": "Shop now / Book now — 引導線上購買或預約到店",
+        "platforms": [
+          "FB",
+          "IG",
+          "Messenger",
+          "Audience Network",
+          "Threads"
+        ],
+        "key_offers": [
+          "Up to 50% off 預約到店優惠",
+          "首購 5% off（代碼 LVC5NEW）",
+          "PayLater by Grab 最高 $30 off",
+          "0% 利息 Buy Now Pay Later",
+          "終身免費清洗服務",
+          "$200 以下素金手鏈促銷"
+        ],
+        "strategy_insight": "Love & Co 廣告策略以「價格門檻降低」為核心訴求，大量運用 BNPL（分期免息）、首購折扣碼、PayLater 合作及限時高折扣（50% off）吸引婚慶消費決策者進店或轉換。廣告格式以動態產品廣告（Dynamic Product Ads，標題為 {{product.name}}）為主，搭配多平台全覆蓋（FB/IG/Threads/Messenger）。顧客評論則高度集中在「服務人員耐心與推薦專業度」，反映其在店體驗是最強護城河。ALUXE 借鏡方向：1）差異化避開純折扣戰，轉而強調工藝品質、設計獨特性與品牌情感價值，打造「值得珍藏」而非「划算購買」的溝通方向；2）可學習 BNPL 支付整合以降低高單價購買的心理門檻，但包裝成「更優雅地擁有」而非促銷語氣；3）Love & Co 評論未見對產品本身的深度描述，ALUXE 可主打珠寶材質故事、設計理念或客製化體驗，填補競品在產品內容行銷的空白；4）Love & Co 廣告創意模板化（大量動態廣告）視覺識別模糊，ALUXE 可投資高質感視覺內容廣告，在 IG/Threads 建立強烈品牌美學辨識度。"
+      }
+    },
+    "competitor_alerts": [
+      {
+        "brand": "Love & Co",
+        "issue": "大量投放 BNPL（50% off、PayLater $30 off、0% 利息分期）降低購買門檻，配合 Shop Now / Book Now CTA 全平台覆蓋（FB/IG/Threads/Messenger），價格戰攻勢強烈，可能吸走價格敏感型婚慶消費者",
+        "severity": 4,
+        "opportunity": "ALUXE 可推出『優雅分期擁有』包裝（而非促銷語氣），強調工藝與情感價值，以品質溢價定位區隔純折扣戰；同時以高質感視覺廣告對比 Love & Co 模板化動態廣告，強化 IG/Threads 品牌美學辨識度"
+      },
+      {
+        "brand": "Michael Trio",
+        "issue": "以明確低價錨點（RM2888起）搭配節慶免費升級優惠（免費鉑金升級），並同步投放英文／中文廣告雙語覆蓋 SG 及 MY 市場，持續佔據入門婚戒搜尋心佔率",
+        "severity": 3,
+        "opportunity": "ALUXE 可開發 SGD 計價的入門款廣告降低詢問門檻，但素材重心應放在工藝細節特寫與品質把關故事，以『精品婚戒體驗』對比 Michael Trio 泛化商品目錄廣告，吸引重視品質層次的消費者"
+      },
+      {
+        "brand": "Lee Hwa",
+        "issue": "母親節期間（5月8–12日）於 Tampines Mall 快閃活動配合工費五折、買一送一黃金吊墜 @$188，節慶促銷節奏快、價格訴求清晰，易佔據節慶禮品搜尋流量",
+        "severity": 3,
+        "opportunity": "ALUXE 應提早於節慶前2–3週佈局主題廣告，訴求聚焦『設計工藝與情感意義的禮物』，以差異化內容填補 Lee Hwa 創意薄弱缺口，避免被節慶純促銷廣告稀釋品牌聲量"
+      },
+      {
+        "brand": "JannPaul",
+        "issue": "以 White Series™ 專利切割命名體系持續輸出技術美學內容，並推出 LGD 彩色鑽石（Fancy Green）限量話題造勢，強化品牌技術壁壘；WhatsApp 高意圖轉換漏斗成熟，種草至到店路徑短",
+        "severity": 2,
+        "opportunity": "ALUXE 可建立專屬產品命名語言（如系列命名或工藝術語）強化識別度，並發展珠寶工藝教育型內容（18K 金知識、鑲嵌工藝說明）複製 JannPaul 教育性線上內容策略，同時以情感敘事對位 JannPaul 的技術理性訴求"
+      }
+    ],
+    "hot_topics": [
+      {
+        "topic": "抗鎳過敏珠寶／低敏金屬選購指南",
+        "volume": "medium",
+        "actionable": true,
+        "suggestion": "廣告切角：『皮膚敏感也能戴的婚戒——ALUXE 抗鎳過敏系列完整指南』；部落格主題：『為什麼我的戒指讓皮膚發癢？18K金與鎳過敏的真相』，以需求導向 SEO 內容吸引金屬過敏族群，此為競品未主打的藍海差異化賣點"
+      },
+      {
+        "topic": "18K金珠寶值得買嗎？性價比教育內容",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "廣告切角：對比式圖文廣告『18K金 vs 24K金 vs 鉑金：婚戒材質怎麼選？』；部落格主題：『為什麼選 18K金？新加坡婚戒材質完整比較』，鞏固 ALUXE 性價比定位並建立搜尋流量入口"
+      },
+      {
+        "topic": "婚戒預約試戴／客製化流程體驗",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "廣告切角：『免費預約試戴，找到最適合你的那一只』搭配 ION Orchard 門市視覺，CTA 聚焦低門檻行動；部落格主題：『新加坡婚戒客製化完整流程：從選款到交戒指需要多久？』，覆蓋婚禮籌備早期搜尋需求"
+      },
+      {
+        "topic": "節慶禮物珠寶選購（母親節 / 週年紀念）",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "廣告切角：母親節主題圖文廣告『送給她最珍貴的時刻——ALUXE 18K 輕奢禮物精選』，強調設計美學與情感意義而非折扣；部落格主題：『2025 母親節珠寶禮物指南：什麼材質最值得長久珍藏？』"
+      },
+      {
+        "topic": "BNPL 分期購買高單價珠寶趨勢",
+        "volume": "medium",
+        "actionable": true,
+        "suggestion": "廣告切角：以『更從容地擁有，無負擔的美好』包裝分期方案，避免促銷語氣，強調品質優先的消費態度；可作為 IG Story 廣告格式測試，搭配精品質感產品視覺"
+      }
+    ],
+    "gsc_insights": {
+      "top_keywords": [],
+      "opportunities": []
+    },
+    "market_trends": [
+      {
+        "keyword": "engagement ring singapore",
+        "trend": "rising",
+        "insight": "婚戒搜尋需求持續上升，ALUXE 應確保相關落地頁（訂婚戒指系列）針對此關鍵字優化，並配合廣告投放搶佔高意圖婚慶搜尋流量，尤其在11月至2月訂婚旺季前需提前佈局"
+      },
+      {
+        "keyword": "18k gold ring singapore",
+        "trend": "stable",
+        "insight": "18K金戒指為穩定搜尋需求，ALUXE 性價比定位與此關鍵字高度契合，建議開發專題部落格文章強化自然搜尋排名，並以此作為 Google Search 廣告核心關鍵字群組"
+      },
+      {
+        "keyword": "hypoallergenic jewellery singapore",
+        "trend": "rising",
+        "insight": "低敏珠寶需求上升，競品尚未主打此訴求，ALUXE 抗鎳過敏系列具備先機優勢；建議立即建立專屬產品頁面與部落格內容，搶佔此藍海關鍵字的搜尋排名與廣告版位"
+      },
+      {
+        "keyword": "wedding band customisation singapore",
+        "trend": "rising",
+        "insight": "客製化婚戒需求成長，與 ALUXE 客製化服務定位相符；可開發『客製化婚戒流程』內容頁面，結合顧客真實評論作為社會證明，強化轉換信任度並吸引高意圖搜尋者"
+      },
+      {
+        "keyword": "lab grown diamond singapore",
+        "trend": "rising",
+        "insight": "LGD 需求快速上升（JannPaul 已推出 Fancy Green LGD 話題），若 ALUXE 產品線含 LGD 品項，應盡快佈局相關內容與廣告；若暫無此品項，可監測市場動態評估未來產品擴展方向"
+      }
+    ],
+    "actionable_top3": [
+      "🎯 本週可學習的競品廣告動作：JannPaul 以『WhatsApp 高意圖轉換 CTA』搭配 IG 視覺種草建立『瀏覽→私訊→到店』短漏斗——ALUXE 可立即複製此模式，在 IG 貼文及 Story 廣告中加入 WhatsApp 直連 CTA 按鈕，主打『免費諮詢婚戒款式』或『預約 ION Orchard 試戴』，降低決策門檻並縮短從廣告接觸到線下到店的轉換路徑；同步參考 Love & Co 的全平台覆蓋策略（FB/IG/Threads），測試 Threads 作為新增觸達管道",
+      "📝 內容行銷機會：優先製作『抗鎳過敏珠寶選購指南』部落格文章——此為 ALUXE 獨有差異化賣點、競品完全空白的內容領域，文章結構建議：①金屬過敏成因說明②常見珠寶材質過敏風險比較③ALUXE 抗鎳系列介紹④顧客真實評論佐證。同步將文章核心論點轉化為 IG 教育型輪播廣告素材，以需求導向內容精準觸達金屬敏感族群，建立品牌在此細分市場的搜尋與社群心佔率",
+      "🔍 SEO／關鍵字機會：立即針對『hypoallergenic jewellery singapore』與『18k gold ring singapore』兩組關鍵字建立專屬落地頁或優化現有產品頁面——前者為上升趨勢且競品空白，後者為穩定高意圖搜尋詞且與 ALUXE 定位高度契合；建議同步以這兩組關鍵字開設 Google Search 廣告活動，搭配 ALUXE 現有 870+ 則評論的 ION Orchard 門市作為信任錨點，在廣告附加資訊中顯示評分與評論數，提升廣告點擊率與轉換信心"
+    ],
+    "generated_at": "2026-04-21T17:46:30.725367"
+  },
+  {
     "summary": "ALUXE在近14天收穫20則5星好評,顧客高度讚揚員工Kelly、Shirley、Jaya等的專業與耐心服務,免費刻字和客製化服務成亮點。競品Jannpaul以專業鑽石知識和客製化強勢競爭,Michael Trio和Love & Co.則以價格促銷和platinum upgrade吸客。ALUXE應強化差異化優勢如個人化刻字服務和Care Bears聯名系列。",
     "brands": {
       "ALUXE": {
