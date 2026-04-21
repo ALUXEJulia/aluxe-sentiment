@@ -22,7 +22,7 @@ ALL_BRANDS  = BRANDS_OWN + BRANDS_COMP
 
 # Google Maps 直接 URL — 按品牌分組，評論會合併成一個品牌分析
 GOOGLE_MAPS_BRAND_URLS = {
-    "ALUXE": [
+    "ALUXE SG": [
         "https://maps.app.goo.gl/cCqEKDN2vqZtVQf18",
         "https://maps.app.goo.gl/VyVSAH5EjgRPnmvr9",
         "https://maps.app.goo.gl/k2K5N3GqJKbpQDHR9",
@@ -60,11 +60,11 @@ GOOGLE_MAPS_URLS = [
 
 # Meta 廣告資料庫 — 自家 + 競品粉絲頁
 ALL_FB_PAGES = [
-    {"name": "ALUXE SG",    "url": "https://www.facebook.com/aluxe.sg",         "own": True},
-    {"name": "Jannpaul",    "url": "https://www.facebook.com/JANNPAULDiamonds", "own": False},
-    {"name": "Michael Trio","url": "https://www.facebook.com/michaeltriojewels", "own": False},
-    {"name": "Love & Co",   "url": "https://www.facebook.com/L0veandC0",         "own": False},
-    {"name": "Lee Hwa",     "url": "https://www.facebook.com/LeeHwaJewellery",   "own": False},
+    {"name": "ALUXE SG",    "page_id": "100605499681353", "url": "https://www.facebook.com/aluxe.sg",         "own": True},
+    {"name": "Jannpaul",    "page_id": "142685262430630", "url": "https://www.facebook.com/JANNPAULDiamonds", "own": False},
+    {"name": "Michael Trio","page_id": "337212719690001", "url": "https://www.facebook.com/michaeltriojewels", "own": False},
+    {"name": "Love & Co",   "page_id": "219387734770",    "url": "https://www.facebook.com/L0veandC0",         "own": False},
+    {"name": "Lee Hwa",     "page_id": "104624312822",    "url": "https://www.facebook.com/LeeHwaJewellery",   "own": False},
 ]
 
 # Instagram 帳號 — 最新貼文 URL 抓留言
@@ -209,9 +209,17 @@ def fetch_meta_ads() -> list:
             snap = ad.get("snapshot", {})
             body = snap.get("body", {})
             page_name = ad.get("page_name", "")
-            own_flag = any(p["own"] for p in ALL_FB_PAGES if p["name"] in page_name or page_name in p["name"])
+            ad_page_id = str(ad.get("page_id", ""))
+            # 用 page_id 比對 ALL_FB_PAGES；找不到就維持 FB 原名、own=False
+            brand_key = page_name
+            own_flag = False
+            for p in ALL_FB_PAGES:
+                if str(p.get("page_id", "")) == ad_page_id:
+                    brand_key = p["name"]
+                    own_flag = p["own"]
+                    break
             result.append({
-                "brand": page_name,
+                "brand": brand_key,
                 "title": snap.get("title", ""),
                 "body": body.get("text", "") if isinstance(body, dict) else str(body),
                 "cta": snap.get("cta_text", ""),
@@ -431,7 +439,7 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
     trends_text = json.dumps(trends[:5], ensure_ascii=False) if trends else ""
 
     # 所有品牌清單
-    all_brands = ["ALUXE", "Jannpaul", "Michael Trio", "Lee Hwa", "Love & Co"]
+    all_brands = ["ALUXE SG", "Jannpaul", "Michael Trio", "Lee Hwa", "Love & Co"]
     brand_results = {}
 
     for brand in all_brands:
@@ -672,8 +680,9 @@ def save_raw_metaads(tok, ads, market):
     print(f"  -> existing ad_id: {len(existing_ids)} rows")
     scrape_date = datetime.date.today().isoformat()
     week = get_iso_week()
-    page_info = {p["name"]: {"brand": p["name"], "is_own": p.get("own", False)}
-                 for p in ALL_FB_PAGES}
+    # 對照表改用 page_id 當 key（比 page_name 更精準）
+    page_info = {str(p.get("page_id", "")): {"brand": p["name"], "is_own": p.get("own", False)}
+                 for p in ALL_FB_PAGES if p.get("page_id")}
     new_rows = []
     skipped = 0
     no_raw = 0
@@ -695,7 +704,8 @@ def save_raw_metaads(tok, ads, market):
         platforms = raw.get("publisher_platform", [])
         platforms_str = ", ".join(platforms) if isinstance(platforms, list) else str(platforms)
         page_name = raw.get("page_name", snap.get("page_name", ""))
-        info = page_info.get(page_name, {"brand": page_name, "is_own": False})
+        raw_page_id = str(raw.get("page_id", ""))
+        info = page_info.get(raw_page_id, {"brand": page_name, "is_own": False})
         row = [
             scrape_date, week, market, info["brand"], info["is_own"],
             ad_id, page_name, snap.get("title", ""), body_text,

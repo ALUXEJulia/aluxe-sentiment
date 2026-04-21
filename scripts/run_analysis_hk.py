@@ -46,11 +46,11 @@ GOOGLE_MAPS_BRAND_URLS = {
 
 # Meta 廣告 — FB 粉絲頁
 ALL_FB_PAGES = [
-    {"name": "iprimo",          "url": "https://www.facebook.com/iprimo.hk",             "own": False},
-    {"name": "銀座白石",         "url": "https://www.facebook.com/diamondshiraishi.hk",   "own": False},
-    {"name": "ALUXE HK",        "url": "https://www.facebook.com/aluxe.hk",              "own": True},
-    {"name": "Love Bird Diamond","url": "https://www.facebook.com/lovebirddiamond",       "own": False},
-    {"name": "Ragazza",         "url": "https://www.facebook.com/ragazzaita",            "own": False},
+    {"name": "iprimo",          "page_id": "100064850551818", "url": "https://www.facebook.com/iprimo.hk",             "own": False},
+    {"name": "銀座白石",         "page_id": "100063840998738", "url": "https://www.facebook.com/diamondshiraishi.hk",   "own": False},
+    {"name": "ALUXE HK",        "page_id": "100064941450204", "url": "https://www.facebook.com/aluxe.hk",              "own": True},
+    {"name": "Love Bird Diamond","page_id": "100068555377282", "url": "https://www.facebook.com/lovebirddiamond",       "own": False},
+    {"name": "Ragazza",         "page_id": "100063752931260", "url": "https://www.facebook.com/ragazzaita",            "own": False},
 ]
 
 # Instagram 帳號（待補充）
@@ -186,9 +186,17 @@ def fetch_meta_ads_hk() -> list:
             snap = ad.get("snapshot", {})
             body = snap.get("body", {})
             page_name = ad.get("page_name", "")
-            own_flag = any(p["own"] for p in ALL_FB_PAGES if p["name"] in page_name or page_name in p["name"])
+            ad_page_id = str(ad.get("page_id", ""))
+            # 用 page_id 比對 ALL_FB_PAGES；找不到就維持 FB 原名、own=False
+            brand_key = page_name
+            own_flag = False
+            for p in ALL_FB_PAGES:
+                if str(p.get("page_id", "")) == ad_page_id:
+                    brand_key = p["name"]
+                    own_flag = p["own"]
+                    break
             result.append({
-                "brand": page_name,
+                "brand": brand_key,
                 "title": snap.get("title", ""),
                 "body": body.get("text", "") if isinstance(body, dict) else str(body),
                 "cta": snap.get("cta_text", ""),
@@ -647,8 +655,9 @@ def save_raw_metaads(tok, ads, market):
     print(f"  -> existing ad_id: {len(existing_ids)} rows")
     scrape_date = datetime.date.today().isoformat()
     week = get_iso_week()
-    page_info = {p["name"]: {"brand": p["name"], "is_own": p.get("own", False)}
-                 for p in ALL_FB_PAGES}
+    # 對照表改用 page_id 當 key（比 page_name 更精準）
+    page_info = {str(p.get("page_id", "")): {"brand": p["name"], "is_own": p.get("own", False)}
+                 for p in ALL_FB_PAGES if p.get("page_id")}
     new_rows = []
     skipped = 0
     no_raw = 0
@@ -669,7 +678,8 @@ def save_raw_metaads(tok, ads, market):
         platforms = raw.get("publisher_platform", [])
         platforms_str = ", ".join(platforms) if isinstance(platforms, list) else str(platforms)
         page_name = raw.get("page_name", snap.get("page_name", ""))
-        info = page_info.get(page_name, {"brand": page_name, "is_own": False})
+        raw_page_id = str(raw.get("page_id", ""))
+        info = page_info.get(raw_page_id, {"brand": page_name, "is_own": False})
         row = [
             scrape_date, week, market, info["brand"], info["is_own"],
             ad_id, page_name, snap.get("title", ""), body_text,
