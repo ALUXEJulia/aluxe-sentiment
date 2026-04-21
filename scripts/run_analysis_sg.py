@@ -599,7 +599,7 @@ def generate_html(report: dict):
     # 只需更新 config.json 確保地區清單正確
     config = {
         "markets": [
-            {"id": "sg", "label": "🇸🇬 Singapore", "data_file": "latest.json",    "active": True},
+            {"id": "sg", "label": "🇸🇬 Singapore", "data_file": "sg_latest.json", "active": True},
             {"id": "hk", "label": "🇭🇰 Hong Kong",  "data_file": "hk_latest.json", "active": True},
         ]
     }
@@ -658,11 +658,11 @@ def send_telegram(report: dict):
 # ══════════════════════════════════════════════════════
 
 def save_json(report: dict):
-    hf = OUTPUT_DIR / "history.json"
+    hf = OUTPUT_DIR / "sg_history.json"
     history = json.loads(hf.read_text()) if hf.exists() else []
     history.insert(0, report)
     hf.write_text(json.dumps(history[:26], ensure_ascii=False, indent=2))
-    (OUTPUT_DIR / "latest.json").write_text(json.dumps(report, ensure_ascii=False, indent=2))
+    (OUTPUT_DIR / "sg_latest.json").write_text(json.dumps(report, ensure_ascii=False, indent=2))
     print("[JSON] 完成")
 
 

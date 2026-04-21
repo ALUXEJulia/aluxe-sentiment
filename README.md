@@ -92,5 +92,5 @@ export GOOGLE_SHEETS_ID="xxxx"
 export GOOGLE_SERVICE_ACCOUNT='{"type":"service_account",...}'
 
 pip install requests cryptography
-python scripts/run_analysis.py
+python scripts/run_analysis_sg.py
 ```

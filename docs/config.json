@@ -3,7 +3,7 @@
     {
       "id": "sg",
       "label": "🇸🇬 Singapore",
-      "data_file": "latest.json",
+      "data_file": "sg_latest.json",
       "active": true
     },
     {
