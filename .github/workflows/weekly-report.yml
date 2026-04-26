@@ -1,9 +1,9 @@
 name: ALUXE SG Weekly Sentiment Report
 
 on:
-  # 每週一早上 06:00 SGT (UTC+8) = UTC Sun 22:00 自動執行
+  # 每週一凌晨 00:00 SGT (UTC+8) = UTC Sun 16:00 自動執行
   schedule:
-    - cron: '0 22 * * 0'
+    - cron: '0 16 * * 0'
 
   # 也可以在 GitHub 手動按「Run workflow」立即觸發
   workflow_dispatch:
