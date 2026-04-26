@@ -1,7 +1,7 @@
 name: ALUXE SG Weekly Sentiment Report
 
 on:
-  # 每週一早上 9:00 SGT (UTC+8) = UTC 01:00 自動執行
+  # 每週一早上 06:00 SGT (UTC+8) = UTC Sun 22:00 自動執行
   schedule:
     - cron: '0 22 * * 0'
 
@@ -24,24 +24,32 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: pip install requests cryptography
+
+      # v6：PDF 產生需要 Chrome headless（Ubuntu Runner 預載 chromium）
+      - name: Setup Chrome for PDF generation
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
 
       - name: Run sentiment analysis
         env:
-          APIFY_TOKEN:            ${{ secrets.APIFY_TOKEN }}
-          ANTHROPIC_API_KEY:      ${{ secrets.ANTHROPIC_API_KEY }}
-          TELEGRAM_BOT_TOKEN:     ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID:       ${{ secrets.TELEGRAM_CHAT_ID }}
-          GOOGLE_SHEETS_ID:       ${{ secrets.GOOGLE_SHEETS_ID }}
-          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-          PAGES_URL:       ${{ secrets.PAGES_URL }}
+          APIFY_TOKEN:              ${{ secrets.APIFY_TOKEN }}
+          ANTHROPIC_API_KEY:        ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN:       ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:         ${{ secrets.TELEGRAM_CHAT_ID }}
+          GOOGLE_SHEETS_ID:         ${{ secrets.GOOGLE_SHEETS_ID }}
+          GOOGLE_SERVICE_ACCOUNT:   ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          GOOGLE_DRIVE_FOLDER_ID:   ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+          PAGES_URL:                ${{ secrets.PAGES_URL }}
         run: python scripts/run_analysis_sg.py
 
       - name: Commit updated dashboard
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/sg_latest.json docs/sg_history.json
+          # 不 commit PDF（檔案大、且已經上傳到 Drive 了）
+          git add docs/sg_latest.json docs/sg_history.json docs/config.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "chore: update SG dashboard $(date -u +%Y-%m-%d)"
           git push
