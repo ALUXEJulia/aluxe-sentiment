@@ -227,7 +227,13 @@ def render_html(d: dict, market: str) -> str:
         themes_html = "".join(f"<li>{t}</li>" for t in ad.get("main_themes", []))
         offers_html = "".join(f"<li>{o}</li>" for o in ad.get("key_offers", [])[:3])
         platforms = " · ".join(ad.get("platforms", []))
-        insight = ad.get("strategy_insight", "").split("\n")[0][:280] + ("..." if ad.get("strategy_insight") else "")
+        # 顯示完整 strategy_insight，保留段落（\n\n -> 段落間距，\n -> <br>）
+        raw_insight = ad.get("strategy_insight", "")
+        if raw_insight:
+            paragraphs = [p.strip() for p in raw_insight.split("\n\n") if p.strip()]
+            insight = "".join(f"<p>{p.replace(chr(10), '<br>')}</p>" for p in paragraphs)
+        else:
+            insight = ""
 
         # 縮圖：用實際 sample_ads，不夠 4 個就補佔位框
         samples = ad.get("sample_ads", []) or []
@@ -264,7 +270,7 @@ def render_html(d: dict, market: str) -> str:
           </div>
           <div class="insight">
             <strong>💡 戰略洞察</strong>
-            <p>{insight}</p>
+            {insight}
           </div>
         </div>
         ''')
@@ -484,9 +490,10 @@ def render_html(d: dict, market: str) -> str:
   .ads-col ul {{ margin: 3px 0; padding-left: 16px; font-size: 9pt; line-height: 1.5; }}
   .ads-meta {{ font-size: 8.5pt; color: #555; border-top: 1px dashed #ddd; padding-top: 6px; margin-bottom: 6px; }}
   .ads-meta span {{ display: block; margin-bottom: 2px; }}
-  .insight {{ background: #faf6ec; padding: 8px 10px; border-radius: 3px; font-size: 9pt; }}
+  .insight {{ background: #faf6ec; padding: 8px 12px; border-radius: 3px; font-size: 9pt; }}
   .insight strong {{ color: #c9a961; }}
-  .insight p {{ margin: 4px 0 0 0; line-height: 1.6; }}
+  .insight p {{ margin: 6px 0 0 0; line-height: 1.65; text-align: justify; }}
+  .insight p:first-of-type {{ margin-top: 4px; }}
 
   .alert-grid {{ display: flex; flex-direction: column; gap: 10px; }}
   .alert-card {{ padding: 12px 14px; border-radius: 4px; border-left: 4px solid #999; page-break-inside: avoid; }}

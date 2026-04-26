@@ -5,7 +5,7 @@ ALUXE 競品週報 PDF 補發腳本
 只做 3 件事：
   1. 用現有的 docs/{market}_latest.json 重新產 PDF
   2. 上傳到 Google Drive
-  3. 發一則簡短 Telegram 訊息（含 Drive 連結）
+  3. 發一則完整週報摘要 Telegram 訊息（含 Drive 連結）
 
 跳過 Apify、Claude、Sheets 等所有花錢的步驟。
 
@@ -25,6 +25,74 @@ from generate_pdf import generate_pdf
 from upload_drive import upload_pdf_to_drive
 
 
+def build_telegram_summary(data: dict, market: str, drive_url: str, pages_url: str, sheets_id: str) -> str:
+    """
+    根據 JSON 資料建構與主流程 send_telegram() 一致的週報摘要。
+    多了 (PDF 補發) 標記避免跟主流程的訊息混淆。
+    """
+    date = data.get("generated_at", "")[:10]
+    market_upper = market.upper()
+
+    # 自家品牌平均分
+    own = [v["sentiment_score"] for k, v in data.get("brands", {}).items()
+           if "ALUXE" in k and "JOY" not in k]
+    avg = round(sum(own) / len(own), 2) if own else 0
+    icon = "📈" if avg >= 0.7 else "📊" if avg >= 0.5 else "📉"
+
+    # 競品負評預警
+    alerts = "\n".join(
+        f"{'🔴' if a.get('severity', 1) >= 4 else '🟡'} {a['brand']} — {a['issue']}"
+        for a in data.get("competitor_alerts", [])
+    ) or "本週無預警"
+
+    # 三大行動
+    actions = "\n".join(
+        f"{i+1}. {a}" for i, a in enumerate(data.get("actionable_top3", []))
+    )
+
+    # 廣告摘要：分自家 + 競品兩段
+    own_ads_summary = ""
+    comp_ads_summary = ""
+    for brand, ad_data in data.get("competitor_ads", {}).items():
+        count = ad_data.get("ad_count", 0)
+        focus = ad_data.get("cta_focus", "")
+        line = f"\n· {brand}：{count} 則廣告，主打「{focus}」"
+        if ad_data.get("own", False):
+            own_ads_summary += line
+        else:
+            comp_ads_summary += line
+    own_ads_section = f"自家廣告動態{own_ads_summary}\n\n" if own_ads_summary else ""
+    comp_ads_section = (
+        f"競品廣告動態（每品牌取最新+最舊代表樣本分析）{comp_ads_summary}\n\n"
+        if comp_ads_summary else ""
+    )
+
+    # GSC
+    gsc = data.get("gsc_insights", {})
+    gsc_line = ""
+    if gsc.get("top_keywords"):
+        top3 = ", ".join(k["keyword"] for k in gsc["top_keywords"][:3])
+        gsc_line = f"\n\n🔍 GSC 前3關鍵字：{top3}"
+    if gsc.get("opportunities"):
+        gsc_line += f"\n⚡ 機會點：{gsc['opportunities'][0]['keyword']}"
+
+    pdf_line = f"\n\n📄 PDF 完整週報：{drive_url}" if drive_url else ""
+    dashboard_line = f"\n儀表板：{pages_url}" if pages_url else ""
+    sheets_line = f"\n數據：https://docs.google.com/spreadsheets/d/{sheets_id}" if sheets_id else ""
+
+    return (
+        f"ALUXE {market_upper} 競品市場週報（PDF 補發）· {date}\n\n"
+        f"{icon} 自家品牌平均分：{avg}"
+        f"{gsc_line}\n\n"
+        f"競品負評預警\n{alerts}\n\n"
+        f"{own_ads_section}"
+        f"{comp_ads_section}"
+        f"本週優先行動\n{actions}"
+        f"{pdf_line}\n"
+        f"{dashboard_line}{sheets_line}"
+    )
+
+
 def main():
     market = (sys.argv[1] if len(sys.argv) > 1 else "sg").lower()
     if market not in ("sg", "hk"):
@@ -42,6 +110,8 @@ def main():
     FOLDER_ID = os.environ.get("GOOGLE_DRIVE_FOLDER_ID", "")
     TG_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
     TG_CHAT = os.environ.get("TELEGRAM_CHAT_ID", "")
+    PAGES_URL = os.environ.get("PAGES_URL", "")
+    SHEETS_ID = os.environ.get("GOOGLE_SHEETS_ID", "")
 
     if not FOLDER_ID:
         print("❌ 環境變數 GOOGLE_DRIVE_FOLDER_ID 未設定")
@@ -54,7 +124,10 @@ def main():
     week_start = period.get("week_start", "")
     week_end = period.get("week_end", "")
 
-    week_label = f"W{iso_week:02d}_{week_start}_to_{week_end}" if isinstance(iso_week, int) else f"WXX_{week_start}_to_{week_end}"
+    week_label = (
+        f"W{iso_week:02d}_{week_start}_to_{week_end}"
+        if isinstance(iso_week, int) else f"WXX_{week_start}_to_{week_end}"
+    )
     pdf_path = repo_root / "docs" / f"ALUXE_{market.upper()}_週報_{week_label}.pdf"
 
     # 1. PDF
@@ -67,23 +140,18 @@ def main():
     info = upload_pdf_to_drive(pdf_path, FOLDER_ID, SERVICE_ACCOUNT)
     drive_url = info.get("webViewLink", "")
 
-    # 3. Telegram（簡短訊息，只附連結）
+    # 3. Telegram（完整週報摘要 + Drive 連結）
     if TG_TOKEN and TG_CHAT and drive_url:
-        date = data.get("generated_at", "")[:10]
-        msg = (
-            f"📄 ALUXE {market.upper()} 競品市場週報（PDF 補發）· {date}\n\n"
-            f"完整 PDF 報告：\n{drive_url}\n\n"
-            f"（先前的 Telegram 摘要為同一份分析）"
-        )
+        msg = build_telegram_summary(data, market, drive_url, PAGES_URL, SHEETS_ID)
         try:
             requests.post(
                 f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage",
                 json={"chat_id": TG_CHAT, "text": msg},
                 timeout=30,
             ).raise_for_status()
-            print("[Telegram] 補發通知已送出")
+            print("[Telegram] 完整週報摘要已送出（含 PDF 連結）")
         except Exception as e:
-            print(f"[Telegram] 補發失敗（不影響 PDF 已上 Drive）：{e}")
+            print(f"[Telegram] 訊息送出失敗（不影響 PDF 已上 Drive）：{e}")
 
     print()
     print(f"✅ 完成")
