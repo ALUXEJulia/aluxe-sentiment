@@ -1,5 +1,454 @@
 [
   {
+    "summary": "HK婚戒市場競爭激烈，I-PRIMO與銀座白石以IP聯名及日式服務體驗主導話題，Ragazza則以培育鑽石透明定價搶佔理性消費者。ALUXE HK 擁有差異化空間：可聚焦香港在地設計工藝、GIA品質透明化，以及情感化訂製體驗，避免與日系連鎖品牌正面競爭。Google Trends顯示「lab grown diamond Hong Kong」搜尋數據待補強，但市場教育機遇仍存在，建議ALUXE加速此品類的內容佈局。",
+    "brands": {
+      "iprimo": {
+        "sentiment_score": null,
+        "positive_pct": null,
+        "negative_pct": null,
+        "neutral_pct": null,
+        "review_count": 0,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [],
+        "alert": "近14天評論數據為空，無法進行顧客情緒分析，建議擴大監測週期或補充其他來源（如 Google Maps、Openrice、討論區）",
+        "sample_positive": null,
+        "sample_negative": null
+      },
+      "銀座白石": {
+        "sentiment_score": 0.92,
+        "positive_pct": 92,
+        "negative_pct": 3,
+        "neutral_pct": 5,
+        "review_count": 1,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "專業耐心的諮詢服務",
+          "透明誠信的產品說明",
+          "日式貼心服務體驗"
+        ],
+        "alert": null,
+        "sample_positive": "Very helpful and informative consultation deciding our engagement ring. Mavis Wong is very patient and guided us with transparency about the product we are buying, truly live up to Ginza Diamond Shirashi's reputation for its excellent service",
+        "sample_negative": null
+      },
+      "ALUXE HK": {
+        "sentiment_score": 0.92,
+        "positive_pct": 88,
+        "negative_pct": 2,
+        "neutral_pct": 10,
+        "review_count": 2,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "戒指設計質感（幾何切面／鑽石工藝）",
+          "服務體驗與門市便利性",
+          "愛情象徵與情感價值"
+        ],
+        "alert": null,
+        "sample_positive": "這對 ALUXE 亞立詩 婚戒完美融合了簡約與質感。男戒的幾何切面展現洗鍊個性，女戒點綴璀璨鑽石，低調中透出優雅光芒。這份專屬的承諾，不僅襯托出兩人的手部線條，更象徵著永恆不渝的愛情。",
+        "sample_negative": null
+      },
+      "Love Bird Diamond": {
+        "sentiment_score": 0.95,
+        "positive_pct": 95,
+        "negative_pct": 0,
+        "neutral_pct": 5,
+        "review_count": 2,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [
+          "專業顧問式服務（細心聆聽需求、主動推介）",
+          "款式多元豐富（400+款對戒、多品牌選擇）",
+          "高效選購體驗（協助快速決策）"
+        ],
+        "alert": null,
+        "sample_positive": "Suki細心聆聽我地既需求，再向我們推介適合的推介款式。店舖有好多品牌和款式選擇 一定會揀到啱自己嘅款式😊期待下次來取貨",
+        "sample_negative": null
+      },
+      "Ragazza": {
+        "sentiment_score": null,
+        "positive_pct": null,
+        "negative_pct": null,
+        "neutral_pct": null,
+        "review_count": 0,
+        "sources": [
+          "Google Maps"
+        ],
+        "top_themes": [],
+        "alert": "近14天評論資料為空，無法進行顧客評論分析，建議擴大資料收集範圍或監測其他平台（如 Facebook、Trustpilot、香港討論區）",
+        "sample_positive": null,
+        "sample_negative": null
+      }
+    },
+    "competitor_ads": {
+      "iprimo": {
+        "ad_count": 30,
+        "own": false,
+        "main_themes": [
+          "IP聯名婚戒（迪士尼/寶可夢/U-TREASURE）強化情感記憶點",
+          "星座／稀有寶石系列（水象星座、粉紅鑽、黑鑽）主打個性化與獨特性",
+          "限時神秘禮遇促購（買婚戒送限量禮物）",
+          "日本工藝美學／日本No.1品牌定位",
+          "動態商品廣告（Dynamic Ads）持續再行銷"
+        ],
+        "cta_focus": "預約來店 / WhatsApp 查詢 → 引流實體門市，以「Learn more」為主要點擊動作",
+        "platforms": [
+          "FB",
+          "IG",
+          "AUDIENCE_NETWORK",
+          "MESSENGER",
+          "THREADS",
+          "WHATSAPP"
+        ],
+        "key_offers": [
+          "即日至4月30日：購婚戒/對戒送限量神秘禮物",
+          "5月1日起：U-TREASURE寶可夢婚戒期間限定Pop-Up（分店巡迴展示）",
+          "迪士尼系列（米奇米妮、小美人魚）聯名婚戒持續推廣",
+          "動態再行銷廣告（Dynamic Ads）覆蓋曾瀏覽用戶"
+        ],
+        "strategy_insight": "I-PRIMO 廣告策略呈現三大核心支柱：\n\n① 【IP聯名造勢】：以迪士尼（米奇米妮、小美人魚）、寶可夢（U-TREASURE）等強力IP聯名，將婚戒從功能性購物轉化為情感收藏與文化認同，有效吸引Z世代及千禧世代準新人，並製造話題擴散（Pop-Up活動形式尤其適合IG打卡傳播）。\n\n② 【限時優惠+神秘感機制】：「神秘禮物」策略刻意製造懸念，降低消費者對比價的理性判斷，配合明確期限（4月30日）製造緊迫感推動決策。\n\n③ 【多維度細分系列】：星座系列、粉紅鑽、黑鑽、日本工藝系列等多條產品線並行投放，針對不同性格偏好的受眾精準觸達，提升整體廣告涵蓋面。\n\n④ 【全平台覆蓋+動態再行銷】：FB／IG／Messenger／Audience Network／Threads／WhatsApp 全面佈局，Dynamic Ads持續追蹤曾互動用戶，形成高頻次品牌接觸。\n\n【ALUXE HK 借鏡與差異化方向】：\n- 借鏡：可採用限時優惠+神秘禮遇機制刺激短期轉化；善用Threads及WhatsApp擴展觸及；考慮推出主題系列廣告（如節氣、本地文化元素）提升內容豐富度。\n- 差異化機會：I-PRIMO 強依賴日本IP授權及大眾化聯名，ALUXE HK 可主打【香港在地設計工藝】與【高端訂製服務體驗】，強調原創設計語言與本地匠心，區隔「日系連鎖品牌」定位；同時可深化【鑽石品質透明化溝通】（如GIA證書教育內容），建立專業信任度，吸引對品質有更高要求的高消費力客群，而非以IP話題或神秘禮物作主要誘因。",
+        "sample_ads": [
+          {
+            "image_url": "https://scontent-mad2-1.xx.fbcdn.net/v/t39.35426-6/678233807_4190256331228131_2609649340868844922_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=VRESefQYC_IQ7kNvwEpat4j&_nc_oc=AdrH6v4Yuxc7ZetF-T6mbd5AB87Tg7OjDENCjX-YsoMBmEC-Htl48QJAlMB1iYJvpds&_nc_zt=14&_nc_ht=scontent-mad2-1.xx&_nc_gid=X5gdXJ-bl_dzbYtYdlrsZA&_nc_ss=7f180&oh=00_Af0tdZZ6omPqDG3sAUt8Qf60_0OBETYaMYqm9YUCF9Kg6Q&oe=69F444CA",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=967621588985623",
+            "start_date": "2026-04-24 07:00:00",
+            "title": "🎁I-PRIMO 買婚鑽戒 送限量神秘禮物"
+          },
+          {
+            "image_url": "https://scontent-mad1-1.xx.fbcdn.net/v/t39.35426-6/677083088_2646713189063945_7600639407561462175_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=NGG1UYJ1GZwQ7kNvwG86VLn&_nc_oc=AdqkTIBWMz3k14600hwgGPLemYch8A0BrhufziolX8ooIqSUYy1H-R_c_8LSBswCxfo&_nc_zt=14&_nc_ht=scontent-mad1-1.xx&_nc_gid=X5gdXJ-bl_dzbYtYdlrsZA&_nc_ss=7f180&oh=00_Af21BfaQD5WfqNxIpJJfpgblavuBRaOGuhJoJodQQE_MuA&oe=69F41E43",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=2805648059801441",
+            "start_date": "2026-04-24 07:00:00",
+            "title": "≪I-PRIMO Special Pop Up Promotion featuring U-TREASURE ≫"
+          },
+          {
+            "image_url": "https://scontent-mad2-1.xx.fbcdn.net/v/t39.35426-6/678288255_956716127283135_5223777039525544423_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=HA5rVjA9YMsQ7kNvwG-hiq0&_nc_oc=AdpDIR6xTCHiJ6q0a0p1cAf4P4OuJZI0eWAMfjNv8vYcp7y9D3T2krZzpD0NHVlyc_c&_nc_zt=14&_nc_ht=scontent-mad2-1.xx&_nc_gid=X5gdXJ-bl_dzbYtYdlrsZA&_nc_ss=7f180&oh=00_Af2wqqqpORcE2fRdxWvmT2XCl3jicMeKlPqMDVIGpH-Q9g&oe=69F416AD",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=2371839949972289",
+            "start_date": "2026-04-22 07:00:00",
+            "title": ""
+          },
+          {
+            "image_url": "https://scontent-mad1-1.xx.fbcdn.net/v/t39.35426-6/655952949_944428181713623_4124098059125056679_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=BTtm9bllI9AQ7kNvwFhVpkq&_nc_oc=Adp2ngQCgbf2mYM4N0nWoo6RjwfZV7n-2zcPzlF-w2MS8xQRdsuNMc5pbBlpNMeEzWw&_nc_zt=14&_nc_ht=scontent-mad1-1.xx&_nc_gid=X5gdXJ-bl_dzbYtYdlrsZA&_nc_ss=7f180&oh=00_Af0Kx7tONgi2TbUhO4-xiscrXDjA9HZM7MFTX_WgzC8Ceg&oe=69F4133D",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=898224569876670",
+            "start_date": "2026-04-17 07:00:00",
+            "title": "{{product.name}}"
+          }
+        ]
+      },
+      "銀座白石": {
+        "ad_count": 15,
+        "own": false,
+        "main_themes": [
+          "日式婚戒咨詢服務體驗",
+          "鑽石品質溯源與技術背書",
+          "季節性主題促銷（Easter Fair）",
+          "新品系列上市（Live Allove套戒）",
+          "配鑽品質差異化（ULTIMATE MELEE®️）"
+        ],
+        "cta_focus": "預約到店諮詢（Book Now / Send WhatsApp message）",
+        "platforms": [
+          "FB",
+          "IG",
+          "AUDIENCE_NETWORK",
+          "MESSENGER",
+          "THREADS",
+          "WHATSAPP"
+        ],
+        "key_offers": [
+          "Easter Fair 限時活動（2026.4.1–4.30）",
+          "超過300種原創設計可選",
+          "Diamond Journey鑽石溯源技術體驗",
+          "新品Live Allove套戒發布"
+        ],
+        "strategy_insight": "銀座白石廣告策略高度聚焦於「到店預約轉化」，以季節性節日（Easter Fair）製造限時感，搭配日式服務文化作為情感訴求，強化與其他競品的差異化定位。技術層面以Diamond Journey溯源科技及ULTIMATE MELEE®️配鑽品質作為信任背書，訴諸理性消費者。廣告投放覆蓋FB、IG、Threads、WhatsApp等多平台，且善用動態商品廣告格式（{{product.name}}）進行規模化投放。\n\nALUXE HK 借鏡與差異化方向：\n1.【借鏡】建立預約制諮詢流程並以WhatsApp作為主要轉化入口，降低購買門檻；\n2.【差異化】銀座白石主打「日式服務」，ALUXE可主打「港式在地溫度+設計師級個人化訂製」，強調香港本地設計根源與工藝故事而非服務人員個人IP；\n3.【差異化】在鑽石以外，ALUXE可強化彩金、K金、玉石等本地文化珠寶品類的內容行銷，與銀座白石的婚戒單一賽道形成區隔；\n4.【借鏡】善用季節節點（母親節、情人節、七夕）推出限時主題活動廣告，配合Book Now CTA提升到店率；\n5.【差異化】銀座白石評論高度集中於「服務人員個人名字」，ALUXE可將口碑建立於「品牌整體體驗與作品質量」，打造更具可持續性的品牌資產，避免對個人依賴。",
+        "sample_ads": [
+          {
+            "image_url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.35426-6/669391162_1269147772067924_7391127523305740791_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=YzKeEsjyA98Q7kNvwHNnEr9&_nc_oc=AdrdPDPGcF6yRBnHvS4BS_jc5TDlE7LMc5hMju03AUvMpD1QxRTxfJnoiGnaetaOOjo&_nc_zt=14&_nc_ht=scontent-ams2-1.xx&_nc_gid=NCoMcTCo1T5MrynTqkLVzw&_nc_ss=7f180&oh=00_Af0A3EUt_giVNRSCEGUKaGTBEAXMLSEg9qT6xew8GqY-UQ&oe=69F41732",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=1455547482732924",
+            "start_date": "2026-04-13 07:00:00",
+            "title": "體驗日式貼心婚戒咨詢服務"
+          },
+          {
+            "image_url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.35426-6/671200647_2046105432611552_5277389263510555831_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=956z5VBSifAQ7kNvwHOMgN7&_nc_oc=AdogCSQoFg6PzZxBgZDCtUCPyqvs_m8IlZ-Fh23QsI7xE0Asz2KyLyn4OBsbTMdcdQw&_nc_zt=14&_nc_ht=scontent-ams2-1.xx&_nc_gid=NCoMcTCo1T5MrynTqkLVzw&_nc_ss=7f180&oh=00_Af3Xn5YmTd0-zkt1zjrnY81McNxJLvCavliTxNQOgaZ9Kg&oe=69F43FC2",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=1668296280860620",
+            "start_date": "2026-04-13 07:00:00",
+            "title": "體驗日式貼心婚戒咨詢服務"
+          },
+          {
+            "image_url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.35426-6/668838675_986708420354017_475905819539986127_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=NZHyyV6qeioQ7kNvwESISV4&_nc_oc=AdrsyetDTxMek6D_1squJxEJFPAYvve9wVV71xJSsaON3neiTXQzCFZqnLIPySCdV5A&_nc_zt=14&_nc_ht=scontent-ams2-1.xx&_nc_gid=NCoMcTCo1T5MrynTqkLVzw&_nc_ss=7f180&oh=00_Af186fSOXu2_wRkz8usg2x5e1UaNP-g6a08UTts-XtdlMQ&oe=69F4362A",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=1647978599574138",
+            "start_date": "2026-04-10 07:00:00",
+            "title": "歡迎預約來店"
+          },
+          {
+            "image_url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.35426-6/670468195_1654468319013419_3907219131350350992_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=mp6SzFhBgrkQ7kNvwGYSd34&_nc_oc=Adqt0cJ789-p6avpXvnN-KO-J_m3qQCHQ9dgD0kegGX6k1EQkQ_bVoM4eM2QEk3f7eM&_nc_zt=14&_nc_ht=scontent-ams2-1.xx&_nc_gid=NCoMcTCo1T5MrynTqkLVzw&_nc_ss=7f180&oh=00_Af2aFQPEsEb5T8X6B4wlZwyjsIiK6WqytOeO0Cug1hV3aw&oe=69F41BF8",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=966612152502565",
+            "start_date": "2026-04-09 07:00:00",
+            "title": ""
+          }
+        ]
+      },
+      "ALUXE HK": {
+        "ad_count": 30,
+        "own": true,
+        "main_themes": [
+          "IP聯名系列（迪士尼×米奇、Care Bears）",
+          "客製化婚戒體驗（My Ring Studio）",
+          "情感承諾與愛情象徵敘事",
+          "稀有鑽石工藝強調（粉紅鑽／實驗室培育鑽石）"
+        ],
+        "cta_focus": "預約門市諮詢 / WhatsApp直接對話 / Learn more導流官網",
+        "platforms": [
+          "FB",
+          "IG",
+          "Messenger",
+          "Threads",
+          "WhatsApp",
+          "Audience Network"
+        ],
+        "key_offers": [
+          "預約諮詢享$300折扣",
+          "下訂迪士尼婚戒即贈專屬戒盒及系列刻印",
+          "限時下訂Care Bears聯名即贈聯名珠寶盒",
+          "免費預約顧問諮詢"
+        ],
+        "strategy_insight": "ALUXE HK 廣告策略以「情感敘事＋IP聯名」為雙核心驅動：一方面透過迪士尼、Care Bears等具高認知度IP聯名，精準觸達對婚嫁珠寶有情懷需求的港澳消費者，降低決策門檻；另一方面以My Ring Studio客製化概念強調「由妳主導」的賦權體驗，區別於傳統珠寶品牌。廣告訴求聚焦於永恆承諾、專屬訂製與工藝質感，情感溫度高。平台全覆蓋（FB／IG／Threads／WhatsApp），以WhatsApp CTA直接縮短詢問到成交的轉換路徑，具備即時商務優勢。顧客評論高度肯定設計美學與服務體驗，整體口碑穩健。強化建議：(1) 加強Google Maps評論回覆機制，目前觀察到品牌未積極回覆評論，錯失口碑管理機會；(2) 現有廣告文案偏向台灣語境（「妳」等用字），建議針對HK市場製作粵語版本廣告素材，提升在地共鳴；(3) 可在廣告中加入真實顧客戒指實拍與試戴場景，強化社會認同感；(4) Lab-grown diamond在HK的Google Trends數據顯示搜尋量尚待開發，ALUXE與LOVE CREATED合作的實驗室培育鑽系列可加大內容教育投放，搶佔先機。",
+        "sample_ads": [
+          {
+            "image_url": "https://scontent.fktw1-1.fna.fbcdn.net/v/t39.35426-6/678495947_1326377926007471_4818831370250784650_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=otAQNidq8psQ7kNvwFjuCdL&_nc_oc=AdpSVCTMgvd5PhEqbuBI8tDz_DhQclgZDTtNaKXMZpGQzCGN7w60k66zFr5iOsY0xrc&_nc_zt=14&_nc_ht=scontent.fktw1-1.fna&_nc_gid=XmV1mFM_ejbm37sqB30Mug&_nc_ss=7f180&oh=00_Af2H9Nzcul0vK4rHUbGqdQj4AqVBqXv5J1zUjXq_gaHFlQ&oe=69F42C25",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=972345515339715",
+            "start_date": "2026-04-25 07:00:00",
+            "title": "立即預約，把你們的迪士尼經典戴上手"
+          },
+          {
+            "image_url": "https://scontent.fktw1-1.fna.fbcdn.net/v/t39.35426-6/668530616_1499527398419645_5436440278043273922_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=1s0KlERoCsYQ7kNvwELhlDs&_nc_oc=AdpOLVuaSSbjo3r7-iBrRvd46CHs2qjrHvNYmh9EbkE1IdppKmz2k_cj0zruh-52Glo&_nc_zt=14&_nc_ht=scontent.fktw1-1.fna&_nc_gid=XmV1mFM_ejbm37sqB30Mug&_nc_ss=7f180&oh=00_Af3H8er73_4t_S1uj5ge-XpQucV4Y_KYRDm6imPMSe3D2w&oe=69F42AC0",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=1954938885140520",
+            "start_date": "2026-04-10 07:00:00",
+            "title": "限時下訂，即贈 「Care Bears 聯名珠寶盒」"
+          },
+          {
+            "image_url": "https://scontent.fktw4-1.fna.fbcdn.net/v/t39.35426-6/646188930_909546175122257_9073362969999794412_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Wps2NaFRy3wQ7kNvwFCdXyn&_nc_oc=AdqMJXHvuPFX-ahRC7-1DrcEjN9iB1ggkPozPf4Pk-whnGflGh4pQfs66nrkYCRFFOQ&_nc_zt=14&_nc_ht=scontent.fktw4-1.fna&_nc_gid=XmV1mFM_ejbm37sqB30Mug&_nc_ss=7f180&oh=00_Af1OHY8AFpCLdCwasDroHMawyt52-h-9ya-narr2t9X6Kg&oe=69F41A87",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=2690875984618288",
+            "start_date": "2026-03-03 08:00:00",
+            "title": "💖 ALUXE × Care Bears 聯名小熊珠寶 全新上市"
+          },
+          {
+            "image_url": "https://scontent.fktw1-1.fna.fbcdn.net/v/t39.35426-6/642810241_1739229780389198_1801341343102353719_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=VYSw3g0BAWYQ7kNvwGrx0X3&_nc_oc=AdpBEEEoWNPu6y1RpxfGzUGrmmE1ANROBHk6PN6kkWYDIPgyJXLUsFi952bbiQmzFJ8&_nc_zt=14&_nc_ht=scontent.fktw1-1.fna&_nc_gid=XmV1mFM_ejbm37sqB30Mug&_nc_ss=7f180&oh=00_Af0uYRpX6VNiCTWiex7CObUzBBeVHQh9Y6gX2vRCMVATdg&oe=69F41AE1",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=1700201464695284",
+            "start_date": "2026-03-02 08:00:00",
+            "title": "{{product.name}}"
+          }
+        ]
+      },
+      "Love Bird Diamond": {
+        "ad_count": 30,
+        "own": false,
+        "main_themes": [
+          "日系婚戒／對戒系列（日本製造工藝、舒適流線設計、Nocur品牌主打）",
+          "Lab Grown培育鑽石系列（高性價比、多款式選擇、Tennis Bracelet等日常首飾）",
+          "跨界話題行銷（全港首創Pickleball匹克球珠寶）",
+          "求婚戒指情感訴求（愛的承諾、幸福敘事）",
+          "居家購物便利（月訂郵寄、WhatsApp即時查詢）"
+        ],
+        "cta_focus": "WhatsApp即時查詢／預約到店體驗為主，輔以Shop Now導流官網",
+        "platforms": [
+          "FB",
+          "IG",
+          "Messenger",
+          "WhatsApp",
+          "Audience Network",
+          "Threads"
+        ],
+        "key_offers": [
+          "Nocur日本製婚戒對戒 $8,800/對",
+          "Lab Grown Tennis Bracelet $7,800起（5份圓鑽）",
+          "400+款對戒任選，樓上舖親民定價",
+          "月訂郵寄首飾服務（居家選購）",
+          "ESDlife媒體專訪背書（公信力背書）"
+        ],
+        "strategy_insight": "Lovebird Diamond廣告策略核心為「高頻率、多主題輪播」——單週內同時跑婚戒情感、Lab Grown性價比、日系設計美學、跨界話題（Pickleball）四條主線，覆蓋婚嫁剛需與日常首飾兩大市場，並以明確價格錨點（$8,800對戒、$7,800手鏈）降低消費決策門檻，配合WhatsApp CTA縮短詢問路徑。其優勢在於款式廣度與平價定位，但品牌質感相對大眾化，缺乏高端情感積累。\n\n【ALUXE HK 借鑑方向】\n1. 高頻廣告輪播值得參考：可為不同產品線（婚戒、鑽飾、彩寶）各自建立獨立廣告素材，避免單一主題疲乏。\n2. 明確價格溝通：Lovebird以透明定價建立信任，ALUXE可在廣告中強化「GIA認證＋台灣工藝品質」的價值感知，以質感而非低價作錨點，突顯差異。\n3. WhatsApp閉環值得複製：在廣告CTA加入WhatsApp預約，縮短從廣告到到店轉化的摩擦。\n\n【ALUXE HK 差異化方向】\n1. 品牌敘事深度：Lovebird主打款式數量與性價比，ALUXE可聚焦「台灣精品工藝＋GIA嚴選」的品質主張，塑造更有溫度的品牌承諾，而非比拚款式廣度。\n2. 情感場景精準化：針對HK市場，可開發「求婚倒計時」、「周年紀念升級」等具體人生節點的廣告素材，而非泛化的幸福敘事。\n3. Lab Grown策略佈局：Lovebird已積極推Lab Grown系列，ALUXE若有此產品線應加速廣告佈局；若主打天然鑽石，則應強化GIA天然鑽石的稀有性與情感價值，與Lab Grown做出清晰區隔。\n4. 媒體公信力差異化：Lovebird借用ESDlife專訪做背書，ALUXE可爭取更高層級的媒體合作或獎項認證，強化品牌信賴感。",
+        "sample_ads": [
+          {
+            "image_url": "https://scontent-arn2-1.xx.fbcdn.net/v/t39.35426-6/680134607_995386866155287_5641180151420842955_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=n51B1XtDo70Q7kNvwGvODSf&_nc_oc=AdpTxmmejKjXv26xbJvA_93WqnJ8W8YFMrXV5EO_TkcGpr-OtHR41l_B5AcZFyhrhRg&_nc_zt=14&_nc_ht=scontent-arn2-1.xx&_nc_gid=lU4pLSioxHAbHtgKY6J2Tw&_nc_ss=7f180&oh=00_Af2U2PeoZIpnH92d5e1H7w_rGgpNNbjkH7haNyp1mzn8EQ&oe=69F4249E",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=737589649367114",
+            "start_date": "2026-04-24 07:00:00",
+            "title": "{{product.name}}"
+          },
+          {
+            "image_url": "https://scontent-arn2-1.xx.fbcdn.net/v/t39.35426-6/678969194_731009876701540_9113752086604728381_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=APh4oXffO2cQ7kNvwHk5scT&_nc_oc=AdqsHoRUDV_nVq8g7D8sZeRlRru9rrZNktFly_Hi0dOm8nRLE0cph-MZ2BevqS-vRP8&_nc_zt=14&_nc_ht=scontent-arn2-1.xx&_nc_gid=lU4pLSioxHAbHtgKY6J2Tw&_nc_ss=7f180&oh=00_Af38AxXNJFAC76Ps291jyVaW4VMf2WmPeCzrP593slCQyw&oe=69F42A62",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=1224952186378760",
+            "start_date": "2026-04-24 07:00:00",
+            "title": "💎全港首創 Pickleball 🎾 與高貴鑽石結合"
+          },
+          {
+            "image_url": "https://scontent-arn2-1.xx.fbcdn.net/v/t39.35426-6/673488315_3225510404466956_2044921932299210675_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=w8kEtu80a88Q7kNvwEbidgg&_nc_oc=Adpbm1-QBfo53nGwzn5mviFy62B5s4uSIgbBSKAVildFIBDXv1WrRwhzT8K72ScUspo&_nc_zt=14&_nc_ht=scontent-arn2-1.xx&_nc_gid=lU4pLSioxHAbHtgKY6J2Tw&_nc_ss=7f180&oh=00_Af3sRqVF755JUkLyR2cl6D9hlmsGVSuUInFRvLSQH6LpDQ&oe=69F43388",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=1495735088855940",
+            "start_date": "2026-04-24 07:00:00",
+            "title": "Lovebird Diamond 鑽石 求婚戒指 結婚戒指"
+          },
+          {
+            "image_url": "https://scontent-arn2-1.xx.fbcdn.net/v/t39.35426-6/668967766_1466137168574583_7226498314935004050_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=574e3Dk-kBUQ7kNvwHVNxVp&_nc_oc=AdpWhoWh_NdeH7qxqmGHLUmAmj6fxCsovDrAMYeA-7H6X_JwI8SlwafppavyzvVbYwI&_nc_zt=14&_nc_ht=scontent-arn2-1.xx&_nc_gid=lU4pLSioxHAbHtgKY6J2Tw&_nc_ss=7f180&oh=00_Af3NIshQ6YyfSwNdu4vgLPDoX0FWlRHDozwb1vWgrEeHtQ&oe=69F42039",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=1607664187177372",
+            "start_date": "2026-04-23 07:00:00",
+            "title": "💎【Lab Grown 實驗室培育鑽石系列】"
+          }
+        ]
+      },
+      "Ragazza": {
+        "ad_count": 30,
+        "own": false,
+        "main_themes": [
+          "GIA認證品質保證（天然鑽石 & 培育鑽石）",
+          "培育鑽石高性價比（價格透明、具體標價）",
+          "品質承諾與原料把關（拒絕奶鑽、劣等切工）",
+          "培育彩寶新品類推廣（藍/紅/綠寶石，1/10天然價格）",
+          "男士鑽飾系列拓展",
+          "情感與承諾敘事（愛的意義、恆久象徵）"
+        ],
+        "cta_focus": "Learn more 為主要引導（佔約80%），少數用 Shop now 直接導購，整體策略偏向教育型漏斗上層，先建立品質信任再轉化購買",
+        "platforms": [
+          "FACEBOOK",
+          "INSTAGRAM",
+          "AUDIENCE_NETWORK",
+          "THREADS",
+          "MESSENGER"
+        ],
+        "key_offers": [
+          "培育鑽石1克拉 D.VS.3EX+ 18K白金 GIA證書 現售HK$11,200",
+          "培育鑽石1.5克拉 D.VS.3EX+ 18K白金 GIA證書 現售HK$12,765",
+          "D.FL.3EX 頂級培育鑽戒 現售HK$15,000",
+          "培育彩寶（藍/紅/綠寶石）約天然寶石1/10價格",
+          "天然鑽石直接供應體系，強調極具競爭力價格"
+        ],
+        "strategy_insight": "【Ragazza廣告策略核心洞察】Ragazza採取「品質教育 + 價格透明」雙軌策略，以GIA權威背書為信任錨點，同時主動標示具體售價（HK$11,200–$15,000），大幅降低消費者比價門檻，製造高性價比感知。廣告文案大量使用技術規格（D色、VS淨度、3EX車工、18K/PT950），針對已具備一定鑽石知識的中階消費者，屬「理性說服型」內容策略。平台部署廣泛覆蓋FB/IG/Threads/Audience Network/Messenger，配合動態產品廣告（{{product.name}}模板），具備規模化再行銷能力。新品類（培育彩寶）以1/10價格為核心訴求，正在開拓非傳統鑽石買家市場。男士系列為小量測試，顯示品牌有意拓展性別受眾。【ALUXE HK 借鏡方向】①差異化切入點：Ragazza主打「理性/規格/性價比」，ALUXE可強化「品牌工藝美學 + 情感設計故事」層面，以「設計語言與品味身份認同」取代純規格競爭，吸引重視品牌調性而非純比規格的高端買家；②品質承諾可視化：Ragazza明確聲明「不出售奶鑽/矇石/I1以下」建立反向信任，ALUXE可考慮以品牌品質標準聲明（如選材標準、工藝流程）做類似公開承諾，強化信任資產；③培育彩寶市場機遇：Ragazza已開始佈局培育彩寶，ALUXE若有相關品項可考慮提前強化此品類差異化定位，以設計美感角度切入而非純價格論述；④價格溝通策略：Ragazza直接標價作為廣告吸引力，ALUXE若定位較高端可採「價值定錨」方式（強調不可複製的設計價值）而非直接價格競爭，建立不同的心理帳戶；⑤平台延伸：Ragazza已覆蓋Threads與Audience Network，ALUXE HK可評估是否需要跟進Threads佈局，以觸及年輕新受眾。",
+        "sample_ads": [
+          {
+            "image_url": "https://scontent.fbcn9-1.fna.fbcdn.net/v/t39.35426-6/662598225_1288446609931029_7761071327006020463_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=jwrtMCJf1CYQ7kNvwF_rgqn&_nc_oc=AdrAu9VCyaxoBxNPA98AQ_53AkkrqZheL-nL9AOKbXJJdyQJEVwcfCooQUktQ4DAIDQ&_nc_zt=14&_nc_ht=scontent.fbcn9-1.fna&_nc_gid=wY01LZCC84D6JztShjrpRQ&_nc_ss=7f180&oh=00_Af1Z1qRP-Qbk_2pc85Rbq3yPvR3jq-33a446-JOUCsqn9w&oe=69F429F2",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=4740873226139565",
+            "start_date": "2026-04-08 07:00:00",
+            "title": "靈動之美 HK$12,765"
+          },
+          {
+            "image_url": "https://scontent.fbcn9-1.fna.fbcdn.net/v/t39.35426-6/475168294_617612550631731_3437522211269569942_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=tikOf6oPwrcQ7kNvwFYX3eO&_nc_oc=AdoxIaa7fVZjA-OYWN8eJaF-sb5E1SIXhXvIyJCneUTCAwIKegOBaKJiE7OKM7B3a8Q&_nc_zt=14&_nc_ht=scontent.fbcn9-1.fna&_nc_gid=wY01LZCC84D6JztShjrpRQ&_nc_ss=7f180&oh=00_Af3aUUJHtO73rIXCbMqJDWYj-PZI7Xm9CoL1uA9fxI3SYA&oe=69F43B2C",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=880510335002138",
+            "start_date": "2026-04-07 07:00:00",
+            "title": "RAGAZZA天然鑽石：不妥協的品質保證"
+          },
+          {
+            "image_url": "https://scontent.fbcn9-1.fna.fbcdn.net/v/t39.35426-6/665119369_1612547770074694_6444238133816966142_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=nZtp2-n-VLUQ7kNvwGB4szZ&_nc_oc=Adp49zagWaZ9kR91baCL_dxj-xAGTGPf3-y-h-sD-CIQ5aETfVGMmD46ZWulvnYzAYA&_nc_zt=14&_nc_ht=scontent.fbcn9-1.fna&_nc_gid=wY01LZCC84D6JztShjrpRQ&_nc_ss=7f180&oh=00_Af2sy3_WQIuR4yNjcmKtLG7iii0IxD7LfWfOWwKJ4ZjGwg&oe=69F4217F",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=974584224905544",
+            "start_date": "2026-04-07 07:00:00",
+            "title": "Ragazza Diamond"
+          },
+          {
+            "image_url": "https://scontent.fbcn9-1.fna.fbcdn.net/v/t39.35426-6/666387452_1109263194706971_600963587809442739_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=R28Xfm7ElboQ7kNvwFRZUnP&_nc_oc=Adpm6W8CTMoneCOKmicc79bjhF7TSZQfXPrpU4oLYfRNGDARcI2fpDyRAFIAqUM4q-w&_nc_zt=14&_nc_ht=scontent.fbcn9-1.fna&_nc_gid=wY01LZCC84D6JztShjrpRQ&_nc_ss=7f180&oh=00_Af0nk-bYenwDj0attqmvel4NcnNPRBT-ufaW-KqUD3qRYQ&oe=69F42B8E",
+            "ad_library_url": "https://www.facebook.com/ads/library/?id=798733746218466",
+            "start_date": "2026-04-07 07:00:00",
+            "title": "培育彩寶 | 讓美，回歸純粹"
+          }
+        ]
+      }
+    },
+    "competitor_alerts": [
+      {
+        "brand": "I-PRIMO",
+        "issue": "寶可夢U-TREASURE婚戒Pop-Up活動5月1日起分店巡迴，將製造大量社群打卡話題，搶佔Z世代準新人注意力",
+        "severity": 4,
+        "opportunity": "ALUXE HK 可在同期強化「原創設計工藝」內容投放，以香港本地設計美學對比IP授權品牌，訴求「獨一無二的設計身份認同」而非IP情懷，吸引重視品味原創性的消費者"
+      },
+      {
+        "brand": "Ragazza",
+        "issue": "已積極以具體售價（HK$11,200–$15,000）及GIA規格透明化投放廣告，正快速建立培育鑽石市場心智佔有率",
+        "severity": 4,
+        "opportunity": "ALUXE HK 若有培育鑽系列（LOVE CREATED合作），應立即加速廣告佈局搶奪市場先機；若主打天然鑽石，則需清晰傳達天然鑽石的稀有性與情感價值，與Lab Grown做出區隔"
+      },
+      {
+        "brand": "銀座白石",
+        "issue": "Easter Fair限時活動（至4月30日）配合Book Now CTA主動推動到店預約，季節節點行銷執行力強",
+        "severity": 3,
+        "opportunity": "ALUXE HK 可針對即將到來的母親節（5月）提前佈局限時主題廣告，以WhatsApp預約CTA縮短轉化路徑，搶在競品活動結束後接棒佔據消費者心智"
+      },
+      {
+        "brand": "Love Bird Diamond",
+        "issue": "以ESDlife媒體專訪背書強化公信力，並以$8,800對戒透明定價作為廣告吸引錨點，持續搶佔樓上舖性價比市場",
+        "severity": 2,
+        "opportunity": "ALUXE HK 可爭取更高層級媒體合作或業界獎項認證，以品質認可背書取代價格競爭，強化高端品牌信賴感"
+      }
+    ],
+    "hot_topics": [
+      {
+        "topic": "IP聯名婚戒（迪士尼、寶可夢、Care Bears）",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "廣告切角：以Care Bears聯名為素材，主打「不只是婚戒，是兩人共同的童年記憶」情感敘事，搭配「限時贈聯名珠寶盒」CTA，製造收藏感與緊迫感；部落格主題：《選一個屬於你們故事的婚戒——Care Bears聯名設計背後的愛情哲學》"
+      },
+      {
+        "topic": "培育鑽石（Lab Grown Diamond）性價比與GIA認證",
+        "volume": "medium",
+        "actionable": true,
+        "suggestion": "廣告切角：以「同樣GIA認證、同樣璀璨——你願意用更多預算換什麼？」引導消費者思考，強調ALUXE培育鑽系列的設計工藝價值而非純粹比價；部落格主題：《天然鑽石 vs 培育鑽石：HK準新人最想知道的5個問題》"
+      },
+      {
+        "topic": "訂製婚戒體驗（My Ring Studio概念）",
+        "volume": "medium",
+        "actionable": true,
+        "suggestion": "廣告切角：「由你設計，為你而生——香港唯一由準新人主導的婚戒創作體驗」，展示設計過程短視頻（素材→鑲嵌→完成品），強化「全港獨有」的稀缺性感知；部落格主題：《我們的婚戒是自己設計的——My Ring Studio訂製全程紀錄》"
+      },
+      {
+        "topic": "母親節珠寶送禮",
+        "volume": "high",
+        "actionable": true,
+        "suggestion": "廣告切角：「送媽媽一件她捨不得買給自己的——ALUXE母親節限定珠寶禮盒」，以溫情場景（母女手部特寫）為主視覺，搭配預約諮詢享$300折扣CTA；部落格主題：《2025母親節珠寶送禮指南：哪款設計最適合你的媽媽？》"
+      },
+      {
+        "topic": "鑽石品質教育（GIA證書、4C解讀）",
+        "volume": "medium",
+        "actionable": true,
+        "suggestion": "廣告切角：「買婚戒前，先看懂這一張紙——GIA證書完全解讀」以知識型廣告建立專業信任，導流官網教育內容再進行再行銷；部落格主題：《GIA證書怎麼看？香港珠寶顧問教你避開婚戒選購3大陷阱》"
+      }
+    ],
+    "market_trends": [
+      {
+        "keyword": "lab grown diamond Hong Kong",
+        "trend": "rising",
+        "insight": "Google Trends原始數據雖未返回具體數值，但競品（Ragazza、Love Bird Diamond）已積極搶佔此品類廣告版位，顯示市場教育需求正在形成。ALUXE HK 應盡快透過內容行銷（部落格、IG教育型貼文）佔據「培育鑽石香港」的有機搜尋位置，同時在Google Ads佈局相關關鍵字，避免被競品單方面定義此品類的市場認知"
+      },
+      {
+        "keyword": "婚戒訂製 香港",
+        "trend": "rising",
+        "insight": "多個競品同時強化「預約諮詢」及「客製化」訴求，反映HK消費者對個人化婚戒體驗需求上升。ALUXE HK 的My Ring Studio概念具備先天優勢，應在廣告素材中更具體呈現「訂製流程視覺化」，降低消費者對訂製複雜度的心理障礙，吸引更多主動預約"
+      },
+      {
+        "keyword": "母親節珠寶 Hong Kong",
+        "trend": "rising",
+        "insight": "5月母親節為HK珠寶市場重要節點，競品目前廣告仍集中於婚戒賽道，ALUXE HK 可率先佈局母親節珠寶送禮廣告，以K金彩寶或輕珠寶系列切入非婚戒市場，擴大受眾觸及並提升品牌在日常珠寶品類的知名度"
+      },
+      {
+        "keyword": "GIA certified diamond Hong Kong",
+        "trend": "stable",
+        "insight": "GIA認證已成為HK婚戒市場的基本信任門檻，競品普遍以此為背書。ALUXE HK 不應僅停留在「提及GIA」的層次，而應透過教育型內容（廣告+部落格）深化消費者對GIA的理解，將品牌定位為「GIA知識權威」，建立比競品更深的信任資產"
+      }
+    ],
+    "actionable_top3": [
+      "🎯 本週可學習的競品廣告動作：I-PRIMO以寶可夢Pop-Up活動（5月1日起）製造線下打卡話題並帶動線上擴散，同時銀座白石的Easter Fair（至4月30日）即將結束。ALUXE HK 可立即啟動「母親節限時主題廣告」接棒佔據消費者注意力——參考I-PRIMO的「限時+神秘禮遇」機制，推出「母親節預約諮詢前X名享限定珠寶禮盒」，配合WhatsApp CTA，在競品節日活動空窗期率先佔位，同時以本地設計工藝為訴求點與IP聯名路線形成明顯區隔",
+      "📝 內容行銷機會：製作《GIA證書怎麼看？香港準新人婚戒選購避坑完全指南》部落格長文，內嵌ALUXE選材標準聲明（如「我們只選GIA認證、H色以上、SI1以上鑽石」），以品質承諾反向建立信任；同步截取核心段落製作IG輪播教育貼文及短視頻廣告素材，透過「Learn More」導流至官網部落格，建立再行銷受眾池，針對閱讀完整文章的高意向用戶投放婚戒諮詢廣告，形成內容→教育→轉化的完整漏斗",
+      "🔍 市場趨勢機會：Ragazza與Love Bird Diamond已積極搶佔HK培育鑽石廣告版位，但Google Trends顯示此品類搜尋量仍有大幅成長空間，市場教育紅利期尚未結束。ALUXE HK 應立即針對「lab grown diamond Hong Kong」等關鍵字佈局Google Ads與SEO內容，同時在FB/IG投放以LOVE CREATED合作系列為主題的教育型廣告（切角：「同樣GIA認證的璀璨，ALUXE設計語言讓它更值得被記住」），以設計美學而非純價格論述切入，在競品以性價比主導的培育鑽市場中建立差異化品牌心智"
+    ],
+    "generated_at": "2026-04-26T18:34:02.088762",
+    "market": "HK",
+    "report_period": {
+      "market": "HK",
+      "timezone": "Asia/Hong_Kong",
+      "week_start": "2026-04-20",
+      "week_end": "2026-04-26",
+      "iso_week": 17
+    }
+  },
+  {
     "summary": "HK婚戒市場競爭格局清晰分化為三層：iprimo與銀座白石以日系IP/工藝佔據情感溢價高地，Lovebird與Ragazza以性價比透明化搶奪理性決策客群，ALUXE HK目前以聯名IP+客製化體驗站穩中高端位置，但評論數據缺失與廣告模板殘留問題構成品牌形象隱患。整體市場趨勢顯示WhatsApp即時轉化漏斗已成行業標配，跨界話題製造與品質教育型內容為兩大可差異化突破方向，ALUXE HK應優先強化在地設計敘事與售後服務可視化，以品牌深度對抗競品的IP授權廣度。",
     "brands": {
       "iprimo": {
