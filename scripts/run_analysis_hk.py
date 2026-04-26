@@ -496,7 +496,8 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
 
     for brand in all_brands:
         print(f"  [Claude] 分析 {brand}...")
-        b_reviews = brand_reviews.get(brand, [])[:20]
+        b_reviews_all = brand_reviews.get(brand, [])  # 本週全部評論
+        b_reviews = b_reviews_all[:20]                # Claude 只看前 20 則做樣本分析
         # 模糊匹配廣告品牌（因 page_name 可能與標準名稱略有不同）
         b_ads = ads_by_brand.get(brand, [])
         if not b_ads:
@@ -511,6 +512,9 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
             # 用真實總數覆蓋 Claude 看到的樣本數
             # 優先用 total_counts，找不到才用 b_ads 樣本數
             result["ad_count"] = total_counts.get(brand, len(b_ads))
+            # v6.1：強制覆蓋 review_count 為本週實際評論數
+            # Claude 有時會誤把 Google Maps 全店歷史總評論數填入
+            result["review_count"] = len(b_reviews_all)
             brand_results[brand] = result
             # 避免 rate limit：每個品牌呼叫之間 sleep 60 秒
             print(f"  [Sleep] 60 秒避免 rate limit...")

@@ -534,13 +534,17 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
 
     for brand in all_brands:
         print(f"  [Claude] 分析 {brand}...")
-        b_reviews = brand_reviews.get(brand, [])[:10]
+        b_reviews_all = brand_reviews.get(brand, [])  # 本週全部評論
+        b_reviews = b_reviews_all[:10]                # Claude 只看前 10 則做樣本分析
         b_ads = ads_by_brand.get(brand, [])
         own = "ALUXE" in brand
         try:
             result = analyze_brand_sg(brand, b_reviews, b_ads, gsc_text, opp_text, trends_text, own)
             # 用真實總數覆蓋 Claude 看到的樣本數
             result["ad_count"] = total_counts.get(brand, len(b_ads))
+            # v6.1：強制覆蓋 review_count 為本週實際評論數
+            # Claude 有時會誤把 Google Maps 全店歷史總評論數填入（曾見 Jannpaul 顯示 2485）
+            result["review_count"] = len(b_reviews_all)
             brand_results[brand] = result
             # 避免 rate limit：每個品牌呼叫之間 sleep 60 秒
             print(f"  [Sleep] 60 秒避免 rate limit...")
