@@ -1,0 +1,46 @@
+name: Redeploy PDF (no Apify/Claude)
+
+# 用途：在不重新抓資料、不打 Claude API 的前提下，補發一份 PDF 到 Drive。
+# 適用情境：上次 workflow 因為 Drive API 沒啟用、或其他外部因素導致上傳失敗，
+#          但 JSON 已正確產出。重跑全流程會白燒 Apify + Claude，這個只跑 PDF + Drive。
+
+on:
+  workflow_dispatch:
+    inputs:
+      market:
+        description: '市場（sg 或 hk）'
+        required: true
+        default: 'sg'
+        type: choice
+        options:
+          - sg
+          - hk
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install requests cryptography
+
+      - name: Setup Chrome for PDF generation
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Regenerate PDF and upload to Drive
+        env:
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/redeploy_pdf.py ${{ inputs.market }}

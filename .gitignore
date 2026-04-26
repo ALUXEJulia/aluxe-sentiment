@@ -27,3 +27,12 @@ credentials.env
 
 # Logs
 *.log
+
+# Claude Code 本地設定
+.claude/
+log.txt
+
+# v6：產生的 PDF 與 HTML 不入版本控管（已上傳 Drive）
+docs/*.pdf
+docs/*_report.html
+docs/ALUXE_*.pdf

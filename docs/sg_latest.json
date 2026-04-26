@@ -1,19 +1,19 @@
 {
-  "summary": "SG婚戒市場競爭激烈，JannPaul以技術工藝定位主導搜尋心佔率（Trends排名第一相關查詢），Michael Trio與Love & Co則以折扣促銷與WhatsApp即時轉換鞏固大眾市場；ALUXE最具差異化空間在於「高質感客製化設計＋刻印個人化服務＋品牌美學敘事」三位一體，應避免陷入折扣戰，聚焦情感價值與精工承諾建立輕奢定位。Google Trends顯示『engagement ring Singapore』搜尋高峰集中於4月中下旬（最高100分），Sapphire、Moissanite、Oval等寶石型態與戒型關鍵詞呈Breakout上升趨勢，ALUXE應把握此波需求高峰加速廣告與內容投放。",
+  "summary": "SG 婚戒市場搜尋需求持續高位，'engagement ring Singapore' 維持強勁搜尋量，同時 'lab grown diamond Singapore' 出現爆發性搜尋，Novita 已快速佔據消費者心智。競品中 JannPaul 強化技術壁壘與 LGD 彩鑽佈局，Love & Co 及 Michael Trio 以多層折扣搶奪節慶流量，Lee Hwa 則以大眾促銷鞏固線下到店。ALUXE 的核心機會在於：以工藝情感敘事與品牌美學差異化跳脫價格戰，同時積極佈建搜尋意圖型廣告與 LGD 相關內容資產，搶佔主動比較期消費者。",
   "brands": {
     "ALUXE SG": {
       "sentiment_score": 0.97,
-      "positive_pct": 100,
+      "positive_pct": 97,
       "negative_pct": 0,
-      "neutral_pct": 0,
-      "review_count": 10,
+      "neutral_pct": 3,
+      "review_count": 11,
       "sources": [
         "Google Maps"
       ],
       "top_themes": [
-        "顧問耐心、無壓力、貼心服務",
-        "豐富設計選擇與個人化訂製（刻字、指紋、圖案雕刻）",
-        "到店體驗流暢、婚戒/訂婚戒購買決策支持"
+        "卓越顧客服務體驗（無壓力、耐心、專業）",
+        "產品品質與設計多元（18K金、鑽戒款式豐富）",
+        "個人化服務與客製化刻印（拇指印、圖案雕刻）"
       ],
       "alert": null,
       "sample_positive": "Discovered the brand recently and was amazed by the range it offers that is clearly different from the rest. The engraving service was amazing. Personalised from thumb prints to pictures and drawings. I got a free engraving service as it is on promotion. Kelly even offered two rings on loan since my customised rings will only come 2mths later. Happy with my shopping experience.",
@@ -24,57 +24,21 @@
       "positive_pct": 100,
       "negative_pct": 0,
       "neutral_pct": 0,
-      "review_count": 10,
+      "review_count": 6,
       "sources": [
         "Google Maps"
       ],
       "top_themes": [
-        "顧問耐心專業無壓力銷售體驗",
-        "客製化戒指設計流程順暢",
-        "Lab-grown diamond 專業知識教育"
+        "顧問專業度與耐心（無壓力銷售）",
+        "客製化求婚戒指體驗",
+        "鑽石知識教育（4C講解）"
       ],
       "alert": null,
       "sample_positive": "He took the time to guide us through the fundamentals, explaining key factors like clarity, cut etc in a way that was easy to understand. We really appreciated the short lesson as it helped us feel more confident in making our decision. He also patiently walked us through the selection process for each component of the ring, offering helpful suggestions without being pushy.",
       "sample_negative": null
     },
     "Michael Trio": {
-      "sentiment_score": 0.96,
-      "positive_pct": 96,
-      "negative_pct": 0,
-      "neutral_pct": 4,
-      "review_count": 10,
-      "sources": [
-        "Google Maps"
-      ],
-      "top_themes": [
-        "專業耐心的服務體驗",
-        "客製化戒指（求婚戒/婚戒）",
-        "順暢的購買到取件流程"
-      ],
-      "alert": null,
-      "sample_positive": "Overall, it was a memorable and smooth experience during an important milestone in our lives. Highly recommend this shop to any couple looking for quality rings and thoughtful service!",
-      "sample_negative": null
-    },
-    "Lee Hwa": {
       "sentiment_score": 0.97,
-      "positive_pct": 97,
-      "negative_pct": 0,
-      "neutral_pct": 3,
-      "review_count": 4,
-      "sources": [
-        "Google Maps"
-      ],
-      "top_themes": [
-        "親切友善的服務態度",
-        "專業諮詢與選購協助",
-        "貼心增值服務（如免費清洗金飾）"
-      ],
-      "alert": null,
-      "sample_positive": "Had a really pleasant experience with Nicole Ting at Lee Hwa Jewellery (ION Orchard). She was warm, patient, and super helpful throughout, even while we tried on quite a few gold pieces. She went the extra mile by helping to clean one of our gold items as well. Great service overall — would definitely recommend her!",
-      "sample_negative": null
-    },
-    "Love & Co": {
-      "sentiment_score": 0.95,
       "positive_pct": 100,
       "negative_pct": 0,
       "neutral_pct": 0,
@@ -83,9 +47,45 @@
         "Google Maps"
       ],
       "top_themes": [
-        "親切耐心的服務態度",
-        "無購買壓力的輕鬆選購體驗",
-        "婚戒與訂婚戒指專業諮詢"
+        "卓越服務態度與耐心導購",
+        "婚慶珠寶（求婚戒指／婚戒）購買體驗",
+        "客製化選項豐富且跟進到位"
+      ],
+      "alert": null,
+      "sample_positive": "Very nice service and explanation by the staff. Overall, it was a memorable and smooth experience during an important milestone in our lives. Highly recommend this shop to any couple looking for quality rings and thoughtful service!",
+      "sample_negative": null
+    },
+    "Lee Hwa": {
+      "sentiment_score": 0.95,
+      "positive_pct": 95,
+      "negative_pct": 2,
+      "neutral_pct": 3,
+      "review_count": 2,
+      "sources": [
+        "Google Maps"
+      ],
+      "top_themes": [
+        "友善親切的服務態度",
+        "員工專業協助購買體驗",
+        "整體門市體驗滿意度高"
+      ],
+      "alert": null,
+      "sample_positive": "Friendly staff and very good service!",
+      "sample_negative": null
+    },
+    "Love & Co": {
+      "sentiment_score": 0.97,
+      "positive_pct": 100,
+      "negative_pct": 0,
+      "neutral_pct": 0,
+      "review_count": 10,
+      "sources": [
+        "Google Maps"
+      ],
+      "top_themes": [
+        "耐心且專業的服務態度",
+        "預算友善與折扣優惠",
+        "現代設計與高品質產品"
       ],
       "alert": null,
       "sample_positive": "Was looking for a wedding band and Jack served us. He was very friendly and inviting from the get go which was nice because sometimes surveying rings can be intimidating but he had a 'no worries' type of attitude which we liked. Jack suggested a few designs and was honest about the pros n cons of certain designs which helped me make a choice about the best fit for me. They have good discounts and price at the moment. Made our purchase a happy one! Good experience at Love & Co",
@@ -94,251 +94,390 @@
   },
   "competitor_ads": {
     "ALUXE SG": {
-      "ad_count": 30,
+      "ad_count": 31,
       "own": true,
       "main_themes": [
-        "IP聯名系列發售（Care Bears、Disney Winnie the Pooh）",
-        "黃金珠寶產品線推廣（ALUXE Gold / 999 Gold Collection）",
-        "My Ring Studio 客製化訂婚戒服務",
-        "粉色鑽石稀缺性情感訴求"
+        "IP聯名系列（Care Bears × ALUXE、Disney Sleeping Beauty、Winnie the Pooh）",
+        "黃金回收與999金婚戒系列（ALUXE Gold 價值主張）",
+        "鑽石婚戒與訂婚戒指產品展示（動態商品廣告）"
       ],
-      "cta_focus": "Send WhatsApp message（WhatsApp直接對話為主要轉換路徑，輔以Learn more導流至官網）",
+      "cta_focus": "WhatsApp私訊諮詢為主（佔約60%廣告），其次為Learn More引導官網",
       "platforms": [
         "FB",
         "IG"
       ],
       "key_offers": [
-        "免費雕刻服務（促銷期間）",
-        "客製戒指等待期間提供兩枚戒指借用（loaner rings）",
-        "獨家諮詢預約（Reserve Your Exclusive Consultation）"
+        "免費個人化刻印促銷（促銷期間限定）",
+        "戒指外借服務（客製訂單等待期間可先佩戴樣品）",
+        "Care Bears / Disney IP聯名系列限定上市"
       ],
-      "strategy_insight": "ALUXE目前廣告策略以多條產品線並行為核心：一是IP聯名（Care Bears、Disney Winnie the Pooh）主打年輕女性及禮物市場，訴求可愛、獨特與情感共鳴；二是999黃金系列強調珠寶設計差異化與保值性；三是My Ring Studio訴求客製化婚戒，精準觸及備婚族群。CTA以WhatsApp為主要轉換機制，符合東南亞用戶即時溝通習慣，降低購買門檻。\n\n顧客評論顯示ALUXE最大優勢在於：(1) 顧問服務體驗出色——無壓力、耐心、專業、主動跟進，形成強烈口碑；(2) 設計多樣性明顯區別於競品（顧客主動比較後選擇ALUXE）；(3) 個人化刻印服務具獨特記憶點，是真實差異化賣點；(4) 也有參與婚博會等線下觸點，擴大接觸面。\n\n可強化方向：(1) Google Trends顯示SG市場「engagement ring Singapore」搜尋高峰出現在4/11（96分）及4/20（100分），建議對齊搜尋高峰時間集中投放，提升捕客效率；(2) 競品JannPaul搜尋量遠高於ALUXE，建議在廣告素材中強化「設計差異化」與「客製化刻印」等ALUXE獨有訴求，直接對標高關注度競品；(3) Moissanite與Sapphire為上升搜尋話題，可考慮拓展相關內容素材以吸引此類需求顧客；(4) 刻印免費促銷及loaner ring服務已獲顧客主動提及，建議在廣告素材中明確量化此優惠以提升轉換率；(5) IP聯名系列可強化「送禮場景」內容，覆蓋非婚禮節日需求，擴大受眾。"
+      "strategy_insight": "ALUXE SG 廣告策略以「情感連結 × 對話轉化」為核心：透過Disney、Care Bears等知名IP聯名強化品牌年輕化與話題性，搭配WhatsApp CTA將潛在客戶快速導入一對一私訊諮詢，縮短決策漏斗。黃金回收線（ALUXE Gold）則以「你的黃金值得其真正價值」作為情感訴求，開拓非婚戒需求族群。廣告格式以靜態圖像為主，部分使用動態商品目錄廣告（{{product.name}}模板），顯示已佈建產品再行銷能力。強化建議：（1）趨勢對齊：Google Trends顯示SG市場「engagement ring Singapore」搜尋量持續高位，競品Tiffany & Co.與JannPaul搜尋量突破性上升，ALUXE應加強搜尋意圖型廣告投放（Google Search Ads），捕捉主動比較期的消費者；（2）Lab Grown Diamond機會：「lab grown diamond Singapore」出現爆發性搜尋，競品Novita已進入消費者心智，ALUXE若有相關產品線應立即建立內容資產與廣告素材搶佔此需求；（3）評論優勢轉化：顧客高度肯定「無壓力諮詢體驗」與「豐富設計選擇」，建議將這兩個真實口碑轉化為廣告文案訴求（如：Browse. Try. Decide at your own pace.），以品牌承諾而非個人形象強化差異化；（4）客製化刻印為強力區隔點，應作為獨立廣告素材主題持續推廣，並搭配限時免費刻印活動製造轉換誘因。",
+      "sample_ads": [
+        {
+          "image_url": "https://scontent.fgdl5-3.fna.fbcdn.net/v/t39.35426-6/651758528_1594547291648100_122855287428413179_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=AFxErQfgRMYQ7kNvwHVMZoY&_nc_oc=AdoopdnByopwDnrlSju1g9NwPHPTW25tDsYWd3-s2SnWdc8FofoP856dLwRP5_YXRA8&_nc_zt=14&_nc_ht=scontent.fgdl5-3.fna&_nc_gid=lL4i1OPtJhAcmIv7LI5f7g&_nc_ss=7f180&oh=00_Af2EQALxTkeMe36X9wmYyQpzfZBt8NLqw4KQ3ImLqDAdIQ&oe=69F3B664",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1639299503983939",
+          "start_date": "2026-04-14 07:00:00",
+          "title": "{{product.name}}"
+        },
+        {
+          "image_url": "https://scontent.fgdl5-3.fna.fbcdn.net/v/t39.35426-6/650736525_1493378479163709_1432387954035963289_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=72O4RJJJbNMQ7kNvwE-2mCE&_nc_oc=AdoyUtzJVtkj1wGQ3RvY8hagxjWla4Igh2p46ID49ZVDl88Rhxs_gUNn7kIfWf7LJ8Y&_nc_zt=14&_nc_ht=scontent.fgdl5-3.fna&_nc_gid=lL4i1OPtJhAcmIv7LI5f7g&_nc_ss=7f180&oh=00_Af2H-lbam87vzTfOL98qOQi7zEMieIuvhVmEhdTIvZHHBQ&oe=69F3B562",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=943280388419586",
+          "start_date": "2026-04-14 07:00:00",
+          "title": "Contact us"
+        },
+        {
+          "image_url": "https://scontent.fgdl5-3.fna.fbcdn.net/v/t39.35426-6/668996032_1237202875252765_6322850804402645101_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=_2kWUL0zpc8Q7kNvwGJ21BH&_nc_oc=AdpcBM405EUCuxJS1LQIyc9nKQt4wLH-AY5g8nt4-koL9lxdH-EASxijgtinyAtHsQg&_nc_zt=14&_nc_ht=scontent.fgdl5-3.fna&_nc_gid=lL4i1OPtJhAcmIv7LI5f7g&_nc_ss=7f180&oh=00_Af2AamqIlaonernttRKKSf1UkKN6dzpkxRO7C88vJ0RQMA&oe=69F3C4C3",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=2103202480468553",
+          "start_date": "2026-04-09 07:00:00",
+          "title": "{{product.name}}"
+        },
+        {
+          "image_url": "https://scontent.fgdl5-5.fna.fbcdn.net/v/t39.35426-6/667801924_1056304180897920_6742397284614464144_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=YQUataFewpoQ7kNvwEtrKsl&_nc_oc=Adpn0EyqkiRjGzMVRC5Q9Pl8hsnNq5NLvDnOK04wSV96aKcU3PzYdzU2YH9vhVD3Bhs&_nc_zt=14&_nc_ht=scontent.fgdl5-5.fna&_nc_gid=lL4i1OPtJhAcmIv7LI5f7g&_nc_ss=7f180&oh=00_Af31f9wGY498TnhuMlBTvio0bsTe_K-bIolCfWNOahObxw&oe=69F3A8CA",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1477204897334697",
+          "start_date": "2026-04-09 07:00:00",
+          "title": "{{product.name}}"
+        }
+      ]
     },
     "Jannpaul": {
       "ad_count": 30,
       "own": false,
       "main_themes": [
-        "White Series™ 專利切割技術展示（141/137/125刻面）",
-        "Lab-grown Fancy Colour Diamond 系列（粉紅、綠色）"
+        "White Series™ 專利切工技術展示（高刻面數光學性能）",
+        "Lab-Grown Diamond 彩鑽系列（Fancy Intense Pink / Green）"
       ],
-      "cta_focus": "引流至 Instagram profile 建立品牌視覺權威，少數廣告導向 WhatsApp 詢問轉換",
+      "cta_focus": "引流至 Instagram 主頁（品牌視覺種草為主），少數導入 WhatsApp 直接詢問",
       "platforms": [
         "INSTAGRAM",
         "FACEBOOK"
       ],
       "key_offers": [
-        "LGD Fancy Intense Green 新系列發布",
-        "LGD Fancy Intense Pink 系列視覺展示",
-        "客製化 Bespoke 戒台設計（Rose Gold floating halo等）"
+        "客製化設計服務（Bespoke Ring）",
+        "LGD 彩色鑽石新品系列上市推廣"
       ],
-      "strategy_insight": "JannPaul 廣告策略高度聚焦於「技術差異化」——以自有專利 White Series™ 系列（多角形切割、141刻面等）搭配高質感視覺，建立『光學工藝領導者』的品牌定位，幾乎所有廣告均以產品特寫為主角，不依賴促銷折扣，以稀缺性與工藝敘事驅動興趣。評論面則藉由「顧問教育型銷售」（教授4C、不施壓、全程溝通更新）構建極高信任感，形成廣告引流→顧問轉化的完整閉環。ALUXE 借鏡方向：(1) 差異化切入點——JannPaul 強打 LGD 與技術工藝，ALUXE 可聚焦天然鑽石溯源故事、台灣設計美學或品牌傳承工藝，建立與 LGD 路線截然不同的情感價值；(2) 顧客教育內容——可仿效其「教育型諮詢」定位，透過品牌內容（而非個人IP）輸出選鑽知識，提升潛客決策信心；(3) 廣告格式——建議增加 IG Reels 近距離光學展示內容，強化視覺衝擊；(4) 售後關係——JannPaul 每則評論均有品牌官方快速回覆，ALUXE 應建立系統化 GMB 評論管理機制，展現品牌回應力。"
+      "strategy_insight": "Jannpaul 廣告策略高度聚焦於『技術壁壘視覺化』：以 White Series™ 專利切工（137–141 刻面）搭配精美產品特寫影像，強化『工藝超越傳統鑽石』的心智佔位，全數投放於 Instagram，以品牌形象種草為核心目的，不直接促銷折扣。評論端則以『無壓力顧問陪伴式購買體驗』為核心口碑驅動力，顧客普遍強調顧問的耐心、專業知識分享及不強迫推銷。ALUXE 借鑑方向：（1）差異化切入——Jannpaul 主打 LGD 技術工藝，ALUXE 可強化天然鑽石或品牌傳承工藝的情感敘事，以『恆久珍貴』對抗其『科技創新』；（2）顧客教育內容——參考 Jannpaul 顧問教育式銷售口碑，ALUXE 可在數位內容中開發『選鑽知識』系列貼文或 Reels，以品牌視角建立教育信任感，而非依賴個人顧問IP；（3）CTA 優化——Jannpaul 廣告幾乎清一色『Visit Instagram』缺乏轉換導向，ALUXE 可佈局更強的 WhatsApp 預約/線上諮詢 CTA，搶佔已被種草但尚未行動的潛在客群；（4）彩鑽差異——Jannpaul 積極推 LGD 彩鑽（粉/綠），ALUXE 若具備天然彩鑽或獨特材質（如玫瑰金工藝），可在此細分市場主打稀缺性與自然美學作為反差定位。",
+      "sample_ads": [
+        {
+          "image_url": "https://scontent-eze1-1.xx.fbcdn.net/v/t39.35426-6/669662792_4347878032135750_6722429659366532714_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=yYBSHjHEsusQ7kNvwEgvr0y&_nc_oc=AdpZeOutiz8JLM7jAagE8PBPIXO82BS_Kx9UJslvEyPXkgTlE32g_yntCxCmUoQR2iw&_nc_zt=14&_nc_ht=scontent-eze1-1.xx&_nc_gid=C9a3m9-aAMRmkeeHlK0iNA&_nc_ss=7f180&oh=00_Af02ptEqT57Y7LQU94j23Ybk46tCiBbD9ic20ajAswTK3Q&oe=69F3BBE0",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1626753341985326",
+          "start_date": "2026-04-13 07:00:00",
+          "title": ""
+        },
+        {
+          "image_url": "https://scontent-eze1-1.xx.fbcdn.net/v/t39.35426-6/669784904_1495320125516367_6242552932975993163_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=VropXakA70gQ7kNvwGsAxAh&_nc_oc=AdqMrKlq-GvtZMeMbMrs2LgfglOs_Z4NvbaMZ74rTbRyyO2DB_ZWwAq2gnwvLXE_tqk&_nc_zt=14&_nc_ht=scontent-eze1-1.xx&_nc_gid=C9a3m9-aAMRmkeeHlK0iNA&_nc_ss=7f180&oh=00_Af3mntJRsuhUj5yCx7yOz9U6oswlfCtmeDDf-bzcKyEk4g&oe=69F3CC67",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1275937433968559",
+          "start_date": "2026-04-13 07:00:00",
+          "title": ""
+        },
+        {
+          "image_url": "https://scontent-eze1-1.xx.fbcdn.net/v/t39.35426-6/671274613_736784906095515_4551520297680912844_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=_4DSYxXcgFUQ7kNvwGbjz3g&_nc_oc=AdqLfxgy9D7QxtN_id0FuVMp18M9EpZRMeAv_fWH-r8OF4Zmc0BWpueLs_7_1F9HMho&_nc_zt=14&_nc_ht=scontent-eze1-1.xx&_nc_gid=C9a3m9-aAMRmkeeHlK0iNA&_nc_ss=7f180&oh=00_Af3L9Ap9hlVGUljF_G0667NlfKEtEbn2NwyWRf5GWEIlow&oe=69F3A978",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1415569846921495",
+          "start_date": "2026-04-13 07:00:00",
+          "title": ""
+        },
+        {
+          "image_url": "https://scontent-eze1-2.xx.fbcdn.net/v/t39.35426-6/663250076_1490381669263987_2796477633509503153_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Uf9z75FHTsEQ7kNvwF9B_Iy&_nc_oc=AdoyRGdDxVjVfSn_XO33jnmCnQMa7yfnLS3rfJNJz2gMxzjbNs56ADcZFjBR-PpxXMI&_nc_zt=14&_nc_ht=scontent-eze1-2.xx&_nc_gid=C9a3m9-aAMRmkeeHlK0iNA&_nc_ss=7f180&oh=00_Af3t2Iam3n0deQTj6KHAdXULYmHwM7HfuY4TlPfMS4u6gA&oe=69F3C1C8",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1810806476994156",
+          "start_date": "2026-04-03 07:00:00",
+          "title": ""
+        }
+      ]
     },
     "Michael Trio": {
       "ad_count": 23,
       "own": false,
       "main_themes": [
-        "節慶促銷活動（母親節個性化禮品、Raya、品牌14周年慶）",
-        "婚戒與求婚鑽戒客製化訴求（高CP值、Platinum升級）",
-        "新系列上市（The Blue Edit）"
+        "Mother's Day節慶促銷（限時折扣最高60%）",
+        "婚慶／求婚鑽戒客製化（價格親民從RM2888起）",
+        "品牌14週年顧客感恩活動",
+        "新系列產品上市（The Blue Edit）",
+        "個人化禮品訴求（gold paper set DIY）"
       ],
-      "cta_focus": "WhatsApp即時諮詢 + Get Offer促購（以私訊驅動到店轉換為核心）",
-      "platforms": [
-        "FB",
-        "IG",
-        "AUDIENCE_NETWORK",
-        "MESSENGER",
-        "WHATSAPP"
-      ],
-      "key_offers": [
-        "20% off 2,000元以上戒指（Pure Hearts鑽石 & 婚戒）",
-        "購買任意2只婚戒免費升級鉑金",
-        "求婚鑽戒低至RM2,888起",
-        "14周年店慶到店抽獎活動",
-        "母親節黃金紙套裝個性化禮品"
-      ],
-      "strategy_insight": "Michael Trio廣告策略以「價格錨點＋節慶限時優惠＋WhatsApp即時轉換」為核心三角，將高客單價珠寶商品拆解為易接受的入門門檻（RM2,888起），同時以免費升級鉑金、折扣等優惠降低決策阻力；廣告跨FB/IG/Messenger/WhatsApp全渠道覆蓋，強調即時私訊諮詢推動到店。顧客評論則顯示其最大護城河在於「服務體驗」——耐心、不施壓、個人化陪伴感，但評論幾乎清一色為「特定服務人員」的讚美，缺乏品牌層面的差異化記憶點。ALUXE借鑑與差異化方向：(1)借鑑其WhatsApp CTA驅動即時諮詢的高效轉換機制，建立品牌專屬的線上諮詢流程；(2)差異化切入「品牌質感與工藝承諾」，而非價格競爭——以ALUXE的品牌美學與工藝故事（材質認證、設計語言）建立高端感，與Michael Trio的CP值定位拉開層次；(3)針對Michael Trio節慶促銷的「價格導向」弱點，ALUXE可主打「無折扣、高價值」的品牌自信，強化限量設計或獨家系列的稀缺感，吸引不以價格為首要考量的消費者；(4)在廣告內容層面，Michael Trio評論的服務溫度未被轉化為品牌內容，ALUXE可投入「品牌品質承諾」類型的廣告內容（如材質透明度、品質認證、設計理念可視化），建立信任資產而非僅靠促銷驅動。"
-    },
-    "Lee Hwa": {
-      "ad_count": 5,
-      "own": false,
-      "main_themes": [
-        "母親節節慶促銷",
-        "黃金價格透明化與高折扣優惠"
-      ],
-      "cta_focus": "節慶限時優惠驅動到店消費（實體門市導流）",
+      "cta_focus": "即時轉換為主：Get Offer / Send WhatsApp Message 引導直接詢價或購買，兼顧Learn More作產品認知",
       "platforms": [
         "FB",
         "IG"
       ],
       "key_offers": [
-        "$Gold Price/GM 黃金按克計價優惠",
-        "工藝費最高5折",
-        "1-for-1 999黃金吊墜 @ $188",
-        "母親節限定門市活動（Tampines Mall, 8–12 May）"
+        "母親節限時最高60%折扣",
+        "求婚鑽戒RM2888起（含中文版針對華語受眾）",
+        "Raya促銷：免費Platinum升級",
+        "14週年週年慶：到店購買抽獎贏大獎"
       ],
-      "strategy_insight": "Lee Hwa 廣告策略高度聚焦於節慶促銷（母親節）與黃金商品的價格透明化訴求，以『按金價計算＋工藝費折扣』模式強調高性價比，搭配1-for-1限量優惠製造稀缺感，驅動顧客實體到店。廣告格式以動態商品廣告（DPA/Catalog Ads，即{{product.name}}模板）為主，顯示其商品目錄規模龐大且投放自動化程度高。ALUXE 可借鏡：(1) 節慶期間推出限時禮贈主題內容廣告，強調珠寶作為情感禮物的儀式感，有別於Lee Hwa的價格競爭邏輯；(2) 差異化方向——ALUXE 應主打設計質感、品牌故事與客製化服務，避免陷入折扣戰，以『值得珍藏的選擇』取代『划算的黃金交易』定位；(3) 廣告格式建議採用高質感視覺影片或情境型輪播廣告，突顯產品美學，與Lee Hwa的目錄型廣告形成明顯視覺差異。"
+      "strategy_insight": "Michael Trio廣告策略呈現三大特徵：①節慶行銷密集且折扣幅度大（60% off），以『限時』製造緊迫感，主攻Mother's Day、Raya等多節點；②婚慶賽道精準定價，透過公開標榜起始價（RM2888）降低決策門檻，並以WhatsApp作為即時轉換渠道，縮短購買漏斗；③大量使用動態產品廣告（{{product.name}}模板），搭配retargeting邏輯擴大曝光覆蓋。評論面顯示其核心競爭力集中於一線服務人員的個人化服務與跟進，但品牌整體視覺與敘事仍停留在功能性訴求。ALUXE差異化機會：1）在節慶行銷上避開純折扣競爭，改以『意義感』與『作工質感』作為情感化訴求（如：強調台灣工藝傳承、珠寶背後的設計故事），建立中高端認知壁壘；2）在婚慶市場主打『全程體驗儀式感』而非價格，如提供專屬客製顧問預約、精品包裝unboxing等差異化服務承諾；3）廣告格式上可引入短影片教育內容（如鑽石4C解說、金屬材質比較），建立信任感，填補Michael Trio在內容深度上的空白；4）善用WhatsApp/LINE等即時通訊CTA，但訊息框架聚焦在『專屬顧問』服務而非純促銷，強化品牌質感定位。",
+      "sample_ads": [
+        {
+          "image_url": "https://scontent-gig4-1.xx.fbcdn.net/v/t39.35426-6/678933105_1077834612083179_4716887070555512681_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=CECPnS89VP4Q7kNvwE1wSxr&_nc_oc=Adqf_1t7WRlAyUqbn5P6dO2h-17FSFSLTqB2sp-HgA6AFVrXZfJUH0vlMhKoxP29Czk&_nc_zt=14&_nc_ht=scontent-gig4-1.xx&_nc_gid=VgxQpniwpofDU9tQo-VGLw&_nc_ss=7f180&oh=00_Af0wbBcvVN1fkJabJt5XQZigNCyEI2loW9jQELgYFUUEYw&oe=69F3B4E1",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1279891867110592",
+          "start_date": "2026-04-24 07:00:00",
+          "title": "Up to 60% Off for Mum 💖"
+        },
+        {
+          "image_url": "https://scontent-gig4-1.xx.fbcdn.net/v/t39.35426-6/679053457_1646223619757156_957749341523152929_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=100&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=hlTMjUBPKUkQ7kNvwFINXU5&_nc_oc=AdrSMB9RxTwfKsvL4GFtPdEqNvYXwf8FeL9Ovyzjtr0bPmVmMtahzoMZcaIc8Wj_iJU&_nc_zt=14&_nc_ht=scontent-gig4-1.xx&_nc_gid=VgxQpniwpofDU9tQo-VGLw&_nc_ss=7f180&oh=00_Af05cEw2uVg9qxujZc3QHHOtCQ6PuQDZDPTz0b4nnXgs4A&oe=69F3C1C2",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=3039692059560843",
+          "start_date": "2026-04-21 07:00:00",
+          "title": "Gift Mum Something That Last Forever 💐"
+        },
+        {
+          "image_url": "https://scontent-gig4-2.xx.fbcdn.net/v/t39.35426-6/670823163_1990063768570965_1613188905065764542_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=93bsS4A0yYkQ7kNvwEHNiFU&_nc_oc=AdrBn4FAP97YI4ckTUXv_WMPq-_yFhevUJawahPGAGUiGEcpE7Jr1uTDO32w-vP8BhU&_nc_zt=14&_nc_ht=scontent-gig4-2.xx&_nc_gid=VgxQpniwpofDU9tQo-VGLw&_nc_ss=7f180&oh=00_Af1gbSVN3cC_noQN_hIH6y4Kgot0Fj611l216E5ixbXebg&oe=69F3BFFF",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=26349502874744480",
+          "start_date": "2026-04-20 07:00:00",
+          "title": "{{product.name}}"
+        },
+        {
+          "image_url": "https://scontent-gig4-1.xx.fbcdn.net/v/t39.35426-6/670762255_1284132177179137_3528350187533006951_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Qr6UR8kySUsQ7kNvwHsZEzV&_nc_oc=Adqy8-jFiJDsv03ZFR0xkiXQam_aIwx-bOkZh4nDWRO_ACYUU2tnrUqwaxTDaxnh-L4&_nc_zt=14&_nc_ht=scontent-gig4-1.xx&_nc_gid=VgxQpniwpofDU9tQo-VGLw&_nc_ss=7f180&oh=00_Af2M_lo3-K-uI_hkCIJxuTfn4psqqYNmFfp07463o8Flrw&oe=69F3C9A8",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1998281544097564",
+          "start_date": "2026-04-20 07:00:00",
+          "title": "{{product.name}}"
+        }
+      ]
     },
-    "Love & Co": {
-      "ad_count": 13,
+    "Lee Hwa": {
+      "ad_count": 7,
       "own": false,
       "main_themes": [
-        "婚戒與訂婚場合主打（預約到店享折扣）",
-        "日常黃金首飾輕奢推廣（實心金手鏈低於$200）"
+        "母親節節慶促銷活動",
+        "黃金珠寶產品型錄展示"
       ],
-      "cta_focus": "雙軌CTA：婚戒場景以『Book now』驅動預約到店；日常飾品以『Shop now』導流電商",
+      "cta_focus": "節慶期間限時到店消費，以多層次優惠吸引衝動購買",
+      "platforms": [
+        "FB",
+        "IG"
+      ],
+      "key_offers": [
+        "Gold Price/GM 計價優惠",
+        "工藝費最高50%折扣",
+        "999黃金吊墜一買一送 @ $188",
+        "母親節期間限定禮品贈送"
+      ],
+      "strategy_insight": "Lee Hwa 目前廣告策略高度集中於【母親節節慶驅動型促銷】，主打 Tampines Mall 指定期間（5月8–12日）到店活動，以「多層次優惠堆疊」（金價計價＋工藝費折扣＋買一送一）製造強烈的價格誘因，降低消費門檻。廣告格式以靜態圖片為主，同步鋪放 FB 與 IG，並平行運行動態產品型錄廣告（Dynamic Product Ads，標題為 {{product.name}}），顯示其已建立完整的電商再行銷漏斗。整體訴求以【價格導向＋節慶情感】為雙核心，走大眾親民路線。ALUXE 借鏡與差異化方向：①避免在同期與 Lee Hwa 正面比拼價格戰，應主打【設計工藝稀缺性與品牌美學】，以「送禮意義感」取代「折扣吸引力」；②Lee Hwa 廣告缺乏情感敘事深度，ALUXE 可在母親節檔期以【品牌視覺美學故事（非個人IP）】切入，例如「珠寶承載的時代傳承」等品牌層次訴求；③針對 Lee Hwa 動態型錄廣告的再行銷策略，ALUXE 應確保自身網站產品 Feed 完整，並建立對應的 DPA 再行銷受眾池，與 Lee Hwa 競搶同一批瀏覽高意圖用戶；④Lee Hwa 以線下到店為主要轉換目標，ALUXE 可補強線上購買體驗，主打【跨通路無縫購物便利性】做出差異。",
+      "sample_ads": [
+        {
+          "image_url": "https://scontent.fclo9-1.fna.fbcdn.net/v/t39.35426-6/674975190_2033262497591785_7115157692201373288_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=AI4WeCmMD3cQ7kNvwGV4IFG&_nc_oc=Adq_BMi26jXJKcG1PTygn2aVOnAVNJX8T_niFpgyxF3VW731pjB7w-qdufi1uMys-c0&_nc_zt=14&_nc_ht=scontent.fclo9-1.fna&_nc_gid=ArN3O6ab93pljnRsa75hSQ&_nc_ss=7f180&oh=00_Af3nxFn5lA3Rek1ZCVjWe9CeEf6vUPKzI3mfqHg4MngERQ&oe=69F3A728",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1640553737169228",
+          "start_date": "2026-04-25 07:00:00",
+          "title": "Lee Hwa Jewellery"
+        },
+        {
+          "image_url": "https://scontent.fclo9-1.fna.fbcdn.net/v/t39.35426-6/674177696_1287481026044191_5700894550818331019_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=101&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=I5UVlNUu04QQ7kNvwHqBqPP&_nc_oc=AdqThe7sjwZaZi3fs6d8PUaLL3pEbazWL2PG5Lo3qhJg4S-ZbkMkY23ysBDtSy-yY5Q&_nc_zt=14&_nc_ht=scontent.fclo9-1.fna&_nc_gid=ArN3O6ab93pljnRsa75hSQ&_nc_ss=7f180&oh=00_Af2INKwwmAt-xtSPgVw5KM33azIC7SSzfC8InS6uBODL8Q&oe=69F3A729",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1451904856387229",
+          "start_date": "2026-04-20 07:00:00",
+          "title": "{{product.name}}"
+        },
+        {
+          "image_url": "https://scontent.fclo9-1.fna.fbcdn.net/v/t39.35426-6/675571765_2425315517918224_3014209343802733417_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=fPvFm2qMLywQ7kNvwF1XACv&_nc_oc=AdqmFYi-Yz6tgJd3cINTLD2jSws5qhfPSK7cJES5v6UtfLq0czoG1Q8IENBfrim3y0A&_nc_zt=14&_nc_ht=scontent.fclo9-1.fna&_nc_gid=ArN3O6ab93pljnRsa75hSQ&_nc_ss=7f180&oh=00_Af08hgAyaoPSTL2Wn_SjHOLzWpJnAUVtBZMdXNk27b_ATA&oe=69F3CAB0",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1649453962768803",
+          "start_date": "2026-04-20 07:00:00",
+          "title": "Lee Hwa Jewellery"
+        },
+        {
+          "image_url": "https://scontent.fclo9-1.fna.fbcdn.net/v/t39.35426-6/672672726_1297343952333764_6615468654673739318_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=uchoxrNyMeIQ7kNvwG3_LLh&_nc_oc=AdrthaREPfRQ4CykHjGSBde2d5PYKAsXJ4EwogTNlPLFaiTvirkIh_FMWg83_203Scs&_nc_zt=14&_nc_ht=scontent.fclo9-1.fna&_nc_gid=ArN3O6ab93pljnRsa75hSQ&_nc_ss=7f180&oh=00_Af2inZxTDCNNEvheDEVHbt1WTw6q89OWTOgZpaFh0UXxRA&oe=69F39A27",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1162819639239268",
+          "start_date": "2026-04-19 07:00:00",
+          "title": "{{product.name}}"
+        }
+      ]
+    },
+    "Love & Co": {
+      "ad_count": 16,
+      "own": false,
+      "main_themes": [
+        "情人節/母親節節慶情感訴求",
+        "婚戒與求婚鑽戒主打",
+        "日常素金首飾親民化推廣",
+        "Si Dian Jin 現代化傳統珠寶",
+        "分期付款降低購買門檻"
+      ],
+      "cta_focus": "預約到店（Book Now）與立即購買（Shop Now）雙軌並行，節慶期間主打預約享折扣",
       "platforms": [
         "FB",
         "IG",
-        "Audience Network",
-        "Messenger",
-        "Threads"
+        "AUDIENCE_NETWORK",
+        "MESSENGER",
+        "THREADS"
       ],
       "key_offers": [
-        "預約到店享最高50% Off婚戒優惠",
-        "選定婚戒享20% Off",
-        "首次購買享5% Off（折扣碼LVC5NEW）",
-        "PayLater by Grab最高減$30",
+        "預約到店最高享50%折扣（婚戒）",
+        "婚戒系列預約享20% Off",
+        "PayLater by Grab 最高減$30",
         "0%利息分期付款（Buy Now Pay Later）",
-        "免終身免費清洗服務",
-        "實心金手鏈$200以下（低門檻日常入門）"
+        "新客首購代碼 LVC5NEW 享5% Off（最低消費$350）",
+        "Si Dian Jin 工藝費最高20% Off",
+        "免費終身清洗服務",
+        "首購5% Off + 贈品（solid gold bracelets系列）",
+        "Solid Gold Earrings 入門價從$79起"
       ],
-      "strategy_insight": "Love & Co廣告策略呈現明顯雙軌結構：①婚戀場景線——以『Book Now』預約廣告配合大幅折扣（20%~50% Off）鎖定備婚客群，強調儀式感與到店體驗；②日常輕奢線——主打$200以下實心金手鏈，訴求低敏（Hypoallergenic）、日常配戴，並以PayLater降低消費門檻，擴大非婚戀受眾。廣告覆蓋平台極廣（FB/IG/Threads/Audience Network/Messenger），曝光密度高。顧客評論則高度集中於「服務人員親切、無壓力」，品牌服務口碑紮實。ALUXE借鏡與差異化方向：(1)借鏡——可引入預約到店廣告機制，配合限時折扣提升到店轉換率；參考分期付款訴求降低高單價珠寶的決策門檻。(2)差異化——Love & Co評論幾乎全為服務導向，缺乏對工藝、設計獨特性或品牌價值的主動傳播，ALUXE可強化「精工設計敘事」與「品牌美學」作為差異化錨點；其廣告創意大量使用動態商品模板（product.name/product.brand佔位符），創意品質偏低，ALUXE可以高質感視覺內容與情感化文案形成反差優勢；另Love & Co定位偏大眾親民（$200入門），ALUXE可鞏固輕奢至精品定位，以品質承諾與專屬客製化服務強化溢價感。"
+      "strategy_insight": "Love & Co 廣告策略以「情感敘事＋強力優惠機制」雙引擎驅動：情感面以節慶（母親節、情人節）為錨點，用溫暖文案（'A little chaos, a lot of love 🩷 We see you, Mum.'）建立情緒共鳴；商業面則以多層次折扣（最高50% off、PayLater 減現金、首購碼）降低轉換阻力，同時以「預約到店」CTA 將線上流量導入線下高客單成交。平台覆蓋極廣（FB/IG/Threads/Audience Network/Messenger），並運用動態商品廣告（{{product.name}}）做精準再行銷。顧客評論清一色強調「耐心」「不施壓」「預算友善」，顯示其服務文化刻意塑造低壓購物體驗。ALUXE 借鏡方向：（1）差異化切入點——Love & Co 以折扣堆疊為核心競爭力，ALUXE 可主打「工藝價值感」與「稀缺性」，避開價格戰，強調設計師理念與選材故事以提升品牌溢價；（2）節慶行銷可對標其節奏（母親節、求婚旺季）但以「禮物策展」角度取代「打折」角度，凸顯送禮的精緻度；（3）Love & Co 弱點在於服務高度依賴個別SA（評論幾乎全提名特定員工），ALUXE 可強化「品牌整體體驗一致性」作為差異化定位；（4）PayLater 分期機制值得跟進，以降低高客單猶豫門檻；（5）針對 Si Dian Jin 傳統婚嫁市場，ALUXE 若有相關品項可以「現代華人美學傳承」為訴求搶佔此細分市場。",
+      "sample_ads": [
+        {
+          "image_url": "https://scontent-gru2-2.xx.fbcdn.net/v/t39.35426-6/676776556_1386089926871339_5379705826292283047_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=sYDlkjIeg5QQ7kNvwEaY1s8&_nc_oc=AdrPO6HHdOICVo1BEfwpdbGR8emAW-6lh_qCrHQXg-UNKiuN5U0TQC-eKyJvzjXjdnc&_nc_zt=14&_nc_ht=scontent-gru2-2.xx&_nc_gid=Jy7nM8-e4mBa9Vl3RcuJug&_nc_ss=7f180&oh=00_Af0b6IbbGxZgp5D9QNV3rOXcuM_Cje009nbeGAu3SvWLFQ&oe=69F3AA47",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=2916800258711616",
+          "start_date": "2026-04-24 07:00:00",
+          "title": "Love & Co."
+        },
+        {
+          "image_url": "https://scontent-gru2-2.xx.fbcdn.net/v/t39.35426-6/679518802_1083232348207590_8894698000638327982_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=Oxefw1r-X9sQ7kNvwHuIoLT&_nc_oc=Adrf3VEv0gpdvIXBRVhXDoZ0bruyyXQLNCDDVsmKXXeMK5VOtOesgb0ccpGuN09jaKM&_nc_zt=14&_nc_ht=scontent-gru2-2.xx&_nc_gid=Jy7nM8-e4mBa9Vl3RcuJug&_nc_ss=7f180&oh=00_Af2FBstJvcZI7oxGvLPtaChfTMY2GFnxB9C78V_pS0PVGg&oe=69F39A8B",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1458611381874972",
+          "start_date": "2026-04-24 07:00:00",
+          "title": "Love & Co."
+        },
+        {
+          "image_url": "https://scontent-gru2-2.xx.fbcdn.net/v/t39.35426-6/678593156_1312519180758954_1110799614851255617_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=VsVfJOaHYY8Q7kNvwEB_kWu&_nc_oc=AdrfkpZ0y11R3unJyRcOcTbG6coAJWIxtiRTA5DItU-108uYTVxR53DVSpfqiKPfGf4&_nc_zt=14&_nc_ht=scontent-gru2-2.xx&_nc_gid=Jy7nM8-e4mBa9Vl3RcuJug&_nc_ss=7f180&oh=00_Af2HvDdsj8Xu1gt3cX9YMChyyYvj69TvWPIFrX0JEigTPA&oe=69F3C291",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=1632033048016507",
+          "start_date": "2026-04-21 07:00:00",
+          "title": "🟢Up To $30 Off With PayLater by Grab"
+        },
+        {
+          "image_url": "https://scontent-gru2-2.xx.fbcdn.net/v/t39.35426-6/670148241_1281713830598482_2206122413316644319_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=105&ccb=1-7&_nc_sid=c53f8f&_nc_ohc=2cmoUce7RbgQ7kNvwF8BsFa&_nc_oc=Adp68Fxea1D56Z8n2YwbN0zd4uaTl9VZe6Ymr7B5IcwWtPbdHyxQFILYcUva8PEzsXs&_nc_zt=14&_nc_ht=scontent-gru2-2.xx&_nc_gid=Jy7nM8-e4mBa9Vl3RcuJug&_nc_ss=7f180&oh=00_Af09GSFACWTCIzt3pNjWl6msFbIPihDHpVvPtzmtxL_3fA&oe=69F398A8",
+          "ad_library_url": "https://www.facebook.com/ads/library/?id=656924907515871",
+          "start_date": "2026-04-19 07:00:00",
+          "title": "{{product.name}}"
+        }
+      ]
     }
   },
   "competitor_alerts": [
     {
       "brand": "JannPaul",
-      "issue": "JannPaul在Google Trends『engagement ring Singapore』相關查詢中排名第一（value:100），品牌搜尋量遠超ALUXE，且在Rising Topics中呈Breakout爆發，顯示其品牌認知度持續擴大，正虹吸備婚族群的注意力。",
+      "issue": "搜尋量出現 Breakout 級爆發（+183,300%），同期積極推廣 LGD 彩鑽新品系列，在 'engagement ring Singapore' 相關搜尋中排名顯著上升，正快速累積品牌心智份額。",
       "severity": 4,
-      "opportunity": "ALUXE可針對JannPaul的LGD（培育鑽石）定位，推出強調天然鑽石溯源故事、台灣設計美學或個人化刻印等差異化廣告素材，在同一搜尋場景中建立截然不同的情感錨點，搶佔偏好天然石材與獨特設計的備婚族群。"
+      "opportunity": "ALUXE 可針對已被 JannPaul 種草但尚未轉換的用戶，以 WhatsApp CTA 廣告搶佔『比較決策期』流量，訴求天然鑽石恆久價值與個人化客製體驗，形成差異化反差定位。"
+    },
+    {
+      "brand": "Novita Lab Grown Diamonds",
+      "issue": "在 'lab grown diamond Singapore' 相關搜尋中以 Breakout 級別（+1,308,050%）竄升，成為 SG 市場 LGD 類別心智首選品牌，若 ALUXE 未及時卡位 LGD 搜尋需求，將長期失去此高速成長細分市場。",
+      "severity": 5,
+      "opportunity": "若 ALUXE 有 LGD 相關品項，應立即建立專屬落地頁與部落格內容（含關鍵字 'lab grown diamonds singapore'），並搭配 Google Search Ads 搶佔此需求；若無 LGD 產品，可製作比較型內容（天然鑽石 vs LGD），以教育角度強化天然鑽石稀缺價值，鞏固差異化定位。"
+    },
+    {
+      "brand": "Tiffany & Co.",
+      "issue": "'tiffany and co engagement ring' 在 SG 出現 Breakout 爆發（+478,000%），顯示高端品牌形象正吸引大量主動搜尋，對 ALUXE 中高端市場定位形成品牌認知競爭壓力。",
+      "severity": 3,
+      "opportunity": "ALUXE 可在搜尋廣告中佈局 'engagement ring Singapore' 及相關長尾詞，主打『亞洲工藝美學 × 個人化客製』的在地品牌故事，以差異化敘事吸引對國際大牌感到距離感或價格門檻過高的消費者。"
     },
     {
       "brand": "Love & Co",
-      "issue": "Love & Co推出最高50% Off婚戒＋Buy Now Pay Later（PayLater by Grab減$30）組合，雙重降低消費門檻，廣告覆蓋FB/IG/Threads/Messenger全渠道，曝光密度極高，可能在婚戒決策期擠壓ALUXE的到店諮詢流量。",
+      "issue": "以最高 50% Off 婚戒折扣搭配 PayLater 分期機制，在婚慶旺季大量投放，覆蓋 FB/IG/Threads/Messenger 多平台，可能搶佔對價格敏感的婚戒首次比較用戶。",
       "severity": 3,
-      "opportunity": "ALUXE無需跟進折扣戰，可主打『值得一生珍藏的選擇』，以免費刻印、loaner ring借用服務等獨有體驗強化差異，並可考慮引入分期諮詢說明（如0%利息分期），以服務溫度取代價格競爭。"
+      "opportunity": "ALUXE 不應跟進折扣競爭，應以『全程客製儀式感』（如免費刻印、戒指外借試戴服務）作為差異化賣點廣告，鎖定重視體驗品質而非純價格的中高端婚戒買家，同時確保 DPA 再行銷受眾池完整，追蹤瀏覽過婚戒頁面的高意圖用戶。"
     },
     {
       "brand": "Michael Trio",
-      "issue": "Michael Trio以RM2,888低價入門＋免費升級鉑金＋14週年店慶抽獎等多層促銷組合密集投放，形成強烈的價格錨點效應，對價格敏感型備婚客群吸引力高。",
-      "severity": 3,
-      "opportunity": "ALUXE可強化『品牌質感承諾』廣告內容，如材質認證透明度、設計語言可視化、客製化流程展示，以品牌自信對抗價格導向，吸引不以價格為首要考量、重視設計獨特性的消費者。"
-    },
-    {
-      "brand": "Lee Hwa",
-      "issue": "Lee Hwa以黃金按克計價＋工藝費最高5折＋1-for-1限量優惠驅動母親節到店，且採用大規模DPA目錄廣告自動化投放，商品曝光量龐大，在黃金類別佔據強勢聲量。",
+      "issue": "母親節期間以最高 60% 折扣密集投放，並大量使用動態商品廣告（DPA）做再行銷覆蓋，節慶行銷節奏快且折扣幅度大，容易在消費者心中建立『節慶買珠寶找 Michael Trio』的反射連結。",
       "severity": 2,
-      "opportunity": "ALUXE 999黃金系列可主打『設計型黃金珠寶』差異化定位，以高質感情境視覺廣告（非目錄型）強調黃金設計美學與保值性，與Lee Hwa的價格透明化邏輯形成明顯反差，吸引重視設計感的黃金購買者。"
+      "opportunity": "ALUXE 可在同一節慶檔期以『送禮意義感』取代折扣訴求，廣告主打『這份禮物刻有她的名字』等情感化文案，並確保 Google Shopping 與 Meta DPA 產品 Feed 完整更新，與 Michael Trio 競搶相同再行銷受眾池中的高意圖用戶。"
     }
   ],
   "hot_topics": [
     {
-      "topic": "Engagement Ring Singapore（婚戒搜尋高峰）",
+      "topic": "Lab Grown Diamond Singapore",
       "volume": "high",
       "actionable": true,
-      "suggestion": "廣告切角：以『Your Ring, Your Story — Custom Engagement Rings in Singapore』為主題，主打My Ring Studio客製化婚戒服務，搭配刻印免費促銷，在4月搜尋高峰期集中投放；部落格主題建議：『How to Choose the Perfect Engagement Ring in Singapore: A Complete Guide』，涵蓋預算、寶石選擇、客製化刻印等備婚決策痛點，提升自然搜尋曝光。"
+      "suggestion": "部落格主題：「Lab Grown Diamond vs Natural Diamond：哪一款更適合你的求婚戒指？」以 ALUXE 品牌視角提供客觀比較，結尾引導至 WhatsApp 諮詢或官網天然鑽石系列；廣告切角：若有 LGD 產品可主打『科技與自然的選擇，我們都為你備好』；若僅有天然鑽石可主打『每顆天然鑽石，都是地球數十億年的禮物』強化稀缺情感。"
     },
     {
-      "topic": "Sapphire Engagement Ring（藍寶石戒指興起）",
-      "volume": "medium",
-      "actionable": true,
-      "suggestion": "廣告切角：推出以藍寶石為主石的訂婚戒指系列廣告，訴求『皇室級稀有色彩，刻屬於你們的故事』；部落格主題建議：『Why Sapphire Engagement Rings Are Having a Moment in Singapore』，結合王妃級戒指文化背景與ALUXE藍寶石設計選項，捕捉Breakout上升需求。"
-    },
-    {
-      "topic": "Moissanite（莫桑石話題上升）",
-      "volume": "medium",
-      "actionable": true,
-      "suggestion": "部落格主題建議：『Moissanite vs Diamond: Which Is Right for Your Engagement Ring?』，以教育型內容建立品牌選購信任感，同時導引至ALUXE的鑽石或彩色寶石客製化諮詢服務，吸引正在研究替代寶石的備婚族群。"
-    },
-    {
-      "topic": "Oval Cut Ring（橢圓形切割戒指趨勢）",
-      "volume": "medium",
-      "actionable": true,
-      "suggestion": "廣告切角：推出Oval Cut系列視覺廣告，以近距離高質感光學展示強調橢圓形切割的顯鑽效果；部落格主題建議：『Oval Cut Engagement Rings: Why This Shape Is Dominating Singapore in 2026』，結合戒型趨勢分析與ALUXE客製化服務導流。"
-    },
-    {
-      "topic": "客製化刻印婚戒（Personalized Engraving）",
+      "topic": "Engagement Ring Singapore",
       "volume": "high",
       "actionable": true,
-      "suggestion": "廣告切角：以『免費刻印限時優惠』為主視覺，搭配真實顧客刻印展示（指紋、文字、日期），強調『每一枚戒指都是獨一無二的承諾』；此訴求已獲顧客主動提及，建議明確量化優惠（如「Free Engraving Worth $X, Limited Period Only」）以提升轉換率。"
+      "suggestion": "廣告切角：以『Browse. Try. Decide at your own pace.』作為核心文案，強調 ALUXE 無壓力諮詢體驗與戒指外借服務；部落格主題：「2026 年新加坡求婚戒指完全指南：款式選擇、預算規劃與客製化流程」，植入目標關鍵字 'engagement ring Singapore'，並在文末設置 WhatsApp 預約 CTA。"
     },
     {
-      "topic": "Cartier競品關注（奢侈品牌對標效應）",
+      "topic": "White Gold Jewellery",
       "volume": "medium",
       "actionable": true,
-      "suggestion": "廣告切角：趁Cartier搜尋量上升（+300%，相關查詢第二高），推出『精工設計，不需要一個奢侈品牌名字』類型廣告，以ALUXE的工藝承諾與個人化服務對標大牌光環，吸引預算有限但嚮往精品質感的消費者；部落格主題：『How to Get a Luxury-Feel Engagement Ring in Singapore Without the Luxury Price Tag』。"
+      "suggestion": "Trends 顯示 White Gold 相關搜尋出現 Breakout 爆發，ALUXE 可推出部落格：「為什麼白金婚戒是 2026 年最熱門的選擇？18K 白金 vs 鉑金深度比較」，結合 ALUXE 白金系列產品圖，並設計以白金戒指為主角的靜態廣告素材，搭配 'white gold engagement ring Singapore' 關鍵字投放 Google Search Ads。"
+    },
+    {
+      "topic": "Personalised Jewellery / Custom Engraving",
+      "volume": "medium",
+      "actionable": true,
+      "suggestion": "廣告切角：以限時免費刻印促銷為主視覺，文案主打『刻上你們的故事——免費個人化雕刻，限時提供』，CTA 導向 WhatsApp 私訊；部落格主題：「客製化婚戒刻字完全指南：字體、圖案、拇指印，哪種最有意義？」以 ALUXE 實際客製案例（不具名）為素材，建立品牌工藝信任感。"
+    },
+    {
+      "topic": "Mother's Day Gift Jewellery Singapore",
+      "volume": "high",
+      "actionable": true,
+      "suggestion": "廣告切角：避免折扣戰，改以情感敘事切入，文案如『送給她的，不只是珠寶，是你想說卻說不出口的話。』，視覺呈現精品包裝與刻印細節；部落格主題：「2026 母親節送禮指南：如何為媽媽挑選一件承載記憶的 18K 金珠寶」，植入 'mother's day jewellery singapore' 關鍵字，文末設置 Shop Now 與 WhatsApp 諮詢雙 CTA。"
+    },
+    {
+      "topic": "Sapphire & Coloured Gemstone Engagement Rings",
+      "volume": "medium",
+      "actionable": true,
+      "suggestion": "Trends 顯示 Sapphire 在 'engagement ring Singapore' 搜尋中出現 Breakout 爆發，廣告切角：主打『不只是鑽石——用藍寶石說出你獨一無二的愛』，強調 ALUXE 多元寶石選材；部落格主題：「彩色寶石婚戒崛起：藍寶石、祖母綠求婚戒指的選購指南」，抓取藍寶石與祖母綠雙重搜尋需求。"
     }
   ],
   "gsc_insights": {
     "top_keywords": [],
     "opportunities": [
       {
-        "keyword": "engagement ring Singapore",
+        "keyword": "lab grown diamonds singapore",
         "impressions": 0,
         "ctr": 0.0,
-        "suggestion": "GSC數據暫無，但Google Trends顯示此關鍵詞在4月搜尋指數達100（高峰），建議立即建立以此為核心關鍵詞的部落格落地頁（Landing Page），主題為『Best Custom Engagement Rings in Singapore — ALUXE My Ring Studio』，結合婚戒選購指南、客製化流程說明與免費刻印優惠，提升自然搜尋能見度並對齊搜尋高峰期廣告投放。"
+        "suggestion": "GSC 暫無數據，但 Google Trends 顯示此詞出現爆發性搜尋需求。建議立即建立專屬落地頁，標題含目標關鍵字，內容涵蓋 LGD 定義、優缺點比較、ALUXE 選購建議，並配合 Google Search Ads 投放，快速搶佔此新興需求的搜尋排名。"
       },
       {
-        "keyword": "sapphire engagement ring Singapore",
+        "keyword": "engagement ring singapore",
         "impressions": 0,
         "ctr": 0.0,
-        "suggestion": "Sapphire在Trends Rising Topics呈Breakout（+303,900%）爆發，建議ALUXE建立彩色寶石婚戒專題頁面，主題為『Sapphire & Coloured Gemstone Engagement Rings — ALUXE Singapore』，搶佔此尚未飽和的長尾關鍵詞，同時作為廣告素材的配套落地頁。"
+        "suggestion": "此為 SG 婚戒市場核心高競爭關鍵字，Trends 顯示搜尋量持續高位（4月中旬達高峰值 100）。建議優化官網婚戒系列主頁 Meta Title 與 H1 含此關鍵字，並撰寫長篇買家指南部落格文章搶攻資訊型搜尋，同步佈建 Google Search Ads 搜尋廣告活動。"
       },
       {
-        "keyword": "custom wedding band Singapore engraving",
+        "keyword": "white gold engagement ring singapore",
         "impressions": 0,
         "ctr": 0.0,
-        "suggestion": "結合ALUXE已有的客製刻印服務優勢，建立以『personalized wedding band engraving Singapore』為SEO目標的服務說明頁，內容涵蓋刻印選項（文字/指紋/圖案）、費用說明、製作時間，並強化WhatsApp CTA，可直接對應備婚族群的高意圖搜尋行為。"
+        "suggestion": "White Gold 相關搜尋在 Trends 出現 Breakout 爆發，為長尾商業意圖關鍵字。建議建立 '18K White Gold Engagement Rings Singapore' 專屬產品分類頁或部落格文章，並在頁面內植入清晰的 WhatsApp 諮詢 CTA，搶佔此細分搜尋流量。"
       },
       {
-        "keyword": "moissanite vs diamond Singapore",
+        "keyword": "custom engraving jewellery singapore",
         "impressions": 0,
         "ctr": 0.0,
-        "suggestion": "Moissanite為Trends相關話題（value:17）且仍在上升，建議撰寫教育型部落格文章『Moissanite vs Natural Diamond: An Honest Comparison for Singapore Couples』，以ALUXE品牌視角提供選購建議，在顧客研究階段建立品牌信任感並導流至諮詢預約。"
+        "suggestion": "ALUXE 具備客製化刻印的核心服務優勢，應將此轉化為 SEO 資產。建議建立『客製化刻印服務』專屬落地頁，含服務說明、材質選項、案例展示（以品牌美學為主），並投放含此關鍵字的 Google Search Ads，承接有明確客製需求的高意圖流量。"
       }
     ]
   },
   "market_trends": [
     {
+      "keyword": "lab grown diamond Singapore",
+      "trend": "rising",
+      "insight": "SG 消費者對 LGD 的主動搜尋意識快速覺醒，Novita 已率先佔位。ALUXE 若有 LGD 產品應立即啟動內容與廣告雙管佈局；若定位天然鑽石，應加速建立教育型內容（天然 vs LGD 比較），以品牌觀點引導消費者認知，避免在此趨勢中完全缺席。"
+    },
+    {
       "keyword": "engagement ring Singapore",
       "trend": "rising",
-      "insight": "4月搜尋指數在4/20達100（本期最高峰），顯示SG備婚族群在此時間帶集中研究婚戒，ALUXE應在4月中下旬集中廣告預算投放My Ring Studio客製婚戒系列，並確保WhatsApp諮詢流程順暢以承接流量高峰。"
+      "insight": "4 月中旬至下旬搜尋量持續維持 68–100 的高位，顯示婚戒主動搜尋需求旺盛，為 ALUXE Google Search Ads 的最高優先投放詞。建議即刻啟動或加碼此關鍵字廣告活動，搭配『免費客製諮詢』或『WhatsApp 立即詢問』的強 CTA，捕捉正在主動比較的高意圖消費者。"
     },
     {
-      "keyword": "Sapphire",
+      "keyword": "white gold",
       "trend": "rising",
-      "insight": "Sapphire在Rising Topics呈Breakout爆發（+303,900%），顯示SG消費者對彩色寶石婚戒的興趣急劇上升；ALUXE可考慮推出藍寶石/彩色寶石系列的廣告素材或專題內容，搶佔競品尚未填補的彩色寶石市場空白。"
+      "insight": "White Gold 在 'lab grown diamond Singapore' 相關搜尋中出現 Breakout 爆發，顯示消費者在選購鑽石時同步關注金屬材質。ALUXE 廣告素材中應突出 18K 白金的材質工藝細節，並在部落格內容中製作白金選材指南，強化搜尋相關性與品牌工藝信任感。"
     },
     {
-      "keyword": "Moissanite",
+      "keyword": "tiffany and co engagement ring",
       "trend": "rising",
-      "insight": "Moissanite持續出現在相關話題（value:17），反映SG消費者對鑽石替代選項的持續關注；ALUXE可透過教育型內容（部落格/廣告）提供客觀比較，引導有此疑問的潛客進入諮詢流程，以專業度建立信任。"
+      "insight": "Tiffany & Co. 在 SG 市場的品牌搜尋出現 Breakout 爆發，顯示消費者對高端婚戒品牌的主動研究意圖增強。ALUXE 可在 Google Ads 中以競品關鍵字策略（如投放 'engagement ring Singapore' 廣告時凸顯 ALUXE 客製化優勢與在地服務），以差異化敘事截流正在評估高端婚戒的消費者。"
     },
     {
-      "keyword": "Oval Cut",
+      "keyword": "sapphire engagement ring",
       "trend": "rising",
-      "insight": "Oval（橢圓形）在Rising Topics呈Breakout（+98,650%），顯示此戒型在SG市場快速升溫；ALUXE廣告素材可主動納入Oval Cut展示，在視覺層面對齊消費者當前偏好，提升廣告相關性與點擊率。"
+      "insight": "Sapphire 在 'engagement ring Singapore' 相關搜尋中出現 Breakout 爆發，顯示 SG 消費者對彩色寶石婚戒的興趣快速上升。若 ALUXE 有藍寶石或彩色寶石品項，應立即製作專屬廣告素材與產品頁，抓取此細分需求的早期市場流量。"
     },
     {
-      "keyword": "Cartier engagement ring",
+      "keyword": "jannpaul",
       "trend": "rising",
-      "insight": "Cartier相關查詢上升+300%且為本期Rising Queries第一，顯示部分SG消費者以奢侈品牌為參考基準；ALUXE可藉此趨勢推出『精工設計不需奢侈品牌溢價』的對比型廣告，吸引嚮往奢侈品質感但預算有彈性的族群。"
-    },
-    {
-      "keyword": "JannPaul",
-      "trend": "rising",
-      "insight": "JannPaul為本期相關查詢第一（value:100）且為Rising Topics Breakout，顯示其品牌認知度在備婚族群中快速擴大；ALUXE需在廣告素材中更清晰傳達自身差異化（天然石材、台灣設計美學、個人化刻印），避免在同質化競爭中被忽略。"
-    },
-    {
-      "keyword": "White Gold / Platinum",
-      "trend": "rising",
-      "insight": "White Gold（+96,500%）與Platinum（+129,650%）均呈Breakout上升，顯示SG消費者對白色金屬材質的偏好正在升溫；ALUXE廣告素材可強調白K金或鉑金戒台選項，並以材質透明度（如鉑金認證）強化品質信任感。"
+      "insight": "JannPaul 品牌搜尋量在 SG 出現 Breakout 爆發，顯示其透過 Instagram 視覺種草已成功建立強烈品牌意識。ALUXE 應加強 Google Search Ads 投放搜尋意圖型關鍵字，承接已被 JannPaul 等競品種草、正進入主動比較期的消費者，以 WhatsApp 諮詢 CTA 快速縮短決策漏斗。"
     }
   ],
   "actionable_top3": [
-    "🎯 本週可學習的競品廣告動作：JannPaul以自有技術工藝（White Series™多角形切割、141刻面）為核心廣告敘事，透過高質感產品近距離視覺搭配技術故事，成功建立『光學工藝領導者』品牌定位，無需折扣即驅動高意圖客群。ALUXE本週可借鏡此邏輯，推出一組以『設計差異化』為核心的廣告：主視覺聚焦客製化刻印（指紋/文字雕刻）的工藝細節特寫，文案強調ALUXE獨有的個人化設計語言與台灣工藝美學，並以『免費刻印限時優惠』為CTA，在JannPaul的LGD技術路線之外建立截然不同的情感差異化錨點，直接對標其高搜尋量人群中偏好天然石材與個人化設計的族群。",
-    "📝 內容行銷機會：根據Google Trends顯示Sapphire、Oval Cut、White Gold均呈Breakout上升趨勢，建議本週推出一篇部落格文章：『2026 Engagement Ring Trends in Singapore: Sapphire, Oval Cut & What Couples Are Choosing』，內容涵蓋三大趨勢解析（彩色寶石崛起、橢圓形切割主流化、白色金屬回歸）、ALUXE對應設計選項介紹，以及客製化婚戒諮詢預約導流；此文章同步可拆解為IG Carousel廣告素材（3-5張趨勢對比圖文），搭配WhatsApp CTA，在4月搜尋高峰期最大化內容觸及效益。",
-    "🔍 SEO／關鍵字機會：Google Trends顯示『engagement ring Singapore』搜尋指數在4/20達本期最高峰（100分），且Cartier相關查詢急升+300%顯示消費者正主動比較品牌選項；建議ALUXE本週優先建立或優化一個以『custom engagement ring Singapore』為主關鍵詞的專屬落地頁，次要關鍵詞布局包含『sapphire engagement ring Singapore』、『personalized wedding band engraving Singapore』、『oval cut engagement ring Singapore』，頁面內容涵蓋客製化流程說明、免費刻印優惠、loaner ring服務介紹與顧客好評引用，並確保頁面有明顯的WhatsApp諮詢預約CTA，使自然搜尋流量能直接進入高轉換諮詢路徑。"
+    "🎯 本週可學習的競品廣告動作：JannPaul 以 White Series™ 專利切工的精美產品特寫影像在 Instagram 高度種草，成功建立『技術壁壘』品牌心智，帶動品牌搜尋量 Breakout 爆發。ALUXE 可借鑑其『工藝視覺化』邏輯，但以品牌差異化切入——製作一組聚焦 ALUXE 客製刻印工藝細節（如拇指印雕刻工序、18K 金細節特寫）的高質感靜態廣告素材，搭配文案『每一道刻痕，都是你們的故事』，在 Instagram 與 Facebook 同步投放，建立『台灣工藝美學在地珠寶品牌』的差異化品牌心智，CTA 導向 WhatsApp 預約諮詢，搶佔 JannPaul 只種草不轉換的流量缺口。",
+    "📝 內容行銷機會：Google Trends 顯示 'lab grown diamond Singapore' 與 'engagement ring Singapore' 雙雙出現高峰搜尋，消費者正主動搜尋購買資訊。建議本週優先產出一篇部落格文章：《2026 新加坡婚戒完全指南：天然鑽石 vs Lab Grown Diamond，哪一款更適合你？》，文章結構涵蓋（1）LGD 與天然鑽石的核心差異（價格、稀缺性、環境），（2）18K 金材質選擇（黃金、白金、玫瑰金），（3）ALUXE 客製化刻印服務介紹，（4）文末植入 WhatsApp 預約諮詢 CTA。文章同步植入目標關鍵字 'engagement ring singapore'、'lab grown diamonds singapore'、'custom engraving singapore'，兼顧 SEO 與廣告再行銷素材用途，並可剪輯為 Reels 短影片摘要版做社群二次傳播。",
+    "🔍 SEO／關鍵字機會：Google Trends 顯示 'white gold'（Breakout）、'sapphire engagement ring'（Breakout）、'engagement ring singapore'（持續高位）三組關鍵字均出現顯著搜尋爆發，但 GSC 顯示 ALUXE 目前在這些詞的搜尋曝光數據為空白，代表存在明顯的 SEO 覆蓋缺口。建議立即執行：（1）在官網新增或優化『18K White Gold Engagement Rings Singapore』產品分類頁，Meta Title 含目標關鍵字；（2）建立『藍寶石求婚戒指選購指南』部落格文章，抓取彩色寶石搜尋需求；（3）同步啟動 Google Search Ads 投放 'engagement ring singapore' 及 'lab grown diamonds singapore' 關鍵字，以廣告快速補足 SEO 自然排名建立期間的搜尋流量缺口，確保在競品搜尋量爆發期間 ALUXE 不缺席。"
   ],
-  "generated_at": "2026-04-21T21:06:17.012996"
+  "generated_at": "2026-04-26T09:57:01.232654",
+  "report_period": {
+    "market": "SG",
+    "timezone": "Asia/Singapore",
+    "week_start": "2026-04-13",
+    "week_end": "2026-04-19",
+    "iso_week": 16
+  }
 }

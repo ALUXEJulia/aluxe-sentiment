@@ -1,19 +1,45 @@
 """
-ALUXE SG Sentiment Analysis Pipeline — v5.2
-修正：Sheets 工作表名稱加上 _SG 後綴
+ALUXE SG Sentiment Analysis Pipeline — v6.0
+v6 變更：
+  + 評論抓取改為「上週 Mon 00:00 ~ Sun 23:59 SGT 完整週」（取代原 14 天滾動）
+  + Meta 廣告 snapshot 補抓 image_url，每品牌挑 top 4 newest 存到 JSON 給 PDF 用
+  + 新增 PDF 產生 + Google Drive 上傳 + Telegram 附 Drive 連結
 """
 
 import os, json, datetime, base64, requests, time, sys
+from datetime import timezone
 from pathlib import Path
 
-APIFY_TOKEN       = os.environ["APIFY_TOKEN"]
-ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
-TELEGRAM_TOKEN    = os.environ["TELEGRAM_BOT_TOKEN"]
-TELEGRAM_CHAT_ID  = os.environ["TELEGRAM_CHAT_ID"]
-SHEETS_ID         = os.environ["GOOGLE_SHEETS_ID"]
-SERVICE_ACCOUNT   = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT"])
-PAGES_URL         = os.environ.get("PAGES_URL", "https://aluxejulia.github.io/aluxe-sentiment/")
-GSC_SITE          = "https://www.aluxe.com/"
+APIFY_TOKEN              = os.environ["APIFY_TOKEN"]
+ANTHROPIC_API_KEY        = os.environ["ANTHROPIC_API_KEY"]
+TELEGRAM_TOKEN           = os.environ["TELEGRAM_BOT_TOKEN"]
+TELEGRAM_CHAT_ID         = os.environ["TELEGRAM_CHAT_ID"]
+SHEETS_ID                = os.environ["GOOGLE_SHEETS_ID"]
+SERVICE_ACCOUNT          = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT"])
+PAGES_URL                = os.environ.get("PAGES_URL", "https://aluxejulia.github.io/aluxe-sentiment/")
+# v6 新增：Google Drive 資料夾 ID（PDF 上傳目的地）
+GOOGLE_DRIVE_FOLDER_ID   = os.environ.get("GOOGLE_DRIVE_FOLDER_ID", "")
+GSC_SITE                 = "https://www.aluxe.com/"
+
+# v6 新增：SGT 時區工具
+SGT = timezone(datetime.timedelta(hours=8))
+
+def last_completed_week_sgt():
+    """回傳「以 SGT 為基準，上一個完整 Mon-Sun 週」的 (start_utc, end_utc, mon_date, sun_date)"""
+    now_sgt = datetime.datetime.now(SGT)
+    weekday = now_sgt.weekday()  # Mon=0, Sun=6
+    if weekday == 0:
+        last_sunday = now_sgt - datetime.timedelta(days=1)
+    else:
+        last_sunday = now_sgt - datetime.timedelta(days=weekday + 1)
+    last_monday = last_sunday - datetime.timedelta(days=6)
+
+    start_sgt = datetime.datetime.combine(last_monday.date(), datetime.time(0, 0, 0, tzinfo=SGT))
+    end_sgt   = datetime.datetime.combine(last_sunday.date(), datetime.time(23, 59, 59, tzinfo=SGT))
+    # 轉成 UTC（naive）給後續資料比對使用
+    start_utc = start_sgt.astimezone(timezone.utc).replace(tzinfo=None)
+    end_utc   = end_sgt.astimezone(timezone.utc).replace(tzinfo=None)
+    return start_utc, end_utc, last_monday.date(), last_sunday.date()
 
 BRANDS_OWN  = ["ALUXE Singapore"]
 BRANDS_COMP = ["Jannpaul Singapore", "Michael Trio Singapore",
@@ -130,14 +156,15 @@ def apify_run(actor_id: str, payload: dict, wait: int = 120) -> list:
 # ══════════════════════════════════════════════════════
 
 def fetch_reviews() -> list:
-    print("[Apify] Google Maps 評論（直接 URL，近 14 天，按品牌合併）...")
+    # v6：改為「上週完整 Mon-Sun（SGT）」週切片
+    week_start_utc, week_end_utc, mon, sun = last_completed_week_sgt()
+    print(f"[Apify] Google Maps 評論（上週 {mon} ~ {sun} SGT 完整週，按品牌合併）...")
     if not GOOGLE_MAPS_URLS:
         print("  -> 無 URL，略過")
         return []
 
     # 按品牌分批抓，確保每則評論都有品牌標記
     all_reviews = []
-    cutoff = datetime.datetime.utcnow() - datetime.timedelta(days=14)
 
     for brand, urls in GOOGLE_MAPS_BRAND_URLS.items():
         if not urls:
@@ -155,10 +182,12 @@ def fetch_reviews() -> list:
                 pub_date = item.get("publishedAtDate") or item.get("date") or ""
                 if pub_date:
                     try:
+                        # publishedAtDate 通常是 UTC ISO 格式（含 Z），截首 19 字元做 naive UTC 比對
                         dt = datetime.datetime.fromisoformat(pub_date[:19])
-                        if dt >= cutoff:
+                        if week_start_utc <= dt <= week_end_utc:
                             all_reviews.append(item)
                     except Exception:
+                        # 解析失敗：保守地納入，避免因為時間戳異常而漏資料
                         all_reviews.append(item)
                 else:
                     all_reviews.append(item)
@@ -166,7 +195,7 @@ def fetch_reviews() -> list:
         except Exception as e:
             print(f"  -> {brand} 失敗：{e}")
 
-    print(f"  -> 合計 {len(all_reviews)} 筆（近 14 天）")
+    print(f"  -> 合計 {len(all_reviews)} 筆（上週 {mon} ~ {sun} SGT）")
     return all_reviews
 
 
@@ -191,6 +220,34 @@ def fetch_instagram() -> list:
 # ══════════════════════════════════════════════════════
 # PART 2 — Meta 廣告監控
 # ══════════════════════════════════════════════════════
+
+def extract_ad_image_url(snap: dict) -> str:
+    """v6 新增：從 Apify Meta Ads snapshot 取出第一張可用的圖片 URL（給 PDF 縮圖用）"""
+    if not isinstance(snap, dict):
+        return ""
+    # 1) 圖片廣告 - images 陣列
+    for img in snap.get("images") or []:
+        if not isinstance(img, dict):
+            continue
+        url = img.get("resized_image_url") or img.get("original_image_url")
+        if url:
+            return url
+    # 2) 輪播廣告 - cards 陣列
+    for card in snap.get("cards") or []:
+        if not isinstance(card, dict):
+            continue
+        url = card.get("resized_image_url") or card.get("original_image_url")
+        if url:
+            return url
+    # 3) 影片廣告 - 取縮圖
+    for vid in snap.get("videos") or []:
+        if not isinstance(vid, dict):
+            continue
+        url = vid.get("video_preview_image_url")
+        if url:
+            return url
+    return ""
+
 
 def fetch_meta_ads() -> list:
     print("[Meta Ads] 抓取自家 + 競品廣告...")
@@ -228,6 +285,7 @@ def fetch_meta_ads() -> list:
                 "start_date": ad.get("start_date_formatted", ""),
                 "is_active": ad.get("is_active", False),
                 "ad_library_url": ad.get("ad_library_url", ""),
+                "image_url": extract_ad_image_url(snap),  # v6 新增：給 PDF 縮圖
                 "own": own_flag,
                 "_source": "Meta Ads Library",
                 "_raw_ad": ad,
@@ -373,6 +431,9 @@ def analyze_brand_sg(brand: str, reviews: list, ads: list, gsc_text: str, opp_te
 def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
     print("[Claude] 分析中（每品牌獨立分析）...")
 
+    # v6：取本次報告對齊的 Mon-Sun 週日期（給 JSON 輸出用）
+    _, _, _week_mon, _week_sun = last_completed_week_sgt()
+
     # 整理資料
     from collections import defaultdict
     brand_reviews = defaultdict(list)
@@ -404,6 +465,8 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
             "cta": ad.get("cta", ""),
             "platforms": ad.get("platforms", []),
             "start_date": ad.get("start_date", ""),
+            "image_url": ad.get("image_url", ""),               # v6：給 PDF 縮圖
+            "ad_library_url": ad.get("ad_library_url", ""),     # v6：縮圖點進 Meta Ads Library
         })
     # 廣告分配：最新一半+最舊一半，總上限75則，剩餘配額補給其他品牌
     TOTAL_ADS = 75
@@ -436,6 +499,28 @@ def analyze(reviews: list, ads: list, gsc: dict, trends: list) -> dict:
             if leftover == 0: break
     # 在挑選代表樣本之前，先記下每品牌的真實廣告總數
     total_counts = {b: len(ads_by_brand[b]) for b in ads_by_brand}
+
+    # v6 新增：每品牌挑「最新 4 則有圖的廣告」當 PDF 縮圖樣本
+    # 此處用 ads_by_brand 完整名單（pick_ads 之前），確保樣本來自所有可得廣告
+    sample_ads_by_brand = {}
+    for b in ads_by_brand:
+        sorted_by_date = sorted(ads_by_brand[b], key=lambda x: x.get("start_date", ""), reverse=True)
+        samples = []
+        seen_urls = set()
+        for ad in sorted_by_date:
+            url = ad.get("image_url") or ""
+            if url and url not in seen_urls:
+                seen_urls.add(url)
+                samples.append({
+                    "image_url": url,
+                    "ad_library_url": ad.get("ad_library_url", ""),
+                    "start_date": ad.get("start_date", ""),
+                    "title": (ad.get("title") or "")[:60],
+                })
+            if len(samples) >= 4:
+                break
+        sample_ads_by_brand[b] = samples
+
     for b in ads_by_brand:
         ads_by_brand[b] = pick_ads(ads_by_brand[b], allocated.get(b, BASE_PER_BRAND))
 
@@ -512,15 +597,26 @@ Google Trends SG：{trends_text}"""
             "sentiment_score", "positive_pct", "negative_pct", "neutral_pct",
             "review_count", "sources", "top_themes", "alert", "sample_positive", "sample_negative"
         ]} for b, r in brand_results.items()},
-        "competitor_ads": {b: {k: v for k, v in r.items() if k in [
-            "ad_count", "own", "main_themes", "cta_focus", "platforms", "key_offers", "strategy_insight"
-        ]} for b, r in brand_results.items()},
+        "competitor_ads": {b: {
+            **{k: v for k, v in r.items() if k in [
+                "ad_count", "own", "main_themes", "cta_focus", "platforms", "key_offers", "strategy_insight"
+            ]},
+            "sample_ads": sample_ads_by_brand.get(b, []),  # v6：給 PDF 縮圖
+        } for b, r in brand_results.items()},
         "competitor_alerts": summary_result.get("competitor_alerts", []),
         "hot_topics": summary_result.get("hot_topics", []),
         "gsc_insights": summary_result.get("gsc_insights", {"top_keywords": [], "opportunities": []}),
         "market_trends": summary_result.get("market_trends", []),
         "actionable_top3": summary_result.get("actionable_top3", []),
         "generated_at": datetime.datetime.utcnow().isoformat(),
+        # v6 新增：報告週期（評論抓取對齊的 Mon-Sun，給 PDF 顯示用）
+        "report_period": {
+            "market": "SG",
+            "timezone": "Asia/Singapore",
+            "week_start": _week_mon.isoformat(),  # YYYY-MM-DD（週一）
+            "week_end": _week_sun.isoformat(),    # YYYY-MM-DD（週日）
+            "iso_week": _week_mon.isocalendar()[1],
+        },
     }
     print("[Claude] SG 完成")
     return result
@@ -766,7 +862,7 @@ def generate_html(report: dict):
 # PART 7 — Telegram
 # ══════════════════════════════════════════════════════
 
-def send_telegram(report: dict):
+def send_telegram(report: dict, drive_url: str = ""):
     date = report.get("generated_at","")[:10]
     own  = [v["sentiment_score"] for k,v in report.get("brands",{}).items()
             if "ALUXE" in k and "JOY" not in k]
@@ -801,13 +897,17 @@ def send_telegram(report: dict):
     if gsc.get("opportunities"):
         gsc_line += f"\n⚡ 機會點：{gsc['opportunities'][0]['keyword']}"
 
-    msg = (f"ALUXE SG 輿情週報 · {date}\n\n"
+    # v6：加入 PDF Drive 連結
+    pdf_line = f"\n\n📄 PDF 完整週報：{drive_url}" if drive_url else ""
+
+    msg = (f"ALUXE SG 競品市場週報 · {date}\n\n"
            f"{icon} 自家品牌平均分：{avg}"
            f"{gsc_line}\n\n"
            f"競品負評預警\n{alerts}\n\n"
            f"{own_ads_section}"
            f"{comp_ads_section}"
-           f"本週優先行動\n{actions}\n\n"
+           f"本週優先行動\n{actions}"
+           f"{pdf_line}\n\n"
            f"儀表板：{PAGES_URL}\n"
            f"數據：https://docs.google.com/spreadsheets/d/{SHEETS_ID}")
 
@@ -915,8 +1015,32 @@ def main():
     except Exception as e:
         failures.append(f"Sheets 寫入失敗：{type(e).__name__}: {str(e)[:100]}")
 
+    # v6：產生 PDF + 上傳 Drive（不影響 Sheets / Telegram，獨立 try）
+    drive_url = ""
     try:
-        send_telegram(report)
+        from generate_pdf import generate_pdf
+        # PDF 檔名包含週次方便檔案管理
+        period = report.get("report_period", {})
+        week_label = f"W{period.get('iso_week','XX'):02d}_{period.get('week_start','')}_to_{period.get('week_end','')}"
+        pdf_path = OUTPUT_DIR / f"ALUXE_SG_週報_{week_label}.pdf"
+        generate_pdf("sg", json_path=OUTPUT_DIR / "sg_latest.json", pdf_path=pdf_path)
+        successes.append("PDF 產生")
+
+        if GOOGLE_DRIVE_FOLDER_ID:
+            try:
+                from upload_drive import upload_pdf_to_drive
+                info = upload_pdf_to_drive(pdf_path, GOOGLE_DRIVE_FOLDER_ID, SERVICE_ACCOUNT)
+                drive_url = info.get("webViewLink", "")
+                successes.append(f"Drive 上傳（{info.get('name','')}）")
+            except Exception as e:
+                failures.append(f"Drive 上傳失敗：{type(e).__name__}: {str(e)[:100]}")
+        else:
+            failures.append("Drive 上傳跳過（GOOGLE_DRIVE_FOLDER_ID 未設定）")
+    except Exception as e:
+        failures.append(f"PDF 產生失敗：{type(e).__name__}: {str(e)[:100]}")
+
+    try:
+        send_telegram(report, drive_url=drive_url)
         successes.append("Telegram 週報發送")
     except Exception as e:
         failures.append(f"Telegram 週報發送失敗：{type(e).__name__}")
