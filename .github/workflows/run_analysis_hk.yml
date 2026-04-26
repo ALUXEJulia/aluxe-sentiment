@@ -21,19 +21,25 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          pip install requests cryptography
+      - name: Install Python dependencies
+        run: pip install requests cryptography
+
+      # v6：PDF 產生需要 Chrome headless
+      - name: Setup Chrome for PDF generation
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
 
       - name: Run HK sentiment analysis
         env:
-          APIFY_TOKEN:            ${{ secrets.APIFY_TOKEN }}
-          ANTHROPIC_API_KEY:      ${{ secrets.ANTHROPIC_API_KEY }}
-          TELEGRAM_BOT_TOKEN:     ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID:       ${{ secrets.TELEGRAM_CHAT_ID }}
-          GOOGLE_SHEETS_ID:       ${{ secrets.GOOGLE_SHEETS_ID }}
-          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-          PAGES_URL:              ${{ secrets.PAGES_URL }}
+          APIFY_TOKEN:              ${{ secrets.APIFY_TOKEN }}
+          ANTHROPIC_API_KEY:        ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN:       ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:         ${{ secrets.TELEGRAM_CHAT_ID }}
+          GOOGLE_SHEETS_ID:         ${{ secrets.GOOGLE_SHEETS_ID }}
+          GOOGLE_SERVICE_ACCOUNT:   ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          GOOGLE_DRIVE_FOLDER_ID:   ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+          PAGES_URL:                ${{ secrets.PAGES_URL }}
         run: python scripts/run_analysis_hk.py
 
       - name: Commit updated HK dashboard

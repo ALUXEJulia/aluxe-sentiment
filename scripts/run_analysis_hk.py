@@ -1,20 +1,45 @@
 """
-ALUXE HK Sentiment Analysis Pipeline — v1.8
-新增：每品牌獨立 Claude 分析，廣告不截斷
+ALUXE HK Sentiment Analysis Pipeline — v6.0
+v6 變更（與 SG 同步）：
+  + 評論抓取改為「上週 Mon 00:00 ~ Sun 23:59 HKT 完整週」（取代原 14 天滾動）
+  + Meta 廣告 snapshot 補抓 image_url，每品牌挑 top 4 newest 存到 JSON 給 PDF 用
+  + 新增 PDF 產生 + Google Drive 上傳 + Telegram 附 Drive 連結
 品牌：ALUXE HK、iprimo、銀座白石、Love Bird Diamond、Ragazza
 """
 
 import os, json, datetime, base64, requests, time, sys
+from datetime import timezone
 from pathlib import Path
 from collections import defaultdict
 
-APIFY_TOKEN       = os.environ["APIFY_TOKEN"]
-ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
-TELEGRAM_TOKEN    = os.environ["TELEGRAM_BOT_TOKEN"]
-TELEGRAM_CHAT_ID  = os.environ["TELEGRAM_CHAT_ID"]
-SHEETS_ID         = os.environ["GOOGLE_SHEETS_ID"]
-SERVICE_ACCOUNT   = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT"])
-PAGES_URL         = os.environ.get("PAGES_URL", "https://aluxejulia.github.io/aluxe-sentiment/")
+APIFY_TOKEN              = os.environ["APIFY_TOKEN"]
+ANTHROPIC_API_KEY        = os.environ["ANTHROPIC_API_KEY"]
+TELEGRAM_TOKEN           = os.environ["TELEGRAM_BOT_TOKEN"]
+TELEGRAM_CHAT_ID         = os.environ["TELEGRAM_CHAT_ID"]
+SHEETS_ID                = os.environ["GOOGLE_SHEETS_ID"]
+SERVICE_ACCOUNT          = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT"])
+PAGES_URL                = os.environ.get("PAGES_URL", "https://aluxejulia.github.io/aluxe-sentiment/")
+# v6 新增：Google Drive 資料夾 ID（PDF 上傳目的地）
+GOOGLE_DRIVE_FOLDER_ID   = os.environ.get("GOOGLE_DRIVE_FOLDER_ID", "")
+
+# v6 新增：HKT 時區工具（HK = UTC+8，與 SGT 同時區但用 HKT 命名表達意圖）
+HKT = timezone(datetime.timedelta(hours=8))
+
+def last_completed_week_hkt():
+    """回傳「以 HKT 為基準，上一個完整 Mon-Sun 週」的 (start_utc, end_utc, mon_date, sun_date)"""
+    now_hkt = datetime.datetime.now(HKT)
+    weekday = now_hkt.weekday()  # Mon=0, Sun=6
+    if weekday == 0:
+        last_sunday = now_hkt - datetime.timedelta(days=1)
+    else:
+        last_sunday = now_hkt - datetime.timedelta(days=weekday + 1)
+    last_monday = last_sunday - datetime.timedelta(days=6)
+
+    start_hkt = datetime.datetime.combine(last_monday.date(), datetime.time(0, 0, 0, tzinfo=HKT))
+    end_hkt   = datetime.datetime.combine(last_sunday.date(), datetime.time(23, 59, 59, tzinfo=HKT))
+    start_utc = start_hkt.astimezone(timezone.utc).replace(tzinfo=None)
+    end_utc   = end_hkt.astimezone(timezone.utc).replace(tzinfo=None)
+    return start_utc, end_utc, last_monday.date(), last_sunday.date()
 
 # ── HK 品牌設定 ───────────────────────────────────────
 
@@ -129,9 +154,10 @@ def apify_run(actor_id: str, payload: dict, wait: int = 120) -> list:
 # ══════════════════════════════════════════════════════
 
 def fetch_reviews_hk() -> list:
-    print("[Apify] HK Google Maps 評論（近 14 天，按品牌合併）...")
+    # v6：改為「上週完整 Mon-Sun（HKT）」週切片
+    week_start_utc, week_end_utc, mon, sun = last_completed_week_hkt()
+    print(f"[Apify] HK Google Maps 評論（上週 {mon} ~ {sun} HKT 完整週，按品牌合併）...")
     all_reviews = []
-    cutoff = datetime.datetime.utcnow() - datetime.timedelta(days=14)
 
     for brand, urls in GOOGLE_MAPS_BRAND_URLS.items():
         if not urls:
@@ -150,7 +176,7 @@ def fetch_reviews_hk() -> list:
                 if pub_date:
                     try:
                         dt = datetime.datetime.fromisoformat(pub_date[:19])
-                        if dt >= cutoff:
+                        if week_start_utc <= dt <= week_end_utc:
                             all_reviews.append(item)
                     except Exception:
                         all_reviews.append(item)
@@ -160,13 +186,38 @@ def fetch_reviews_hk() -> list:
         except Exception as e:
             print(f"  -> {brand} 失敗：{e}")
 
-    print(f"  -> 合計 {len(all_reviews)} 筆（近 14 天）")
+    print(f"  -> 合計 {len(all_reviews)} 筆（上週 {mon} ~ {sun} HKT）")
     return all_reviews
 
 
 # ══════════════════════════════════════════════════════
 # PART 2 — Meta 廣告（待 FB 頁面補充後啟用）
 # ══════════════════════════════════════════════════════
+
+def extract_ad_image_url(snap: dict) -> str:
+    """v6 新增：從 Apify Meta Ads snapshot 取出第一張可用的圖片 URL（給 PDF 縮圖用）"""
+    if not isinstance(snap, dict):
+        return ""
+    for img in snap.get("images") or []:
+        if not isinstance(img, dict):
+            continue
+        url = img.get("resized_image_url") or img.get("original_image_url")
+        if url:
+            return url
+    for card in snap.get("cards") or []:
+        if not isinstance(card, dict):
+            continue
+        url = card.get("resized_image_url") or card.get("original_image_url")
+        if url:
+            return url
+    for vid in snap.get("videos") or []:
+        if not isinstance(vid, dict):
+            continue
+        url = vid.get("video_preview_image_url")
+        if url:
+            return url
+    return ""
+
 
 def fetch_meta_ads_hk() -> list:
     if not ALL_FB_PAGES:
@@ -203,6 +254,8 @@ def fetch_meta_ads_hk() -> list:
                 "platforms": ad.get("publisher_platform", []),
                 "start_date": ad.get("start_date_formatted", ""),
                 "is_active": ad.get("is_active", False),
+                "ad_library_url": ad.get("ad_library_url", ""),  # v6 新增
+                "image_url": extract_ad_image_url(snap),         # v6 新增：給 PDF 縮圖
                 "own": own_flag,
                 "_source": "Meta Ads Library",
                 "_raw_ad": ad,
@@ -341,6 +394,9 @@ def analyze_brand_hk(brand: str, reviews: list, ads: list, trends_text: str, own
 def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
     print("[Claude] HK 分析中（每品牌獨立分析）...")
 
+    # v6：取本次報告對齊的 Mon-Sun 週日期（給 JSON 輸出用）
+    _, _, _week_mon, _week_sun = last_completed_week_hkt()
+
     brand_reviews = defaultdict(list)
     for r in reviews:
         brand_reviews[r.get("_brand", "Unknown")].append(r)
@@ -370,6 +426,8 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
             "cta": ad.get("cta", ""),
             "platforms": ad.get("platforms", []),
             "start_date": ad.get("start_date", ""),
+            "image_url": ad.get("image_url", ""),               # v6：給 PDF 縮圖
+            "ad_library_url": ad.get("ad_library_url", ""),     # v6：縮圖點進 Meta Ads Library
         })
     # 廣告分配：最新一半+最舊一半，總上限75則，剩餘配額補給其他品牌
     TOTAL_ADS = 75
@@ -402,6 +460,27 @@ def analyze_hk(reviews: list, ads: list, trends: list) -> dict:
             if leftover == 0: break
     # 在挑選代表樣本之前，先記下每品牌的真實廣告總數
     total_counts = {b: len(ads_by_brand[b]) for b in ads_by_brand}
+
+    # v6 新增：每品牌挑「最新 4 則有圖的廣告」當 PDF 縮圖樣本
+    sample_ads_by_brand = {}
+    for b in ads_by_brand:
+        sorted_by_date = sorted(ads_by_brand[b], key=lambda x: x.get("start_date", ""), reverse=True)
+        samples = []
+        seen_urls = set()
+        for ad in sorted_by_date:
+            url = ad.get("image_url") or ""
+            if url and url not in seen_urls:
+                seen_urls.add(url)
+                samples.append({
+                    "image_url": url,
+                    "ad_library_url": ad.get("ad_library_url", ""),
+                    "start_date": ad.get("start_date", ""),
+                    "title": (ad.get("title") or "")[:60],
+                })
+            if len(samples) >= 4:
+                break
+        sample_ads_by_brand[b] = samples
+
     for b in ads_by_brand:
         ads_by_brand[b] = pick_ads(ads_by_brand[b], allocated.get(b, BASE_PER_BRAND))
 
@@ -482,15 +561,26 @@ Google Trends HK：{trends_text}"""
             "sentiment_score", "positive_pct", "negative_pct", "neutral_pct",
             "review_count", "sources", "top_themes", "alert", "sample_positive", "sample_negative"
         ]} for b, r in brand_results.items()},
-        "competitor_ads": {b: {k: v for k, v in r.items() if k in [
-            "ad_count", "own", "main_themes", "cta_focus", "platforms", "key_offers", "strategy_insight"
-        ]} for b, r in brand_results.items()},
+        "competitor_ads": {b: {
+            **{k: v for k, v in r.items() if k in [
+                "ad_count", "own", "main_themes", "cta_focus", "platforms", "key_offers", "strategy_insight"
+            ]},
+            "sample_ads": sample_ads_by_brand.get(b, []),  # v6：給 PDF 縮圖
+        } for b, r in brand_results.items()},
         "competitor_alerts": summary_result.get("competitor_alerts", []),
         "hot_topics": summary_result.get("hot_topics", []),
         "market_trends": summary_result.get("market_trends", []),
         "actionable_top3": summary_result.get("actionable_top3", []),
         "generated_at": datetime.datetime.utcnow().isoformat(),
-        "market": "HK"
+        "market": "HK",
+        # v6 新增：報告週期（評論抓取對齊的 Mon-Sun，給 PDF 顯示用）
+        "report_period": {
+            "market": "HK",
+            "timezone": "Asia/Hong_Kong",
+            "week_start": _week_mon.isoformat(),
+            "week_end": _week_sun.isoformat(),
+            "iso_week": _week_mon.isocalendar()[1],
+        },
     }
     print("[Claude] HK 完成")
     return result
@@ -723,7 +813,7 @@ def save_raw_metaads(tok, ads, market):
 # PART 7 — Telegram
 # ══════════════════════════════════════════════════════
 
-def send_telegram_hk(report: dict):
+def send_telegram_hk(report: dict, drive_url: str = ""):
     date = report.get("generated_at","")[:10]
     own  = [v["sentiment_score"] for k,v in report.get("brands",{}).items() if "ALUXE" in k]
     avg  = round(sum(own)/len(own),2) if own else 0
@@ -749,12 +839,16 @@ def send_telegram_hk(report: dict):
     own_ads_section = f"自家廣告動態{own_ads_summary}\n\n" if own_ads_summary else ""
     comp_ads_section = f"競品廣告動態（每品牌取最新+最舊代表樣本分析）{comp_ads_summary}\n\n" if comp_ads_summary else ""
 
-    msg = (f"🇭🇰 ALUXE HK 輿情週報 · {date}\n\n"
+    # v6：加入 PDF Drive 連結
+    pdf_line = f"\n\n📄 PDF 完整週報：{drive_url}" if drive_url else ""
+
+    msg = (f"🇭🇰 ALUXE HK 競品市場週報 · {date}\n\n"
            f"{icon} 自家品牌平均分：{avg}\n\n"
            f"競品負評預警\n{alerts}\n\n"
            f"{own_ads_section}"
            f"{comp_ads_section}"
-           f"本週優先行動\n{actions}\n\n"
+           f"本週優先行動\n{actions}"
+           f"{pdf_line}\n\n"
            f"儀表板：{PAGES_URL}")
 
     requests.post(
@@ -840,8 +934,31 @@ def main():
     except Exception as e:
         failures.append(f"Sheets HK 寫入失敗：{type(e).__name__}: {str(e)[:100]}")
 
+    # v6：產生 PDF + 上傳 Drive（不影響 Sheets / Telegram，獨立 try）
+    drive_url = ""
     try:
-        send_telegram_hk(report)
+        from generate_pdf import generate_pdf
+        period = report.get("report_period", {})
+        week_label = f"W{period.get('iso_week','XX'):02d}_{period.get('week_start','')}_to_{period.get('week_end','')}"
+        pdf_path = OUTPUT_DIR / f"ALUXE_HK_週報_{week_label}.pdf"
+        generate_pdf("hk", json_path=OUTPUT_DIR / "hk_latest.json", pdf_path=pdf_path)
+        successes.append("PDF 產生")
+
+        if GOOGLE_DRIVE_FOLDER_ID:
+            try:
+                from upload_drive import upload_pdf_to_drive
+                info = upload_pdf_to_drive(pdf_path, GOOGLE_DRIVE_FOLDER_ID, SERVICE_ACCOUNT)
+                drive_url = info.get("webViewLink", "")
+                successes.append(f"Drive 上傳（{info.get('name','')}）")
+            except Exception as e:
+                failures.append(f"Drive 上傳失敗：{type(e).__name__}: {str(e)[:100]}")
+        else:
+            failures.append("Drive 上傳跳過（GOOGLE_DRIVE_FOLDER_ID 未設定）")
+    except Exception as e:
+        failures.append(f"PDF 產生失敗：{type(e).__name__}: {str(e)[:100]}")
+
+    try:
+        send_telegram_hk(report, drive_url=drive_url)
         successes.append("Telegram HK 週報發送")
     except Exception as e:
         failures.append(f"Telegram HK 週報發送失敗：{type(e).__name__}")
