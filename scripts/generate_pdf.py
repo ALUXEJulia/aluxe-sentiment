@@ -80,7 +80,13 @@ def severity_badge(level: int) -> str:
     return f'<span class="severity" style="background:{color}">{label} · Lv.{level}</span>'
 
 
-def sentiment_bar(score: float) -> str:
+def _num(value, default=0):
+    """v6.2：防呆，把 None / 缺失值轉成 default。Claude 偶爾會回 null。"""
+    return value if value is not None else default
+
+
+def sentiment_bar(score) -> str:
+    score = _num(score, 0)
     pct = int(score * 100)
     color = "#27ae60" if score >= 0.9 else "#f39c12" if score >= 0.7 else "#e74c3c"
     return f'<div class="bar-track"><div class="bar-fill" style="width:{pct}%; background:{color}"></div></div>'
@@ -142,9 +148,10 @@ def render_html(d: dict, market: str) -> str:
 
     # ── 執行摘要 ──
     own_brand_key = next((k for k in d["brands"] if "ALUXE" in k), None)
-    own_score = d["brands"].get(own_brand_key, {}).get("sentiment_score", 0) if own_brand_key else 0
+    own_score = _num(d["brands"].get(own_brand_key, {}).get("sentiment_score")) if own_brand_key else 0
     competitors = [b for k, b in d["brands"].items() if k != own_brand_key]
-    competitor_avg = sum(b["sentiment_score"] for b in competitors) / len(competitors) if competitors else 0
+    competitor_scores = [_num(b.get("sentiment_score")) for b in competitors]
+    competitor_avg = sum(competitor_scores) / len(competitor_scores) if competitor_scores else 0
     diff = own_score - competitor_avg
 
     summary_section = f'''
@@ -165,7 +172,7 @@ def render_html(d: dict, market: str) -> str:
         <div class="kpi">
           <div class="kpi-label">本週警示</div>
           <div class="kpi-value">{len(d.get("competitor_alerts",[]))}</div>
-          <div class="kpi-sub">含 {sum(1 for a in d.get("competitor_alerts",[]) if a["severity"]>=3)} 件中高度</div>
+          <div class="kpi-sub">含 {sum(1 for a in d.get("competitor_alerts",[]) if _num(a.get("severity"), 0)>=3)} 件中高度</div>
         </div>
         <div class="kpi">
           <div class="kpi-label">熱門議題</div>
@@ -188,18 +195,19 @@ def render_html(d: dict, market: str) -> str:
     brand_rows = []
     for name, b in d["brands"].items():
         is_own = name == own_brand_key
+        b_score = _num(b.get("sentiment_score"))
         brand_rows.append(f'''
         <div class="brand-card {"own" if is_own else ""}">
           <div class="brand-head">
             <span class="brand-name">{"⭐ " if is_own else ""}{name}</span>
-            <span class="brand-score">{b["sentiment_score"]:.2f}</span>
+            <span class="brand-score">{b_score:.2f}</span>
           </div>
-          {sentiment_bar(b["sentiment_score"])}
+          {sentiment_bar(b_score)}
           <div class="brand-stats">
-            <span>👍 {b.get("positive_pct",0)}%</span>
-            <span>😐 {b.get("neutral_pct",0)}%</span>
-            <span>👎 {b.get("negative_pct",0)}%</span>
-            <span>💬 {b.get("review_count",0)} 則</span>
+            <span>👍 {_num(b.get("positive_pct"))}%</span>
+            <span>😐 {_num(b.get("neutral_pct"))}%</span>
+            <span>👎 {_num(b.get("negative_pct"))}%</span>
+            <span>💬 {_num(b.get("review_count"))} 則</span>
           </div>
           <div class="themes">
             <strong>關鍵主題</strong>
@@ -212,7 +220,7 @@ def render_html(d: dict, market: str) -> str:
     brand_section = f'''
     <section class="page">
       <h2 class="section-title">品牌情感分析 <span class="window-tag primary">📅 本報告週 Mon-Sun</span></h2>
-      <p class="lede">本週共分析 {sum(b.get("review_count",0) for b in d["brands"].values())} 則評論 · 涵蓋 {len(d["brands"])} 個品牌 · 資料來源：Google Maps</p>
+      <p class="lede">本週共分析 {sum(_num(b.get("review_count")) for b in d["brands"].values())} 則評論 · 涵蓋 {len(d["brands"])} 個品牌 · 資料來源：Google Maps</p>
       <div class="brand-grid">
         {''.join(brand_rows)}
       </div>
@@ -239,7 +247,7 @@ def render_html(d: dict, market: str) -> str:
         samples = ad.get("sample_ads", []) or []
         thumbs = "".join(render_thumb(samples[i] if i < len(samples) else None, i) for i in range(4))
 
-        capped = ad.get("ad_count", 0) >= 30
+        capped = _num(ad.get("ad_count")) >= 30
         if capped:
             capped_brands.append(name)
         cap_tag = '<span class="cap-warning">🔒 達上限</span>' if capped else ''
@@ -249,7 +257,7 @@ def render_html(d: dict, market: str) -> str:
           <div class="ads-head">
             <span class="brand-name">{"⭐ " if is_own else ""}{name}</span>
             <span class="ad-count-wrap">
-              <span class="ad-count">{ad.get("ad_count",0)} 則廣告</span>
+              <span class="ad-count">{_num(ad.get("ad_count"))} 則廣告</span>
               {cap_tag}
             </span>
           </div>
@@ -284,7 +292,7 @@ def render_html(d: dict, market: str) -> str:
     ads_section = f'''
     <section class="page">
       <h2 class="section-title">競品廣告戰報 <span class="window-tag rolling">📅 過去 30 天活躍廣告（滾動）</span></h2>
-      <p class="lede">本週共觀察 {sum(a.get("ad_count",0) for a in d["competitor_ads"].values())} 則 Meta 廣告投放 · 資料來源：Meta Ads Library</p>
+      <p class="lede">本週共觀察 {sum(_num(a.get("ad_count")) for a in d["competitor_ads"].values())} 則 Meta 廣告投放 · 資料來源：Meta Ads Library</p>
       {cap_note}
       <div class="ads-grid">
         {''.join(ads_rows)}
@@ -293,12 +301,12 @@ def render_html(d: dict, market: str) -> str:
     '''
 
     # ── 警示 + 議題 + 趨勢 + 末頁 footer ──
-    alerts = sorted(d.get("competitor_alerts", []), key=lambda x: -x.get("severity", 0))
+    alerts = sorted(d.get("competitor_alerts", []), key=lambda x: -_num(x.get("severity"), 0))
     alert_rows = "".join(f'''
-      <div class="alert-card sev-{a.get("severity",1)}">
+      <div class="alert-card sev-{_num(a.get("severity"), 1)}">
         <div class="alert-head">
           <span class="alert-brand">{a.get("brand","")}</span>
-          {severity_badge(a.get("severity",1))}
+          {severity_badge(_num(a.get("severity"), 1))}
         </div>
         <div class="alert-issue"><strong>威脅</strong>：{a.get("issue","")}</div>
         <div class="alert-opp"><strong>應對策略</strong>：{a.get("opportunity","")}</div>
