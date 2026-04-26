@@ -28,8 +28,10 @@ from pathlib import Path
 import requests
 
 DRIVE_SCOPE = "https://www.googleapis.com/auth/drive.file"
-UPLOAD_URL = "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink,name"
-PERMISSIONS_URL = "https://www.googleapis.com/drive/v3/files/{file_id}/permissions"
+# supportsAllDrives=true：必加，否則 Service Account 上傳到 Shared Drive 會被當成
+# 上傳到個人 Drive，觸發「Service Accounts do not have storage quota」錯誤
+UPLOAD_URL = "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink,name&supportsAllDrives=true"
+PERMISSIONS_URL = "https://www.googleapis.com/drive/v3/files/{file_id}/permissions?supportsAllDrives=true"
 
 
 def _b64url(s: bytes) -> str:
