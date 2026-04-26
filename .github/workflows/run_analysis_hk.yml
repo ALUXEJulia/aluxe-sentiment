@@ -2,7 +2,7 @@ name: ALUXE HK Weekly Sentiment Report
 
 on:
   schedule:
-    - cron: '0 16 * * 0'  # 每週一凌晨 00:00 HKT/SGT (UTC+8) = UTC Sun 16:00
+    - cron: '7 17 * * 0'  # 每週一凌晨 01:07 HKT/SGT (UTC+8) = UTC Sun 17:07（避開整點塞車）
   workflow_dispatch:       # 允許手動觸發
 
 permissions:
